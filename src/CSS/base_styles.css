@@ -9,6 +9,7 @@ body {
 body {
 	font-family: var(--base-font);
 	background-color: var(--primary-bg);
+	color: var(--primary-color);
 }
 p {
 	font-size: var(--base-1);
@@ -34,4 +35,92 @@ a {
 	text-decoration: none;
 	padding: 0 20px;
 	color: var(--primary-color);
+}
+
+/* forms */
+
+form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: var(--base-4);
+	width: 100%;
+	color: var(--primary-color);
+}
+
+form *:focus {
+	outline: none;
+	transition: all 200ms ease-in-out;
+	border: 1px solid var(--primary-transparent-focus);
+}
+form input,
+form textarea {
+	background: transparent;
+	border-radius: var(--base-xs);
+	padding: var(--base-sm);
+	border: 1px solid var(--primary-transparent);
+	color: var(--secondary-color);
+}
+form label {
+	margin-bottom: var(--base-xs);
+	font-size: var(--base-sm);
+}
+
+input {
+	width: 100%;
+}
+
+input::placeholder {
+	color: var(--primary-transparent-focus);
+}
+
+textarea {
+	min-height: 100px;
+}
+
+/* form structure */
+
+.form-wrapper {
+	display: flex;
+	justify-content: center;
+	border: 1px solid var(--primary-transparent);
+	padding: var(--base-6);
+	width: 50vw;
+}
+
+.form__fields,
+.form__timeSchedule {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: var(--base-3);
+}
+.form__fields > div,
+.form__timeSchedule > div,
+.form__required-fields > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.form__actions {
+	color: var(--primary-color);
+}
+
+/* buttons */
+
+button {
+	padding: var(--base-sm) var(--base-2);
+	background: var(--tertiary-color);
+	border-radius: var(--base-xs);
+	color: var(--primary-bg);
+	border: none;
+	box-shadow: 1px 2px 5px var(--primary-transparent-focus);
+	font-size: var(--base-1);
+	transition: all 200ms ease-in-out;
+	cursor: pointer;
+}
+button:hover,
+button:focus {
+	box-shadow: 0px 0px 0px var(--primary-transparent-focus);
 }

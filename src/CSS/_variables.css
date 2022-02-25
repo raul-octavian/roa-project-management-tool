@@ -16,6 +16,7 @@
 
 	/* transparency color overlay */
 	--primary-transparent: rgba(2, 8, 17, 0.1);
+	--primary-transparent-focus: rgba(2, 8, 17, 0.5);
 	/* --primary-transparent: rgba(var(--primary-color), 0.1); */
 
 	/* base sizes */
