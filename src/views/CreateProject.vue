@@ -14,6 +14,7 @@
                 value=""
                 name="name"
                 placeholder="Project name"
+                required
               />
             </div>
           </div>
@@ -94,9 +95,11 @@ export default {
 
 <style lang="css" scoped>
 .view-basic {
-  min-width: 80vw;
+  width: clamp(300px, 80vw, 1900px);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  padding: var(--base-8);
 }
 </style>

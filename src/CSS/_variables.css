@@ -28,7 +28,7 @@
 	--base-5: calc(var(--base-4) + 5px);
 	--base-6: calc(var(--base-5) + 5px);
 	--base-7: calc(var(--base-6) + 5px);
-	--base-8: calc(var(--base-8) + 5px);
+	--base-8: calc(var(--base-7) + 5px);
 	--base-sm: calc(var(--base-size) - 5px);
 	--base-xs: calc(var(--base-sm) - 5px);
 
