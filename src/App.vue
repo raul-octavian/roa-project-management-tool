@@ -1,30 +1,54 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div>
+    <div class="header">
+      <div class="navigation">
+        <MainNavigation />
+      </div>
+      <div class="user-info">
+        <UserNavigation />
+      </div>
+    </div>
+    <div class="main-container">
+      <ProjectList />
+      <router-view />
+    </div>
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import MainNavigation from './components/MainNavigation.vue'
+import UserNavigation from './components/UserNavigation.vue'
+import ProjectList from './components/ProjectList.vue'
+export default {
+  components: {
+    MainNavigation,
+    UserNavigation,
+    ProjectList
+  },
+  setup () {
+    return {}
+  }
+}
+</script>
+
+<style lang="css">
+.header {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  border-bottom: 2px solid var(--tertiary-color);
+}
+.navigation {
+  height: fit-content;
 }
 
-nav {
-  padding: 30px;
+.user-info {
+  margin-left: auto;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.main-container {
+  display: flex;
+  gap: 20px;
 }
 </style>

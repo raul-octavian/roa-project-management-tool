@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+:root {
+	/* colors */
+	--primary-color: #020811;
+	--primary-color-rgb: rgb(2, 8, 17);
+	--secondary-color: #112341;
+	--tertiary-color: #5571a0;
+	--quaternary-color: var(--primary-bg);
+	--neutral: #131314;
+	--accent: #2d4671;
+
+	/* bg-color */
+	--primary-bg: #ebf3f4;
+	--secondary-bg: var(--primary-color);
+
+	/* transparency color overlay */
+	--primary-transparent: rgba(2, 8, 17, 0.1);
+	/* --primary-transparent: rgba(var(--primary-color), 0.1); */
+
+	/* base sizes */
+	--base-size: 15px;
+	--base-1: var(--base-size);
+	--base-2: calc(var(--base-size) + 5px);
+	--base-3: calc(var(--base-2) + 5px);
+	--base-4: calc(var(--base-3) + 5px);
+	--base-5: calc(var(--base-4) + 5px);
+	--base-6: calc(var(--base-5) + 5px);
+	--base-7: calc(var(--base-6) + 5px);
+	--base-8: calc(var(--base-8) + 5px);
+	--base-sm: calc(var(--base-size) - 5px);
+	--base-xs: calc(var(--base-sm) - 5px);
+
+	/* font */
+
+	--base-font: "Lato", sans-serif;
+}
