@@ -77,7 +77,7 @@ Project description</textarea
             </div>
           </div>
           <div class="form__actions">
-            <button type="submit">Create project</button>
+            <button type="submit" class="primary-action">Create project</button>
           </div>
         </form>
       </div>

@@ -144,3 +144,52 @@ button:focus {
 	border: 1px solid var(--tertiary-color);
 	color: var(--tertiary-color);
 }
+.secondary-action--no-borders {
+	border: none;
+}
+.secondary-action--no-borders:hover {
+	border: none;
+	color: var(--primary-transparent-focus);
+}
+
+.icon-button {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	width: 100%;
+	padding: var(--base-sm) var(--base-xs);
+}
+.icon-button:hover {
+	background: var(--primary-transparent);
+}
+.icon {
+	font-size: var(--base-1);
+	margin-right: var(--base-sm);
+}
+
+/* small modal */
+.small-modal-group {
+	padding: 0;
+	position: relative;
+}
+
+.small-modal {
+	width: 300px;
+	padding: var(--base-1);
+	border: 1px solid var(--primary-transparent);
+	box-shadow: 1px 2px 5px var(--primary-transparent-focus);
+	z-index: 10;
+	background: var(--quaternary-color);
+}
+.small-modal h4 {
+	margin: 0;
+}
+.small-modal form {
+	padding: 0;
+	gap: var(--base-1);
+}
+.small-modal--right {
+	position: absolute;
+	right: -100%;
+	top: -200%;
+}
