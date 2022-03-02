@@ -1,6 +1,4 @@
 <template>
-  <div>Project information</div>
-
   <div class="project-wrapper">
     <div v-for="(stage, index) in data" :key="index" class="project-stage">
       <h3>{{ index }}</h3>
@@ -17,24 +15,37 @@
           <template #item="{ element }">
             <div class="card">
               <h4>{{ element.name }}</h4>
+              <button class="button--no-text" @click="editModal = !editModal">
+                <font-awesome-icon icon="edit" class="icon"></font-awesome-icon>
+              </button>
             </div>
           </template>
         </draggable>
       </div>
-      <SmallModal />
+      <SmallModal use="card" />
+    </div>
+    <div class="project-stage">
+      <h3>
+        <SmallModal use="stage" />
+      </h3>
     </div>
   </div>
+  <edit-card v-if="editModal" @toggleEdit="editModal = !editModal" />
 </template>
 
 <script>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { reactive, ref } from 'vue'
 import draggable from 'vuedraggable'
+import EditCard from '../components/EditCard.vue'
 
 import SmallModal from './SmallModal.vue'
 export default {
   components: {
     draggable,
-    SmallModal
+    SmallModal,
+    EditCard,
+    FontAwesomeIcon
   },
   setup () {
     const data = reactive({
@@ -54,6 +65,7 @@ export default {
       inProgress: ref([]),
       done: ref([])
     })
+    const editModal = ref(false)
 
     const changeStage = (env, item) => {
       // console.log('stage activated')
@@ -79,7 +91,8 @@ export default {
       // inProgress,
       // done,
       changeStage,
-      endStage
+      endStage,
+      editModal
     }
   }
 }
@@ -91,15 +104,14 @@ export default {
   display: flex;
   gap: var(--base-3);
   overflow-x: scroll;
-  overflow-y: hidden;
+  overflow-y: auto;
   height: auto;
-  width: 80vw;
+  min-width: 80vw;
   min-height: 80vh;
 }
 .project-stage {
   background: var(--primary-transparent);
   min-width: 300px;
-  max-height: 700px;
   padding: var(--base-1);
 }
 .cards {
@@ -110,8 +122,11 @@ export default {
 }
 .card {
   background: #fff;
-  padding: var(--base-sm);
+  padding: var(--base-sm) 0 var(--base-sm) var(--base-sm);
   margin-bottom: var(--base-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .card h4 {
   margin: 0;

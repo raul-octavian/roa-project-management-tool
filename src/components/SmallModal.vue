@@ -1,16 +1,22 @@
 <template>
   <div class="small-modal-group">
-    <button class="secondary-action secondary-action--no-borders icon-button">
+    <button
+      class="secondary-action secondary-action--no-borders icon-button"
+      @click="toggleCard"
+    >
       <font-awesome-icon icon="plus" class="icon"></font-awesome-icon>
-      Add a card
+      Add a {{ use }}
     </button>
-    <!-- <SlideInOut entry="left" exit="left" :duration="200" @open-card="openCard"> -->
-    <CreateCard
-      v-if="smallModal"
-      @openCard="openCard"
-      class="small-modal--right"
-    />
-    <!-- </SlideInOut> -->
+    <SlideInOut entry="left" exit="left" :duration="300" @open-card="openCard">
+      <CreateCard
+        :use="use"
+        v-if="showModal"
+        @toggle-card="toggleCard"
+        :class="
+          use == 'card' ? 'small-modal--bottom-right' : 'small-modal--top-right'
+        "
+      />
+    </SlideInOut>
   </div>
 </template>
 
@@ -18,22 +24,23 @@
 import { ref } from 'vue'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-// import { SlideInOut } from 'vue3-transitions'
+import { SlideInOut } from 'vue3-transitions'
 import CreateCard from './CreateCard.vue'
 export default {
+  props: ['use'],
   components: {
     CreateCard,
-    // SlideInOut,
+    SlideInOut,
     FontAwesomeIcon
   },
   setup () {
-    const smallModal = ref(true)
+    const showModal = ref(false)
 
-    const openCard = () => {
-      console.log('emit triggered')
-      smallModal.value = !smallModal.value
+    const toggleCard = () => {
+      showModal.value = !showModal.value
     }
-    return { smallModal, openCard }
+
+    return { showModal, toggleCard }
   }
 }
 </script>
