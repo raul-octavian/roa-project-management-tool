@@ -15,7 +15,10 @@
           <template #item="{ element }">
             <div class="card">
               <h4>{{ element.name }}</h4>
-              <button class="button--no-text" @click="editModal = !editModal">
+              <button
+                class="button--no-text constructive-action"
+                @click="editModal = !editModal"
+              >
                 <font-awesome-icon icon="edit" class="icon"></font-awesome-icon>
               </button>
             </div>
@@ -110,7 +113,7 @@ export default {
   min-height: 80vh;
 }
 .project-stage {
-  background: var(--primary-transparent);
+  background: var(--primary-bg);
   min-width: 300px;
   padding: var(--base-1);
 }

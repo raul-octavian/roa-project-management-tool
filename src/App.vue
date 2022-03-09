@@ -33,11 +33,15 @@ export default {
 
 <style lang="css">
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   height: 50px;
   width: 100%;
   border-bottom: 2px solid var(--tertiary-color);
+  background: var(--primary-bg);
 }
 .navigation {
   height: fit-content;
@@ -48,6 +52,7 @@ export default {
 }
 
 .main-container {
+  margin-top: 50px;
   display: flex;
   gap: 20px;
 }

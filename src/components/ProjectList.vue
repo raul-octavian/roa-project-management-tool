@@ -25,7 +25,8 @@ export default {
 .aside-navigation {
   border-right: 2px solid var(--tertiary-color);
   min-height: calc(100vh - 50px);
-  width: clamp(100px 13vw 250px);
+  /* width: clamp(100px 13vw 250px); */
+  min-width: 150px;
   font-weight: bold;
 }
 .aside-navigation__project-list {

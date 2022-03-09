@@ -2,21 +2,42 @@
 
 :root {
 	/* colors */
-	--primary-color: #020811;
+	/* --primary-color: #020811;
 	--primary-color-rgb: rgb(2, 8, 17);
 	--secondary-color: #112341;
 	--tertiary-color: #5571a0;
 	--quaternary-color: var(--primary-bg);
 	--neutral: #131314;
-	--accent: #2d4671;
+	--accent: #2d4671; */
 
 	/* bg-color */
-	--primary-bg: #ebf3f4;
+	/* --primary-bg: #ebf3f4; */
+	/* --secondary-bg: var(--primary-color); */
+
+	/* transparency color overlay */
+	/* --primary-transparent: rgba(2, 8, 17, 0.1);
+	--primary-transparent-focus: rgba(2, 8, 17, 0.5); */
+	/* --primary-transparent: rgba(var(--primary-color), 0.1); */
+
+	/* alterntives */
+
+	/* colors */
+	--primary-color: #0b132b;
+	--primary-color-rgb: rgb(11, 19, 43);
+	--secondary-color: #0f7173;
+	--tertiary-color: #3993dd;
+	--quaternary-color: var(--primary-bg);
+	--neutral: #131314;
+	--accent: #c44900;
+	--white: #f9f6ff;
+
+	/* bg-color */
+	--primary-bg: #e8f1f2;
 	--secondary-bg: var(--primary-color);
 
 	/* transparency color overlay */
-	--primary-transparent: rgba(2, 8, 17, 0.1);
-	--primary-transparent-focus: rgba(2, 8, 17, 0.5);
+	--primary-transparent: rgba(11, 19, 43, 0.1);
+	--primary-transparent-focus: rgba(11, 19, 43, 0.5);
 	/* --primary-transparent: rgba(var(--primary-color), 0.1); */
 
 	/* base sizes */
@@ -31,6 +52,7 @@
 	--base-8: calc(var(--base-7) + 5px);
 	--base-sm: calc(var(--base-size) - 5px);
 	--base-xs: calc(var(--base-sm) - 5px);
+	--base-xxs: calc(var(--base-sm) - 2px);
 
 	/* font */
 

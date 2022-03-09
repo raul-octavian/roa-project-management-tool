@@ -13,7 +13,7 @@
         v-if="showModal"
         @toggle-card="toggleCard"
         :class="
-          use == 'card' ? 'small-modal--bottom-right' : 'small-modal--top-right'
+          use == 'card' ? 'small-modal--bottom-right' : 'small-modal--top-left'
         "
       />
     </SlideInOut>
