@@ -63,6 +63,6 @@ export default {
   border: none;
 }
 .login-form {
-  width: clamp(300px, 20vw, 1072px);
+  width: clamp(350px, 20vw, 1072px);
 }
 </style>

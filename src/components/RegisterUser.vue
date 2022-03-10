@@ -2,6 +2,7 @@
   <div>
     <div class="view-basic">
       <h1>Create account</h1>
+      {{ userInfo }}
 
       <div class="form-wrapper">
         <form @submit.prevent="createAccount" action="" class="register-form">
@@ -12,9 +13,9 @@
                 type="text"
                 id="name"
                 class="form__input"
-                value=""
                 name="name"
                 placeholder="John Doe"
+                v-model="name"
                 required
               />
             </div>
@@ -24,10 +25,10 @@
                 type="email"
                 id="email"
                 class="form__input"
-                value=""
                 name="email"
                 placeholder="email"
                 required
+                v-model="email"
               />
             </div>
             <div>
@@ -36,21 +37,21 @@
                 type="text"
                 id="username"
                 class="form__input"
-                value=""
                 name="username"
                 placeholder="Username"
+                v-model="username"
               />
             </div>
 
             <div>
               <label class="label" for="password">Password:</label>
               <input
-                type="text"
+                type="password"
                 id="password"
                 class="form__input"
-                value=""
                 name="password"
                 placeholder="password"
+                v-model="password"
               />
             </div>
 
@@ -59,12 +60,12 @@
                 >Repeat-Password:</label
               >
               <input
-                type="text"
+                type="password"
                 id="repeat-password"
                 class="form__input"
-                value=""
                 name="repeat-password"
                 placeholder="repeat-password"
+                v-model="repeatPassword"
               />
             </div>
           </div>
@@ -81,12 +82,54 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { reactive, ref, toRefs } from 'vue'
 export default {
   setup () {
     const auth = ref(false)
+
+    const errors = ref([])
+    const userInfo = ref({})
+    const repeatPassword = ref('1234567890')
+    const userReq = reactive({
+      name: ref('Johny One'),
+      password: ref('1234567890'),
+      username: ref('johnyOne'),
+      email: ref('johnyOne@test.com')
+    })
+
+    const createAccount = async () => {
+      // const requestOptions = {
+      //   method: 'POST',
+      //   header: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/json;charset=utf-8'
+      //   },
+      //   body: JSON.stringify(userReq)
+      // }
+
+      if (!errors.value.length) {
+        // console.log(requestOptions)
+        const response = await fetch(
+          'http://localhost:4000/api/user/register',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userReq)
+          }
+          // requestOptions
+        )
+        const data = await response.json()
+        userInfo.value = data
+      }
+    }
     return {
-      auth
+      auth,
+      ...toRefs(userReq),
+      repeatPassword,
+      createAccount,
+      userInfo
     }
   }
 }
@@ -105,6 +148,6 @@ export default {
   border: none;
 }
 .register-form {
-  width: clamp(300px, 20vw, 1072px);
+  width: clamp(350px, 20vw, 1072px);
 }
 </style>
