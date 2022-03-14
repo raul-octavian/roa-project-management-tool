@@ -25,7 +25,6 @@ export const userData = defineStore('user', {
   },
   actions: {
     setUserToStore(payload) {
-      console.log(payload)
       this.name = payload.name
       this.email = payload.email
       this.username = payload.username

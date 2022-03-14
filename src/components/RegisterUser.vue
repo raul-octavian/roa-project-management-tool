@@ -86,10 +86,15 @@
 
 <script>
 import { computed, reactive, ref, toRefs } from 'vue'
+import { useRouter } from 'vue-router'
 import { uri } from '../composables/uri'
+import loginUser from '../composables/setUser'
 export default {
   setup() {
+    const router = useRouter()
     const auth = ref(false)
+
+    const { res, login } = loginUser()
 
     const userInfo = ref({})
     const repeatPassword = ref('1234567890')
@@ -120,15 +125,6 @@ export default {
     })
 
     const createAccount = async () => {
-      // const requestOptions = {
-      //   method: 'POST',
-      //   header: {
-      //     Accept: 'application/json',
-      //     'Content-Type': 'application/json;charset=utf-8'
-      //   },
-      //   body: JSON.stringify(userReq)
-      // }
-
       if (!populateErrors.value.length) {
         // console.log(requestOptions)
         const response = await fetch(
@@ -143,7 +139,11 @@ export default {
           // requestOptions
         )
         const data = await response.json()
-        userInfo.value = data
+        const { email, password } = userReq
+        login({ email, password })
+        if (data) {
+          router.push('/')
+        }
       }
     }
     return {

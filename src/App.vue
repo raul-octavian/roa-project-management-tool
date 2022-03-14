@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="main-container">
-      <ProjectList />
+      <ProjectList v-if="user.name" />
       <router-view />
     </div>
   </div>
@@ -19,14 +19,16 @@
 import MainNavigation from './components/MainNavigation.vue'
 import UserNavigation from './components/UserNavigation.vue'
 import ProjectList from './components/ProjectList.vue'
+import { userData } from './store'
 export default {
   components: {
     MainNavigation,
     UserNavigation,
     ProjectList
   },
-  setup () {
-    return {}
+  setup() {
+    const user = userData()
+    return { user }
   }
 }
 </script>

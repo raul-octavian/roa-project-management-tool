@@ -1,31 +1,29 @@
 <template>
   <div>
-    <router-link v-if="!userName" to="/login">
-      Login {{ userName }}
+    <router-link v-if="!user.name" to="/login">
+      Login {{ user.name }}
     </router-link>
-    <router-link v-if="!userName" to="/register">
-      Register {{ user.$state.name }}
+    <router-link v-if="!user.name" to="/register">
+      Register {{ user.name }}
     </router-link>
-    <router-link v-if="userName" to="/" @click="logout"> Logout </router-link>
-    <router-link v-if="userLoggedIn" to="/user">
-      {{ userName }}
+    <router-link v-if="user.name" to="/" @click="logout"> Logout </router-link>
+    <router-link v-if="user.name" to="/user">
+      {{ user.name }}
     </router-link>
   </div>
 </template>
 
 <script>
 import { deleteCookie } from '@/composables/cookie'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { userData } from '@/store'
 export default {
   setup() {
     const user = userData()
     const userLoggedIn = computed(() => {
-      console.log(!!userName.value)
       return !!user.$state.name
     })
     const userName = computed(() => {
-      console.log(user.$state.name)
       return user.$state.name
     })
 
