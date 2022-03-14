@@ -1,26 +1,50 @@
 <template>
   <div class="home">
     <!-- <RegisterUser /> -->
-    <h1>Home</h1>
-
-    <p v-for="project in projects" :key="project.id">
-      {{ project.name }}
-    </p>
+    <h1 class="text text--center">Welcome to the Project Management app</h1>
+    <div class="home-content">
+      <div v-if="user.name">
+        <h2>Project:</h2>
+        <p v-for="project in projects" :key="project.id">
+          {{ project.name }}
+        </p>
+      </div>
+      <div v-else>
+        <h2>Log in or register to create or access your projects</h2>
+        <div class="home__button-container">
+          <div>
+            <router-link to="/register">
+              <button class="primary-action">Register</button>
+            </router-link>
+          </div>
+          <div>
+            <router-link to="/login">
+              <button class="secondary-action">Login</button>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 // import RegisterUser from '@/components/RegisterUser.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { userData } from '@/store'
 
 export default {
   name: 'home-view',
   components: {
     // RegisterUser
   },
-  setup () {
+  setup() {
+    const user = userData()
     const projects = ref([])
+    const userIsLoggedIn = computed(() => {
+      return !!user.name
+    })
 
     const getData = async () => {
       const response = await fetch(
@@ -37,7 +61,9 @@ export default {
 
     return {
       projects,
-      getData
+      getData,
+      userIsLoggedIn,
+      user
     }
   }
 }

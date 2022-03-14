@@ -51,6 +51,28 @@ li {
 	align-items: center;
 	padding: var(--base-8);
 }
+/* home page */
+.home {
+	flex-grow: 1;
+}
+.home-content {
+	margin: 100px auto;
+	width: fit-content;
+}
+
+.home__button-container {
+	display: flex;
+	gap: var(--base-1);
+	width: fit-content;
+	margin: 0 auto;
+}
+
+.text {
+	width: 100%;
+}
+.text--center {
+	text-align: center;
+}
 
 /* forms */
 
@@ -171,6 +193,7 @@ button {
 	transition: all 200ms ease-in-out;
 	cursor: pointer;
 	margin-right: var(--base-2);
+	margin-bottom: var(--base-2);
 	box-sizing: border-box;
 }
 

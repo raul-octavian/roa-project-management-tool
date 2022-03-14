@@ -6,8 +6,31 @@ export const useCounterStore = defineStore('counter', {
     double: (state) => state.count * 2
   },
   actions: {
-    increment () {
+    increment() {
       this.count++
+    }
+  }
+})
+export const userData = defineStore('user', {
+  state: () => (
+    {
+      name: '',
+      email: '',
+      username: '',
+      token: '',
+      id: ''
+    }),
+  getters: {
+    getUser: (state) => state.user
+  },
+  actions: {
+    setUserToStore(payload) {
+      console.log(payload)
+      this.name = payload.name
+      this.email = payload.email
+      this.username = payload.username
+      this.id = payload.user_id
+      this.token = payload.token
     }
   }
 })

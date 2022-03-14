@@ -3,7 +3,7 @@
     <div class="view-basic">
       <h1>Login</h1>
       <div class="form-wrapper">
-        <form action="" class="login-form">
+        <form action="" class="login-form" @submit.prevent="login(userReq)">
           <div class="form__required-fields">
             <div>
               <label class="label" for="email">Email:</label>
@@ -11,22 +11,22 @@
                 type="email"
                 id="email"
                 class="form__input"
-                value=""
                 name="email"
                 placeholder="email"
                 required
+                v-model="email"
               />
             </div>
 
             <div>
               <label class="label" for="password">Password:</label>
               <input
-                type="text"
+                type="password"
                 id="password"
                 class="form__input"
-                value=""
                 name="password"
                 placeholder="password"
+                v-model="password"
               />
             </div>
           </div>
@@ -38,14 +38,25 @@
           </div>
         </form>
       </div>
+      {{ res.error }}
     </div>
   </div>
 </template>
 
 <script>
+import { ref, reactive, toRefs } from 'vue'
+
+import loginUser from '../composables/setUser'
 export default {
-  setup () {
-    return {}
+  setup() {
+    // const user = userData()
+    const userReq = reactive({
+      password: ref('1234567890'),
+      email: ref('johnyOne@test.com')
+    })
+    const { res, login } = loginUser()
+
+    return { ...toRefs(userReq), userReq, login, res }
   }
 }
 </script>

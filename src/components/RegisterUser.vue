@@ -3,6 +3,9 @@
     <div class="view-basic">
       <h1>Create account</h1>
       {{ userInfo }}
+      <p v-for="(error, index) in populateErrors" :key="index">
+        {{ error }}
+      </p>
 
       <div class="form-wrapper">
         <form @submit.prevent="createAccount" action="" class="register-form">
@@ -72,7 +75,7 @@
           <div class="form__actions">
             <button type="submit" class="primary-action">Create account</button>
             <router-link to="/login">
-              <button onclick="login" class="secondary-action">Login</button>
+              <button class="secondary-action">Login</button>
             </router-link>
           </div>
         </form>
@@ -82,12 +85,12 @@
 </template>
 
 <script>
-import { reactive, ref, toRefs } from 'vue'
+import { computed, reactive, ref, toRefs } from 'vue'
+import { uri } from '../composables/uri'
 export default {
-  setup () {
+  setup() {
     const auth = ref(false)
 
-    const errors = ref([])
     const userInfo = ref({})
     const repeatPassword = ref('1234567890')
     const userReq = reactive({
@@ -95,6 +98,25 @@ export default {
       password: ref('1234567890'),
       username: ref('johnyOne'),
       email: ref('johnyOne@test.com')
+    })
+
+    const passwordsMarch = computed(() => {
+      return userReq.password !== repeatPassword.value
+    })
+
+    const passwordLength = computed(() => {
+      return userReq.password.length < 10
+    })
+
+    const populateErrors = computed(() => {
+      const err = []
+      if (passwordsMarch.value) {
+        err.push('Passwords do not match, pleas try again')
+      }
+      if (passwordLength.value) {
+        err.push('Password must be at least 10 characters long')
+      }
+      return err
     })
 
     const createAccount = async () => {
@@ -107,10 +129,10 @@ export default {
       //   body: JSON.stringify(userReq)
       // }
 
-      if (!errors.value.length) {
+      if (!populateErrors.value.length) {
         // console.log(requestOptions)
         const response = await fetch(
-          'http://localhost:4000/api/user/register',
+          `${uri}user/register`,
           {
             method: 'POST',
             headers: {
@@ -129,7 +151,8 @@ export default {
       ...toRefs(userReq),
       repeatPassword,
       createAccount,
-      userInfo
+      userInfo,
+      populateErrors
     }
   }
 }
