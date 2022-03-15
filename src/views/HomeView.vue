@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <!-- <RegisterUser /> -->
     <h1 class="text text--center">Welcome to the Project Management app</h1>
     <div class="home-content">
       <div v-if="user.name">

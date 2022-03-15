@@ -2,10 +2,10 @@
   <div>
     <div class="view-basic">
       <h1>Create account</h1>
-      {{ userInfo }}
       <p v-for="(error, index) in populateErrors" :key="index">
-        {{ error }}
+        error: {{ error }}
       </p>
+      <p>{{ fetchError }}</p>
 
       <div class="form-wrapper">
         <form @submit.prevent="createAccount" action="" class="register-form">
@@ -85,74 +85,29 @@
 </template>
 
 <script>
-import { computed, reactive, ref, toRefs } from 'vue'
-import { useRouter } from 'vue-router'
-import { uri } from '../composables/uri'
-import loginUser from '../composables/setUser'
+import { toRefs } from 'vue'
+import registerUser from '../composables/registerUser'
 export default {
   setup() {
-    const router = useRouter()
-    const auth = ref(false)
+    const {
+      populateErrors,
+      createAccount,
+      repeatPassword,
+      passwordsMarch,
+      passwordLength,
+      userReq,
+      fetchError
+    } = registerUser()
 
-    const { res, login } = loginUser()
-
-    const userInfo = ref({})
-    const repeatPassword = ref('1234567890')
-    const userReq = reactive({
-      name: ref('Johny One'),
-      password: ref('1234567890'),
-      username: ref('johnyOne'),
-      email: ref('johnyOne@test.com')
-    })
-
-    const passwordsMarch = computed(() => {
-      return userReq.password !== repeatPassword.value
-    })
-
-    const passwordLength = computed(() => {
-      return userReq.password.length < 10
-    })
-
-    const populateErrors = computed(() => {
-      const err = []
-      if (passwordsMarch.value) {
-        err.push('Passwords do not match, pleas try again')
-      }
-      if (passwordLength.value) {
-        err.push('Password must be at least 10 characters long')
-      }
-      return err
-    })
-
-    const createAccount = async () => {
-      if (!populateErrors.value.length) {
-        // console.log(requestOptions)
-        const response = await fetch(
-          `${uri}user/register`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userReq)
-          }
-          // requestOptions
-        )
-        const data = await response.json()
-        const { email, password } = userReq
-        login({ email, password })
-        if (data) {
-          router.push('/')
-        }
-      }
-    }
     return {
-      auth,
       ...toRefs(userReq),
       repeatPassword,
       createAccount,
-      userInfo,
-      populateErrors
+      populateErrors,
+      userReq,
+      passwordsMarch,
+      passwordLength,
+      fetchError
     }
   }
 }
