@@ -3,7 +3,7 @@
     <div class="view-basic">
       <h1>Create New Project</h1>
       <div class="form-wrapper">
-        <form action="">
+        <form action="" @submit.prevent="createProject()">
           <div class="form__required-fields">
             <div>
               <label class="label" for="name">Name:</label>
@@ -11,10 +11,10 @@
                 type="text"
                 id="name"
                 class="form__input"
-                value=""
                 name="name"
                 placeholder="Project name"
                 required
+                v-model="name"
               />
             </div>
           </div>
@@ -27,9 +27,8 @@
                 type="text"
                 class="form__input"
                 name="description"
-              >
-Project description</textarea
-              >
+                v-model="description"
+              ></textarea>
             </div>
           </div>
           <div class="form__timeSchedule">
@@ -39,9 +38,9 @@ Project description</textarea
                 type="date"
                 id="start_date"
                 name="start_date"
-                value=""
                 min=""
                 max=""
+                v-model="start_Date"
               />
             </div>
             <div>
@@ -50,9 +49,9 @@ Project description</textarea
                 type="date"
                 id="due_date"
                 name="due_date"
-                value=""
                 min=""
                 max=""
+                v-model="due_Date"
               />
             </div>
             <div>
@@ -63,7 +62,7 @@ Project description</textarea
                 type="number"
                 id="allocated-hours"
                 name="allocated_hours"
-                value=""
+                v-model="allocated_Hours"
               />
             </div>
             <div>
@@ -72,7 +71,7 @@ Project description</textarea
                 type="number"
                 id="used-hours"
                 name="used_Hours"
-                value="0"
+                v-model="used_Hours"
               />
             </div>
           </div>
@@ -86,9 +85,22 @@ Project description</textarea
 </template>
 
 <script>
+import { toRefs } from 'vue'
+// import { userData } from '@/store'
+// import { uri } from '../composables/uri'
+import { createProjectComp } from '@/composables/createProject'
 export default {
-  setup () {
-    return {}
+  setup() {
+    const { createProject, projectRequest, project, fetchError } =
+      createProjectComp()
+
+    return {
+      project,
+      ...toRefs(project),
+      createProject,
+      fetchError,
+      projectRequest
+    }
   }
 }
 </script>

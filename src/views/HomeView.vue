@@ -2,11 +2,8 @@
   <div class="home">
     <h1 class="text text--center">Welcome to the Project Management app</h1>
     <div class="home-content">
-      <div v-if="user.name">
-        <h2>Project:</h2>
-        <p v-for="project in projects" :key="project.id">
-          {{ project.name }}
-        </p>
+      <div v-if="user?.name">
+        <project-cards />
       </div>
       <div v-else>
         <h2>Log in or register to create or access your projects</h2>
@@ -30,38 +27,38 @@
 <script>
 // @ is an alias to /src
 // import RegisterUser from '@/components/RegisterUser.vue'
-import { computed, ref } from 'vue'
+
 import { userData } from '@/store'
+
+import ProjectCards from '@/components/ProjectCards.vue'
 
 export default {
   name: 'home-view',
   components: {
-    // RegisterUser
+    ProjectCards
   },
   setup() {
+    // const { projects, fetchError, projectStore, getProjects } =
+    //   getSimpleProjects()
     const user = userData()
-    const projects = ref([])
-    const userIsLoggedIn = computed(() => {
-      return !!user.name
-    })
+    // const projects = ref([])
+    // const fetchError = ref('')
 
-    const getData = async () => {
-      const response = await fetch(
-        'http://localhost:4000/api/projects/620cd974bfa355462d3047cd/all'
-      )
-      const data = await response.json()
-      projects.value = data
-    }
+    // const getProjects = async () => {
+    //   try {
+    //     const response = await fetch(`${uri}projects/${user.id}/all`)
+    //     const data = await response.json()
+    //     projects.value = data
+    //   } catch (err) {
+    //     fetchError.value = err.message
+    //   }
+    // }
 
     // onMounted(() => {
-    //   getData()
+    //   getProjects()
     // })
-    getData()
 
     return {
-      projects,
-      getData,
-      userIsLoggedIn,
       user
     }
   }

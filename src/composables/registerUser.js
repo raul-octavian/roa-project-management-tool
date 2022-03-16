@@ -45,37 +45,40 @@ export default function registerUser() {
   // create new account
 
   const createAccount = async () => {
-    if (!populateErrors.value.length) {
-      // console.log(requestOptions)
-      const response = await fetch(
-        `${uri}user/register`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(userReq)
+    try {
+      if (!populateErrors.value.length) {
+        // console.log(requestOptions)
+        const response = await fetch(
+          `${uri}user/register`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userReq)
+          }
+          // requestOptions
+        )
+        const data = await response.json()
+
+        // destructure the user info for login
+
+        if (data.email) {
+          const { email, password } = userReq
+
+          // login with user info
+          login({ email, password })
+        } else {
+          fetchError.value = data.error
         }
-        // requestOptions
-      )
-      const data = await response.json()
 
-      console.log(data)
-      // destructure the user info for login
-
-      if (data.email) {
-        const { email, password } = userReq
-
-        // login with user info
-        login({ email, password })
-      } else {
-        fetchError.value = data.error
+        // if we have data push to home
+        if (data.email) {
+          router.push('/')
+        }
       }
-
-      // if we have data push to home
-      if (data.email) {
-        router.push('/')
-      }
+    } catch (err) {
+      fetchError.value = err.message
     }
   }
 
