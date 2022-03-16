@@ -14,7 +14,7 @@ const getSimpleProjects = () => {
       const response = await fetch(`${uri}projects/${user.id}/all`)
       const data = await response.json()
       projects.value = data
-      projects.value.forEach(item => projectStore.setSimpleProject(item))
+      projectStore.setSimpleProject(projects.value)
     } catch (err) {
       fetchError.value = err.message
     }
