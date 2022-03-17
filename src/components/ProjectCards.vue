@@ -1,31 +1,35 @@
 <template>
-  <h2>Projects:</h2>
+  <div class="card-container">
+    <article
+      v-for="project in projects"
+      :key="project.id"
+      class="card card__content"
+    >
+      <main class="card__body">
+        <div class="card__extra-info">
+          <p class="" title="progress">{{ project.percentUsed }} done</p>
+          <p class="" title="remaining hours">
+            {{ project.available_hours }} to go
+          </p>
+        </div>
+        <h1 class="title--primary">{{ project.name }}</h1>
 
-  <article
-    v-for="project in projects"
-    :key="project.id"
-    class="card card__content"
-  >
-    <main class="card__body">
-      <h1 class="title--primary">{{ project.name }}</h1>
-      <h2 class="title--secondary">Progress: {{ project.percentUsed }}</h2>
-      <p class="description">
-        {{ project.description }}
-      </p>
-    </main>
-    <footer class="footer">
-      <div class="expand__indicator">
-        <span class="link__text">See more</span>
-      </div>
-    </footer>
-  </article>
+        <p class="description">
+          {{ project.description }}
+        </p>
+      </main>
+      <footer class="footer">
+        <button class="secondary-action constructive-action">See more</button>
+      </footer>
+    </article>
+  </div>
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { userData } from '@/store'
-import { uri } from '@/composables/uri'
-import { useProjectStore } from '@/store/projects'
+// import { uri } from '@/composables/uri'
+// import { useProjectStore } from '@/store/projects'
 import { getSimpleProjects } from '@/composables/getProjects'
 
 export default {
@@ -37,24 +41,6 @@ export default {
     const { projects, fetchError, projectStore, getProjects } =
       getSimpleProjects()
     const user = userData()
-    // const projects = ref([])
-    // const fetchError = ref('')
-    // const projectStore = useProjectStore()
-
-    // const getProjects = async () => {
-    //   try {
-    //     if (user?.id) {
-    //       const response = await fetch(`${uri}projects/${user.id}/all`)
-    //       const data = await response.json()
-    //       projects.value = data
-    //       projects.value.forEach((item) => {
-    //         projectStore.setSimpleProject(item)
-    //       })
-    //     }
-    //   } catch (err) {
-    //     fetchError.value = err.message
-    //   }
-    // }
 
     onMounted(() => {
       getProjects()
@@ -72,4 +58,33 @@ export default {
 </script>
 
 <style lang="css" scoped>
+button {
+  margin-bottom: 0;
+  padding-left: 0;
+}
+.card-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.card {
+  min-width: 250px;
+  padding: var(--base-2);
+  margin: var(--base-3);
+  background: var(--primary-bg);
+  border-radius: var(--base-sm);
+}
+.card__extra-info {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--base-1);
+  font-size: var(--base-sm);
+}
+
+.card__extra-info p {
+  font-size: var(--base-sm);
+  margin: 0;
+  text-align: right;
+}
 </style>

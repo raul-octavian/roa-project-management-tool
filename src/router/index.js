@@ -8,8 +8,9 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/projectDetails',
+    path: '/projectDetails/:id',
     name: 'project',
+    props: true,
     component: () =>
       import(
         /* webpackChunkName: "projectDetails" */ '../views/ProjectDetails.vue'
@@ -42,6 +43,12 @@ const routes = [
     name: 'register-user',
     component: () =>
       import(/* webpackChunkName: "userInfo" */ '../views/RegisterUser.vue')
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: () =>
+      import(/* webpackChunkName: "userInfo" */ '../views/UserInfo.vue')
   }
 ]
 

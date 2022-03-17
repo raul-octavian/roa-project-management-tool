@@ -38,7 +38,11 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { uri } from '@/composables/uri'
+import { userData } from '@/store'
+import { useActiveProjectStore } from '@/store/activeProject'
+import { useRoute } from 'vue-router'
 import draggable from 'vuedraggable'
 import EditCard from '../components/EditCard.vue'
 
@@ -50,7 +54,7 @@ export default {
     EditCard,
     FontAwesomeIcon
   },
-  setup () {
+  setup() {
     const data = reactive({
       backlog: ref([
         { id: 1, name: 'card1', stage: 'backlog' },
@@ -87,6 +91,45 @@ export default {
       }
     }
 
+    const fetchError = ref('')
+    const user = userData()
+    const projectData = ref({})
+    const route = useRoute()
+    const projectID = ref(route.params.id)
+    const activeProject = useActiveProjectStore()
+    const getProjectId = computed(() => {
+      return route.params.id
+    })
+
+    const getFullProject = async () => {
+      try {
+        console.log(projectID.value)
+        const response = await fetch(`${uri}projects/${projectID.value}`)
+        const data = await response.json()
+        const members = await data.members
+        if (!members.find((item) => item._id == user.id)) {
+          projectData.value = {
+            message:
+              'You are trying to access a project on witch you are not a member, contact project owner to add you to the member list'
+          }
+        } else {
+          projectData.value = data
+          activeProject.setActiveProject(projectData.value)
+        }
+      } catch (err) {
+        fetchError.value = err.message
+      }
+    }
+
+    onMounted(() => {
+      getFullProject()
+    })
+
+    watch(projectID.value, () => {
+      console.log(projectID.value)
+      getFullProject()
+    })
+
     return {
       // ...toRefs(data),
       data,
@@ -95,7 +138,8 @@ export default {
       // done,
       changeStage,
       endStage,
-      editModal
+      editModal,
+      getFullProject
     }
   }
 }

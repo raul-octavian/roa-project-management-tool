@@ -233,6 +233,7 @@ button:focus {
 	border: none;
 }
 .constructive-action:hover {
+	border: none;
 	color: var(--secondary-color);
 }
 
