@@ -29,7 +29,12 @@
           </template>
         </draggable>
       </div>
-      <SmallModal use="card" :projectID="projectID" :stage-name="key" />
+      <SmallModal
+        use="card"
+        :projectID="projectID"
+        :stage-name="key"
+        @reload="reload"
+      />
     </div>
     <div class="project-stage">
       <h3>
@@ -133,9 +138,13 @@ export default {
       }
     }
 
+    const reload = async () => {
+      await getFullProject(projectID.value)
+    }
     watch(projectID, async (currentValue, oldValue) => {
       await getFullProject(currentValue)
     })
+
     await getFullProject(projectID.value)
 
     // const populateData = computed(() => {
@@ -157,7 +166,8 @@ export default {
       editModal,
       getFullProject,
       ...toRefs(projectData),
-      project
+      project,
+      reload
       // populateData
     }
   }

@@ -14,6 +14,7 @@
         :stage-name="stageName"
         v-if="showModal"
         @toggle-card="toggleCard"
+        @reload="reload"
         :class="
           use == 'card' ? 'small-modal--bottom-right' : 'small-modal--top-left'
         "
@@ -35,14 +36,17 @@ export default {
     SlideInOut,
     FontAwesomeIcon
   },
-  setup() {
+  setup(_, { emit }) {
     const showModal = ref(false)
 
     const toggleCard = () => {
       showModal.value = !showModal.value
     }
+    const reload = () => {
+      emit('reload')
+    }
 
-    return { showModal, toggleCard }
+    return { showModal, toggleCard, reload }
   }
 }
 </script>

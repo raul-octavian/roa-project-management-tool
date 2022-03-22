@@ -21,7 +21,7 @@
         <button class="primary-action" @click="add">Add {{ use }}</button>
         <button class="secondary-action" @click="toggleCard">Cancel</button>
         <div v-if="fetchError">
-          <p>fetchError</p>
+          <p>{{ fetchError }}</p>
         </div>
       </div>
     </form>
@@ -47,6 +47,9 @@ export default {
     const toggleCard = () => {
       emit('toggle-card')
     }
+    const reloadPage = () => {
+      emit('reload')
+    }
 
     const placeholder = computed(() => {
       return use.value + ' name'
@@ -70,10 +73,11 @@ export default {
         )
         const data = await response.json()
 
-        if (!data._id) {
+        if (!data[0]._id) {
           fetchError.value = data.error
         } else {
           toggleCard()
+          reloadPage()
         }
       } catch (err) {
         fetchError.value = err.message
@@ -81,6 +85,7 @@ export default {
     }
 
     const addStage = async () => {
+      debugger
       try {
         const response = await fetch(
           `${uri}projects/${projectID.value}/add-stage`,
@@ -96,13 +101,13 @@ export default {
           }
         )
         const data = await response.json()
-        activeProject.setActiveProject(data)
 
         if (!data._id) {
           console.log('no data')
           fetchError.value = data.error
         } else {
           toggleCard()
+          reloadPage()
         }
       } catch (err) {
         fetchError.value = err.message
