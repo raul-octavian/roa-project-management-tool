@@ -7,9 +7,11 @@
       <font-awesome-icon icon="plus" class="icon"></font-awesome-icon>
       Add a {{ use }}
     </button>
-    <SlideInOut entry="left" exit="left" :duration="300" @open-card="openCard">
+    <SlideInOut entry="left" exit="left" :duration="300">
       <CreateCard
         :use="use"
+        :projectID="projectID"
+        :stage-name="stageName"
         v-if="showModal"
         @toggle-card="toggleCard"
         :class="
@@ -27,13 +29,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { SlideInOut } from 'vue3-transitions'
 import CreateCard from './CreateCard.vue'
 export default {
-  props: ['use'],
+  props: ['use', 'projectID', 'stageName'],
   components: {
     CreateCard,
     SlideInOut,
     FontAwesomeIcon
   },
-  setup () {
+  setup() {
     const showModal = ref(false)
 
     const toggleCard = () => {

@@ -1,10 +1,12 @@
 import { computed, reactive, ref } from 'vue'
 import { userData } from '@/store'
 import { uri } from '../composables/uri'
+import { useRouter } from 'vue-router'
 
 const createProjectComp = function () {
   const user = userData()
   const fetchError = ref('')
+  const router = useRouter()
   const project = reactive({
     name: 'project One',
     description: 'a small description of the project',
@@ -41,6 +43,8 @@ const createProjectComp = function () {
         body: JSON.stringify(projectRequest.value)
       })
       const data = await response.json()
+      router.push('/')
+
       if (!data._id) {
         fetchError.value = data.error
       }

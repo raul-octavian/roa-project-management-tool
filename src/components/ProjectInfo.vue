@@ -1,7 +1,11 @@
 <template>
   <div class="project-wrapper">
-    <div v-for="(stage, index) in data" :key="index" class="project-stage">
-      <h3>{{ index }}</h3>
+    <div
+      v-for="(stage, key, index) in project.stagesData"
+      :key="index"
+      class="project-stage"
+    >
+      <h3>{{ key }}</h3>
       <div class="cards">
         <draggable
           :list="stage"
@@ -10,7 +14,7 @@
           :move="changeStage"
           @start="drag = true"
           @end="endStage"
-          :data-stage="index"
+          :data-stage="key"
         >
           <template #item="{ element }">
             <div class="card">
@@ -25,11 +29,11 @@
           </template>
         </draggable>
       </div>
-      <SmallModal use="card" />
+      <SmallModal use="card" :projectID="projectID" :stage-name="key" />
     </div>
     <div class="project-stage">
       <h3>
-        <SmallModal use="stage" />
+        <SmallModal use="stage" :projectID="projectID" />
       </h3>
     </div>
   </div>
@@ -38,11 +42,10 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, toRef, watch, toRefs } from 'vue'
 import { uri } from '@/composables/uri'
 import { userData } from '@/store'
 import { useActiveProjectStore } from '@/store/activeProject'
-import { useRoute } from 'vue-router'
 import draggable from 'vuedraggable'
 import EditCard from '../components/EditCard.vue'
 
@@ -54,7 +57,8 @@ export default {
     EditCard,
     FontAwesomeIcon
   },
-  setup() {
+  props: ['projectID'],
+  async setup(props) {
     const data = reactive({
       backlog: ref([
         { id: 1, name: 'card1', stage: 'backlog' },
@@ -93,42 +97,54 @@ export default {
 
     const fetchError = ref('')
     const user = userData()
-    const projectData = ref({})
-    const route = useRoute()
-    const projectID = ref(route.params.id)
+    let projectData = reactive({})
+    const projectID = toRef(props, 'projectID')
     const activeProject = useActiveProjectStore()
-    const getProjectId = computed(() => {
-      return route.params.id
+    const project = computed(() => {
+      return activeProject.getActiveProject
     })
 
-    const getFullProject = async () => {
+    const getFullProject = async (project) => {
       try {
-        console.log(projectID.value)
-        const response = await fetch(`${uri}projects/${projectID.value}`)
+        const response = await fetch(`${uri}projects/${project}`)
         const data = await response.json()
         const members = await data.members
         if (!members.find((item) => item._id == user.id)) {
-          projectData.value = {
+          projectData = {
             message:
               'You are trying to access a project on witch you are not a member, contact project owner to add you to the member list'
           }
         } else {
-          projectData.value = data
-          activeProject.setActiveProject(projectData.value)
+          projectData = data
+          projectData.stagesData = {}
+          projectData.stages.forEach((item) => {
+            projectData.stagesData[item] = []
+            projectData.cards.forEach((card) => {
+              if (card.stage == item) {
+                projectData.stagesData[item].push(card)
+              }
+            })
+          })
+          console.log(projectData)
+          activeProject.setActiveProject(projectData)
         }
       } catch (err) {
         fetchError.value = err.message
       }
     }
 
-    onMounted(() => {
-      getFullProject()
+    watch(projectID, async (currentValue, oldValue) => {
+      await getFullProject(currentValue)
     })
+    await getFullProject(projectID.value)
 
-    watch(projectID.value, () => {
-      console.log(projectID.value)
-      getFullProject()
-    })
+    // const populateData = computed(() => {
+    //   project.stages.forEach((item) => {
+    //     ;[item] = []
+    //     // compData[item] = project?.cards.find((card) => card.stage == item)
+    //   })
+    //   return compData
+    // })
 
     return {
       // ...toRefs(data),
@@ -139,7 +155,10 @@ export default {
       changeStage,
       endStage,
       editModal,
-      getFullProject
+      getFullProject,
+      ...toRefs(projectData),
+      project
+      // populateData
     }
   }
 }

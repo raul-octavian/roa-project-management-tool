@@ -18,7 +18,7 @@ export const useActiveProjectStore = defineStore('activeProjects', {
 
   }),
   getters: {
-    getActiveProject: (state) => state.simpleProjects
+    getActiveProject: (state) => state.project
   },
   actions: {
     setActiveProject(payload) {

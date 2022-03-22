@@ -8,7 +8,7 @@
         :to="{
           name: 'project',
           params: {
-            id: project.id,
+            project: project.id,
           },
         }"
       >
