@@ -32,11 +32,11 @@ const manageUserOnCardAndProject = () => {
 
       if (!data._id) {
         message.value = data.message
-        console.log('data on delete')
-        console.log(projectData.value.cards[1].cardMembers.length)
+        // console.log('data on delete')
+        // console.log(projectData.value.cards[1].cardMembers.length)
         const { getFullProject } = getOneFullProject()
         await getFullProject(projectData.value._id)
-        console.log(projectData.value.cards[1].cardMembers.length)
+        // console.log(projectData.value.cards[1].cardMembers.length)
       }
     } catch (err) {
       fetchError.value = err.message
@@ -62,11 +62,11 @@ const manageUserOnCardAndProject = () => {
 
       if (!data._id) {
         message.value = data.message
-        console.log('data on delete')
-        console.log(projectData.value.cards[1].cardMembers.length)
+        // console.log('data on delete')
+        // console.log(projectData.value.cards[1].cardMembers.length)
         const { getFullProject } = getOneFullProject()
         await getFullProject(projectData.value._id)
-        console.log(projectData.value.cards[1].cardMembers.length)
+        // console.log(projectData.value.cards[1].cardMembers.length)
       }
     } catch (err) {
       fetchError.value = err.message

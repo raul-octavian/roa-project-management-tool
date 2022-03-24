@@ -222,7 +222,7 @@
 
 <script>
 // vue comps
-import { ref, computed, toRefs, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 
 // components
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'

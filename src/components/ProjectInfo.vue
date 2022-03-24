@@ -54,7 +54,7 @@
 
 <script>
 // vue specific
-import { computed, onMounted, reactive, ref, toRef, watch, toRefs } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 
 // modules
 // import { uri } from '@/composables/uri'

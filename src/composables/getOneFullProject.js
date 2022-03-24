@@ -8,7 +8,6 @@ const projectData = ref({})
 const getOneFullProject = function () {
   const user = userData()
 
-  console.log('project data', projectData.value)
   const activeProject = useActiveProjectStore()
   const fetchError = ref('')
   const getFullProject = async (project) => {
@@ -33,7 +32,6 @@ const getOneFullProject = function () {
           })
         })
         activeProject.setActiveProject(projectData.value)
-        console.log('project data two', projectData.value)
       }
     } catch (err) {
       fetchError.value = err.message

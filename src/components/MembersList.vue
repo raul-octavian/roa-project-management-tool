@@ -53,11 +53,11 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 // vue specific
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 
 // composables
 import { manageUserOnCardAndProject } from '@/composables/manageUserOnCardAndProject'
-import { getOneFullProject, projectData } from '@/composables/getOneFullProject'
+import { projectData } from '@/composables/getOneFullProject'
 export default {
   components: {
     FontAwesomeIcon
