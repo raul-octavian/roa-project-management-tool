@@ -1,32 +1,89 @@
 <template>
   <div class="task-list">
     <h3>Add or remove tasks</h3>
-    <ul>
+    <ul v-if="cardTasks">
       <li>
-        <div class="task-info">
-          <input type="checkbox" id="task" name="task" />
-          <label for="task"> <p>Task name</p></label>
+        <div v-if="message">
+          {{ message }}
+        </div>
+        <div v-for="task in cardTasks" :key="task._id" class="task-info">
+          <label for="task">
+            <div class="input-group">
+              <input
+                type="checkbox"
+                id="task"
+                name="task"
+                :checked="task.status"
+                v-model="task.status"
+                @click="taskStatus = !taskStatus"
+                @blur="updateTask(task._id, { status: task.status })"
+              />
+              <div>
+                <input
+                  type="text"
+                  id="name"
+                  class="form__input input--no-borders"
+                  name="card_name"
+                  required
+                  v-model="task.taskName"
+                  @blur="updateTask(task._id, { taskName: task.taskName })"
+                />
+                <div class="input-group">
+                  <textarea
+                    id="task-description"
+                    class="form__input textarea--no-borders"
+                    name="task description"
+                    v-model="task.taskDescription"
+                    @blur="
+                      updateTask(task._id, {
+                        taskDescription: task.taskDescription,
+                      })
+                    "
+                  />
+                </div>
+              </div>
+              <button class="button--no-text button-toggle constructive-action">
+                <font-awesome-icon icon="save" class="icon"></font-awesome-icon>
+              </button>
+            </div>
+          </label>
           <button class="button--no-text destructive-action">
-            <font-awesome-icon icon="trash" class="icon"></font-awesome-icon>
+            <font-awesome-icon
+              icon="trash"
+              class="icon"
+              @click="removeTask(task._id)"
+            ></font-awesome-icon>
           </button>
         </div>
       </li>
     </ul>
     <div>
       <h4>Add a new task</h4>
-      <label class="label" for="name">Task</label>
+      <label class="label" for="name">Task name</label>
       <div class="input-group">
         <input
           type="text"
           id="name"
           class="form__input"
-          value=""
-          name="card_name"
-          required
+          name="task_name"
+          v-model="taskName"
         />
         <button class="button--no-text constructive-action">
-          <font-awesome-icon icon="add" class="icon"></font-awesome-icon>
+          <font-awesome-icon
+            icon="add"
+            class="icon"
+            @click="addTask"
+          ></font-awesome-icon>
         </button>
+      </div>
+      <label class="label" for="task-description">Task description</label>
+      <div class="input-group">
+        <textarea
+          id="task-description"
+          class="form__input"
+          name="task description"
+          v-model="taskDescription"
+        />
       </div>
     </div>
   </div>
@@ -34,15 +91,77 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+// vue native
+import { computed, ref } from 'vue'
+import { projectData } from '@/composables/getOneFullProject'
+import { manageTasks } from '@/composables/manageTaks'
 export default {
   components: {
     FontAwesomeIcon
   },
-  setup () {
-    return {}
+  props: ['cardId'],
+  setup(props) {
+    const activeCard = computed(() => {
+      return projectData.value.cards.find((item) => item._id == props.cardId)
+    })
+    const cardTasks = computed(() => activeCard.value?.tasks)
+    const activeCardId = computed(() => activeCard.value?._id)
+
+    const {
+      addTaskToCard,
+      removeTaskFromCard,
+      taskDescription,
+      taskName,
+      updateTask,
+      message
+    } = manageTasks()
+    const addTask = async () => {
+      console.log('addtask')
+      await addTaskToCard(activeCardId.value)
+      // await getFullProject(activeProjectId)
+    }
+
+    const removeTask = async (taskId) => {
+      await removeTaskFromCard(activeCardId.value, taskId)
+      // await getFullProject(activeProjectId)
+    }
+    return {
+      cardTasks,
+      addTask,
+      removeTask,
+      taskDescription,
+      taskName,
+      updateTask,
+      message
+    }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
+.edit-mode .form .task-list input.input--no-borders,
+.edit-mode .form .task-list textarea.textarea--no-borders {
+  background: none;
+  border-radius: 0;
+  padding: var(--base-sm);
+  border: none;
+  color: var(--secondary-color);
+  transition: 300ms all ease-in-out;
+  width: 100%;
+}
+.edit-mode .form .task-list input.input--no-borders:focus,
+.edit-mode .form .task-list textarea.textarea--no-borders:focus {
+  background: white;
+  border-radius: var(--base-xs);
+  padding: var(--base-sm);
+  border: 1px solid var(--primary-transparent);
+  color: var(--secondary-color);
+}
+
+.edit-mode .form .task-list textarea.textarea--no-borders {
+  resize: both;
+  min-height: 40px;
+  line-height: 20px;
+}
 </style>

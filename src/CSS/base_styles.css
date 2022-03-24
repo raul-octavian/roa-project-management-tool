@@ -417,7 +417,8 @@ button:focus {
 }
 
 .edit-mode .form .member-list input,
-.edit-mode .form .task-list input {
+.edit-mode .form .task-list input,
+.edit-mode .form .task-list textarea {
 	background: white;
 	border-radius: var(--base-xs);
 	padding: var(--base-sm);
@@ -449,6 +450,13 @@ button:focus {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+	padding: var(--base-1 0);
+	margin: var(--base-1 0);
+	border-bottom: 1px solid var(--primary-transparent);
+}
+.task-list,
+.member-list {
+	margin-bottom: var(--base-8);
 }
 
 .task-list ul {

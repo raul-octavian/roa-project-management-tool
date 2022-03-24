@@ -171,7 +171,7 @@
             <members-list v-if="membersOpen" :cardId="cardId" />
           </SlideInOut>
           <SlideInOut entry="top" exit="top" :duration="300">
-            <task-list v-if="tasksOpen" :cardTasks="activeCard.tasks" />
+            <task-list v-if="tasksOpen" :cardId="cardId" />
           </SlideInOut>
 
           <div class="form__actions">
