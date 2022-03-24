@@ -2,6 +2,9 @@
   <div class="modal">
     <div class="view-basic edit-mode">
       <h1>Edit Card</h1>
+      <div v-if="fetchError">
+        <p>{{ fetchError }}</p>
+      </div>
       <div class="form-wrapper">
         <div class="form" action="" @submit.prevent="">
           <h3>Card information:</h3>
@@ -13,9 +16,10 @@
                   type="text"
                   id="name"
                   class="form__input"
-                  value=""
                   name="card_name"
                   required
+                  v-model="cardName"
+                  @blur="updateCard(activeCard._id, { cardName: cardName })"
                 />
                 <button
                   class="button--no-text button-toggle constructive-action"
@@ -36,9 +40,13 @@
                   id="description"
                   class="form__input"
                   name="card_description"
-                >
-Card description</textarea
-                >
+                  v-model="cardDescription"
+                  @blur="
+                    updateCard(activeCard._id, {
+                      cardDescription: cardDescription,
+                    })
+                  "
+                ></textarea>
                 <button
                   class="button--no-text button-toggle constructive-action"
                 >
@@ -59,9 +67,14 @@ Card description</textarea
                     type="date"
                     id="start_date"
                     name="card_start_date"
-                    value=""
                     min=""
                     max=""
+                    v-model="cardStartDate"
+                    @blur="
+                      updateCard(activeCard._id, {
+                        cardStartDate: cardStartDate,
+                      })
+                    "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
@@ -81,9 +94,12 @@ Card description</textarea
                     type="date"
                     id="due_date"
                     name="card_due_date"
-                    value=""
                     min=""
                     max=""
+                    v-model="cardDueDate"
+                    @blur="
+                      updateCard(activeCard._id, { cardDueDate: cardDueDate })
+                    "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
@@ -106,7 +122,12 @@ Card description</textarea
                     type="number"
                     id="allocated-hours"
                     name="card_allocated_hours"
-                    value=""
+                    v-model="cardAllocatedHours"
+                    @blur="
+                      updateCard(activeCard._id, {
+                        cardAllocatedHours: cardAllocatedHours,
+                      })
+                    "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
@@ -126,7 +147,12 @@ Card description</textarea
                     type="number"
                     id="used-hours"
                     name="card_used_Hours"
-                    value="0"
+                    v-model="cardUsedHours"
+                    @blur="
+                      updateCard(activeCard._id, {
+                        cardUsedHours: cardUsedHours,
+                      })
+                    "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
@@ -142,20 +168,19 @@ Card description</textarea
           </div>
 
           <SlideInOut entry="top" exit="top" :duration="300">
-            <members-list v-if="membersOpen" />
+            <members-list v-if="membersOpen" :cardId="cardId" />
           </SlideInOut>
           <SlideInOut entry="top" exit="top" :duration="300">
-            <task-list v-if="tasksOpen" />
+            <task-list v-if="tasksOpen" :cardTasks="activeCard.tasks" />
           </SlideInOut>
 
           <div class="form__actions">
-            <button type="submit" class="primary-action">Update card</button>
             <button
               type="submit"
               class="secondary-action"
               @click="$emit('toggleEdit')"
             >
-              Cancel
+              Close
             </button>
           </div>
         </div>
@@ -196,23 +221,85 @@ Card description</textarea
 </template>
 
 <script>
-import { ref } from 'vue'
+// vue comps
+import { ref, computed, toRefs, onMounted } from 'vue'
+
+// components
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { SlideInOut } from 'vue3-transitions'
 import MembersList from './MembersList.vue'
 import TaskList from './TaskList.vue'
+import { projectData } from '@/composables/getOneFullProject'
+
+// composables
+import { updateCardSections } from '@/composables/updateCard'
+
+// stores
+// import { useActiveProjectStore } from '@/store/activeProject'
 export default {
   components: {
     FontAwesomeIcon,
-    SlideInOut,
     MembersList,
-    TaskList
+    TaskList,
+    SlideInOut
   },
-  setup () {
+  props: ['cardId'],
+  setup(props) {
     const membersOpen = ref(false)
     const tasksOpen = ref(false)
+    // const activeCard = ref(props.card)
+    // const { getFullProject } = getOneFullProject()
+    // getFullProject()
 
-    return { membersOpen, tasksOpen }
+    // activeCard.value = cards.value.find((item) => item._id == props.card._id)
+    const activeCard = computed(() => {
+      return projectData.value.cards.find((item) => item._id == props.cardId)
+    })
+
+    const formatStartDate = computed(() => {
+      return activeCard.value?.cardStartDate
+        ? new Date(activeCard.value?.cardStartDate).toISOString().substr(0, 10)
+        : ''
+    })
+
+    const formaDueDate = computed(() => {
+      return activeCard.value?.cardDueDate
+        ? new Date(activeCard.value?.cardDueDate).toISOString().substr(0, 10)
+        : ''
+    })
+
+    const cardName =
+      ref(activeCard.value?.cardName) || ref(activeCard.value?.card_name)
+    const stage = ref(activeCard.value?.stage)
+    const cardDescription = ref(activeCard.value?.cardDescription)
+    const status = ref(activeCard.value?.status)
+    const tasks = ref(activeCard.value?.tasks)
+    const cardMembers = ref(activeCard.value?.cardMembers)
+    const cardStartDate = formatStartDate.value
+    const cardDueDate = formaDueDate.value
+    const cardAllocatedHours = ref(activeCard.value?.cardAllocatedHours)
+    const cardUsedHours = ref(activeCard.value?.cardUsedHours)
+
+    const { updateCard, fetchError } = updateCardSections()
+
+    return {
+      membersOpen,
+      tasksOpen,
+      cardName,
+      stage,
+      cardDescription,
+      status,
+      tasks,
+      cardMembers,
+      cardStartDate,
+      cardDueDate,
+      cardAllocatedHours,
+      cardUsedHours,
+      activeCard,
+      fetchError,
+      updateCard,
+      projectData
+    }
   }
 }
 </script>

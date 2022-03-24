@@ -32,14 +32,14 @@
 import { computed, ref } from 'vue-demi'
 import { uri } from '@/composables/uri'
 import { userData } from '@/store'
-import { useActiveProjectStore } from '@/store/activeProject'
+import { getOneFullProject } from '@/composables/getOneFullProject'
 export default {
   props: ['use', 'projectID', 'stageName'],
   setup(props, { emit }) {
     const use = ref(props.use)
     const projectID = ref(props.projectID)
     const stageName = ref(props.stageName)
-    const activeProject = useActiveProjectStore()
+    const { projectData } = getOneFullProject()
 
     const user = userData()
     const name = ref('')
@@ -66,7 +66,7 @@ export default {
               'auth-token': user.token
             },
             body: JSON.stringify({
-              card_name: name.value,
+              cardName: name.value,
               stage: stageName.value
             })
           }
@@ -76,8 +76,8 @@ export default {
         if (!data[0]._id) {
           fetchError.value = data.error
         } else {
-          toggleCard()
           reloadPage()
+          toggleCard()
         }
       } catch (err) {
         fetchError.value = err.message
@@ -85,7 +85,6 @@ export default {
     }
 
     const addStage = async () => {
-      debugger
       try {
         const response = await fetch(
           `${uri}projects/${projectID.value}/add-stage`,
@@ -106,8 +105,8 @@ export default {
           console.log('no data')
           fetchError.value = data.error
         } else {
-          toggleCard()
           reloadPage()
+          toggleCard()
         }
       } catch (err) {
         fetchError.value = err.message

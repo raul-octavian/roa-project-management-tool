@@ -4,10 +4,9 @@
       <h1>This is Project details page</h1>
     </div>
     <div class="project-container">
-      {{ projectID }}
       <Suspense>
         <template #default>
-          <ProjectInfo :projectID="projectID" />
+          <ProjectInfo :projectID="projectID" :key="projectID" />
         </template>
         <template #fallback>
           <div>..loading</div>

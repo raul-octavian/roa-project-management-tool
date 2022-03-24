@@ -40,7 +40,7 @@
                 name="start_date"
                 min=""
                 max=""
-                v-model="start_Date"
+                v-model="startDate"
               />
             </div>
             <div>
@@ -48,10 +48,10 @@
               <input
                 type="date"
                 id="due_date"
-                name="due_date"
+                name="dueDate"
                 min=""
                 max=""
-                v-model="due_Date"
+                v-model="dueDate"
               />
             </div>
             <div>
@@ -61,8 +61,8 @@
               <input
                 type="number"
                 id="allocated-hours"
-                name="allocated_hours"
-                v-model="allocated_Hours"
+                name="allocatedHours"
+                v-model="allocatedHours"
               />
             </div>
             <div>
@@ -70,8 +70,8 @@
               <input
                 type="number"
                 id="used-hours"
-                name="used_Hours"
-                v-model="used_Hours"
+                name="usedHours"
+                v-model="usedHours"
               />
             </div>
           </div>

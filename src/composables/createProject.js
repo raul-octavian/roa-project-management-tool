@@ -11,10 +11,10 @@ const createProjectComp = function () {
     name: 'project One',
     description: 'a small description of the project',
 
-    start_Date: new Date().toISOString().substr(0, 10),
-    due_Date: '',
-    allocated_Hours: 0,
-    used_Hours: 0,
+    startDate: new Date().toISOString().substr(0, 10),
+    dueDate: '',
+    allocatedHours: 0,
+    usedHours: 0,
 
     members: [user.id]
   })
@@ -25,10 +25,10 @@ const createProjectComp = function () {
       owner: user.id,
       members: project.members,
       timeSchedule: {
-        start_Date: project.start_Date,
-        due_Date: project.due_Date,
-        used_Hours: project.used_Hours,
-        allocated_Hours: project.allocated_Hours
+        startDate: project.start_Date,
+        dueDate: project.due_Date,
+        usedHours: project.used_Hours,
+        allocatedHours: project.allocated_Hours
       }
     }
   })

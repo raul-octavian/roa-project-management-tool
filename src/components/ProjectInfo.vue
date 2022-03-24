@@ -18,10 +18,10 @@
         >
           <template #item="{ element }">
             <div class="card">
-              <h4>{{ element.name }}</h4>
+              <h4>{{ element.cardName }}</h4>
               <button
                 class="button--no-text constructive-action"
-                @click="editModal = !editModal"
+                @click="toggleEditCard(element)"
               >
                 <font-awesome-icon icon="edit" class="icon"></font-awesome-icon>
               </button>
@@ -38,22 +38,37 @@
     </div>
     <div class="project-stage">
       <h3>
-        <SmallModal use="stage" :projectID="projectID" />
+        <SmallModal use="stage" :projectID="projectID" @reload="reload" />
       </h3>
     </div>
   </div>
-  <edit-card v-if="editModal" @toggleEdit="editModal = !editModal" />
+  <teleport to="body">
+    <edit-card
+      v-if="editModal"
+      @toggleEdit="editModal = !editModal"
+      :cardId="card._id"
+      :key="card._id"
+    />
+  </teleport>
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+// vue specific
 import { computed, onMounted, reactive, ref, toRef, watch, toRefs } from 'vue'
-import { uri } from '@/composables/uri'
-import { userData } from '@/store'
-import { useActiveProjectStore } from '@/store/activeProject'
+
+// modules
+// import { uri } from '@/composables/uri'
+import { getOneFullProject, projectData } from '@/composables/getOneFullProject'
+import { updateOneCard } from '@/composables/updateCardState'
+
+// // stores
+// import { userData } from '@/store'
+// import { useActiveProjectStore } from '@/store/activeProject'
+
+// components
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import draggable from 'vuedraggable'
 import EditCard from '../components/EditCard.vue'
-
 import SmallModal from './SmallModal.vue'
 export default {
   components: {
@@ -64,23 +79,15 @@ export default {
   },
   props: ['projectID'],
   async setup(props) {
-    const data = reactive({
-      backlog: ref([
-        { id: 1, name: 'card1', stage: 'backlog' },
-        { id: 2, name: 'card2', stage: 'backlog' },
-        { id: 3, name: 'card3', stage: 'backlog' },
-        { id: 4, name: 'card3', stage: 'backlog' },
-        { id: 5, name: 'card3', stage: 'backlog' },
-        { id: 6, name: 'card3', stage: 'backlog' },
-        { id: 7, name: 'card3', stage: 'backlog' },
-        { id: 8, name: 'card3', stage: 'backlog' },
-        { id: 9, name: 'card3', stage: 'backlog' },
-        { id: 10, name: 'card3', stage: 'backlog' }
-      ]),
-      todo: ref([]),
-      inProgress: ref([]),
-      done: ref([])
-    })
+    const projectID = toRef(props, 'projectID')
+    const card = ref('')
+
+    const toggleEditCard = (element) => {
+      card.value = element
+      editModal.value = !editModal.value
+    }
+    const { getFullProject, fetchError } = getOneFullProject()
+
     const editModal = ref(false)
 
     const changeStage = (env, item) => {
@@ -91,84 +98,46 @@ export default {
     const endStage = (env) => {
       const oldStage = env
       const newStage = env.to.dataset.stage
-      const id = env.item._underlying_vm_.id
-      let filterData = []
+      const id = env.item._underlying_vm_._id
+      // console.log(env.item._underlying_vm_._id)
+      const { updateCard } = updateOneCard(id, newStage)
+      // let filterData = []
 
       if (oldStage !== newStage) {
-        filterData = data[newStage].filter((item) => item.id === id)
-        filterData[0].stage = newStage
+        // filterData = project.stagesData[newStage].filter(
+        //   (item) => item.id === id
+        // )
+        // filterData[0].stage = newStage
+        updateCard(id, newStage)
       }
     }
 
-    const fetchError = ref('')
-    const user = userData()
-    let projectData = reactive({})
-    const projectID = toRef(props, 'projectID')
-    const activeProject = useActiveProjectStore()
+    // const activeProject = useActiveProjectStore()
     const project = computed(() => {
-      return activeProject.getActiveProject
+      return projectData.value
+      // return projectData.value
     })
 
-    const getFullProject = async (project) => {
-      try {
-        const response = await fetch(`${uri}projects/${project}`)
-        const data = await response.json()
-        const members = await data.members
-        if (!members.find((item) => item._id == user.id)) {
-          projectData = {
-            message:
-              'You are trying to access a project on witch you are not a member, contact project owner to add you to the member list'
-          }
-        } else {
-          projectData = data
-          projectData.stagesData = {}
-          projectData.stages.forEach((item) => {
-            projectData.stagesData[item] = []
-            projectData.cards.forEach((card) => {
-              if (card.stage == item) {
-                projectData.stagesData[item].push(card)
-              }
-            })
-          })
-          console.log(projectData)
-          activeProject.setActiveProject(projectData)
-        }
-      } catch (err) {
-        fetchError.value = err.message
-      }
+    const reload = () => {
+      getFullProject(projectID.value)
     }
-
-    const reload = async () => {
-      await getFullProject(projectID.value)
-    }
-    watch(projectID, async (currentValue, oldValue) => {
-      await getFullProject(currentValue)
+    watch(projectID, (currentValue, oldValue) => {
+      getFullProject(currentValue)
     })
-
     await getFullProject(projectID.value)
 
-    // const populateData = computed(() => {
-    //   project.stages.forEach((item) => {
-    //     ;[item] = []
-    //     // compData[item] = project?.cards.find((card) => card.stage == item)
-    //   })
-    //   return compData
-    // })
-
     return {
-      // ...toRefs(data),
-      data,
-      // todo,
-      // inProgress,
-      // done,
       changeStage,
       endStage,
+      card,
+      toggleEditCard,
       editModal,
       getFullProject,
-      ...toRefs(projectData),
+      // ...toRefs(projectData),
       project,
-      reload
-      // populateData
+      reload,
+      fetchError,
+      projectData
     }
   }
 }
@@ -206,5 +175,12 @@ export default {
 }
 .card h4 {
   margin: 0;
+}
+.card button {
+  margin-bottom: 0;
+}
+.card:hover .constructive-action {
+  border: none;
+  color: var(--secondary-color);
 }
 </style>

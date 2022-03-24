@@ -440,6 +440,10 @@ button:focus {
 	justify-content: flex-start;
 	align-items: center;
 }
+.member-info button,
+.task-info button {
+	margin-bottom: 0;
+}
 
 .task-info {
 	display: flex;
