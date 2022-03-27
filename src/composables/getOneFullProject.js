@@ -31,6 +31,7 @@ const getOneFullProject = function () {
             }
           })
         })
+        projectData.value.stagesData.sort((a, b) => a.index - b.index)
         activeProject.setActiveProject(projectData.value)
       }
     } catch (err) {

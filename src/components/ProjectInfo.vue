@@ -99,16 +99,23 @@ export default {
       const oldStage = env
       const newStage = env.to.dataset.stage
       const id = env.item._underlying_vm_._id
+      const cards = project.value.stagesData[newStage]
+
       // console.log(env.item._underlying_vm_._id)
       const { updateCard } = updateOneCard(id, newStage)
-      // let filterData = []
+      let filterData = []
 
       if (oldStage !== newStage) {
-        // filterData = project.stagesData[newStage].filter(
-        //   (item) => item.id === id
-        // )
-        // filterData[0].stage = newStage
-        updateCard(id, newStage)
+        filterData = Array.from(cards).map((item) => {
+          return {
+            ...item,
+            stage: newStage
+          }
+        })
+
+        filterData.forEach((item, index) => {
+          updateCard(item._id, item.stage, index)
+        })
       }
     }
 

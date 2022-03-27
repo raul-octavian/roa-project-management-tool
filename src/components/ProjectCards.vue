@@ -1,27 +1,35 @@
 <template>
   <div class="card-container">
-    <article
+    <router-link
       v-for="project in projects"
       :key="project.id"
-      class="card card__content"
+      class="aside-navigation__link"
+      :to="{
+        name: 'project',
+        params: {
+          project: project.id,
+        },
+      }"
     >
-      <main class="card__body">
-        <div class="card__extra-info">
-          <p class="" title="progress">{{ project.percentUsed }} done</p>
-          <p class="" title="remaining hours">
-            {{ project.available_hours }} to go
-          </p>
-        </div>
-        <h1 class="title--primary">{{ project.name }}</h1>
+      <article :key="project.id" class="card card__content">
+        <main class="card__body">
+          <div class="card__extra-info">
+            <!-- <p class="" title="progress">{{ project.percentUsed }} done</p>
+            <p class="" title="remaining hours">
+              {{ project.available_hours }} to go
+            </p> -->
+          </div>
+          <h1 class="title--primary">{{ project.name }}</h1>
 
-        <p class="description">
-          {{ project.description }}
-        </p>
-      </main>
-      <footer class="footer">
-        <button class="secondary-action constructive-action">See more</button>
-      </footer>
-    </article>
+          <p class="description">
+            {{ project.description }}
+          </p>
+        </main>
+        <footer class="footer">
+          <button class="secondary-action constructive-action">See more</button>
+        </footer>
+      </article>
+    </router-link>
   </div>
 </template>
 

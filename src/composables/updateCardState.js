@@ -6,7 +6,7 @@ const updateOneCard = function () {
   const fetchError = ref('')
   const user = userData()
 
-  const updateCard = async (id, newStage) => {
+  const updateCard = async (id, newStage, index) => {
     try {
       const response = await fetch(
         `${uri}projects/cards/${id}/update`,
@@ -17,7 +17,8 @@ const updateOneCard = function () {
             'auth-token': user.token
           },
           body: JSON.stringify({
-            stage: newStage
+            stage: newStage,
+            index: index
           })
         }
       )

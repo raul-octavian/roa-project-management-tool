@@ -27,6 +27,15 @@ const routes = [
   },
 
   {
+    path: '/editProject',
+    name: 'editProject',
+    component: () =>
+      import(
+        /* webpackChunkName: "createProject" */ '../views/EditProject.vue'
+      )
+  },
+
+  {
     path: '/userInfo',
     name: 'userInfo',
     component: () =>
