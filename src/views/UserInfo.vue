@@ -1,13 +1,12 @@
 <template>
-  <h1>user info</h1>
   <div class="view-basic">
     <div class="edit-mode">
-      <h1>Hello {{ user.name }}</h1>
+      <!-- <h1>Hello {{ user.name }}</h1> -->
       <div class="form-wrapper">
         <div class="form" action="" @submit.prevent="">
           <h3>User information:</h3>
-          <p>{{ message }}</p>
-          <p>{{ fetchError }}</p>
+          <p v-if="message">{{ message }}</p>
+          <p v-if="fetchError">{{ fetchError }}</p>
           <div class="form__required-fields">
             <div>
               <label class="label" for="name">Name:</label>
@@ -17,34 +16,13 @@
                   id="name"
                   class="form__input"
                   name="name"
-                  placeholder="Project name"
                   required
-                  v-model="user.name"
-                  @blur="updateUser({ name: user.name })"
+                  v-model="user.value.name"
+                  @blur="updateUser({ name: user.value.name })"
                 />
                 <button
                   class="button--no-text button-toggle constructive-action"
-                  @click="updateUser({ name: user.name })"
-                >
-                  <font-awesome-icon
-                    icon="save"
-                    class="icon"
-                  ></font-awesome-icon>
-                </button>
-              </div>
-              <div class="input-group">
-                <input
-                  type="text"
-                  id="email"
-                  class="form__input"
-                  name="username"
-                  required
-                  v-model="user.username"
-                  @blur="updateUser({ username: user.username })"
-                />
-                <button
-                  class="button--no-text button-toggle constructive-action"
-                  @click="updateUser({ username: user.username })"
+                  @click="updateUser({ name: user.value.name })"
                 >
                   <font-awesome-icon
                     icon="save"
@@ -53,6 +31,34 @@
                 </button>
               </div>
             </div>
+            <div>
+              <label class="label" for="name">Username:</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  id="email"
+                  class="form__input"
+                  name="username"
+                  required
+                  v-model="user.value.username"
+                  @blur="updateUser({ username: user.value.username })"
+                />
+
+                <button
+                  class="button--no-text button-toggle constructive-action"
+                  @click="updateUser({ username: user.value.username })"
+                >
+                  <font-awesome-icon
+                    icon="save"
+                    class="icon"
+                  ></font-awesome-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label class="label" for="name">Email:</label>
+            <p>{{ user.value.email }}</p>
           </div>
         </div>
       </div>
@@ -65,7 +71,7 @@ import { computed, onMounted, ref } from 'vue'
 import { userData } from '@/store'
 // import { uri } from '../composables/uri'
 // import { createProjectComp } from '@/composables/createProject'
-// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
   userInfo,
   updateUserInformation
@@ -73,13 +79,14 @@ import {
 
 export default {
   components: {
-    // FontAwesomeIcon
+    FontAwesomeIcon
   },
   setup() {
     const { updateUser, message, fetchError, getUser } = updateUserInformation()
 
     getUser()
-    const user = computed(() => userInfo)
+    const userData = computed(() => userInfo)
+    const user = userData
     // const { createProject, projectRequest, project, fetchError } =
     //   createProjectComp()
 
@@ -102,5 +109,15 @@ export default {
   justify-content: center;
   align-items: center;
   padding: var(--base-8);
+}
+.form__required-fields {
+  border-bottom: 1px solid var(--primary-transparent-focus);
+  margin-bottom: var(--base-4);
+}
+p {
+  color: var(--secondary-color);
+}
+button {
+  margin-bottom: 0;
 }
 </style>

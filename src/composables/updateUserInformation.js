@@ -29,6 +29,7 @@ const updateUserInformation = () => {
   }
 
   const updateUser = async (payload) => {
+    console.log(payload)
     try {
       const response = await fetch(
         `${uri}user/${user.id}/update`,
@@ -47,7 +48,7 @@ const updateUserInformation = () => {
 
       if (data) {
         message.value = data.message
-        console.log('user', data)
+        getUser()
         // console.log('data on delete')
         // console.log(projectData.value.cards[1].cardMembers.length)
         // console.log(projectData.value.cards[1].cardMembers.length)
@@ -60,4 +61,4 @@ const updateUserInformation = () => {
   return { updateUser, getUser, fetchError, message }
 }
 
-export { updateUserInformation }
+export { updateUserInformation, userInfo }

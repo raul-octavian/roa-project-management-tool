@@ -3,6 +3,7 @@ import { setCookie } from './cookie'
 import { uri } from './uri'
 import { userData } from '@/store/index'
 import { useRouter } from 'vue-router'
+import { userInfo, updateUserInformation } from './updateUserInformation'
 
 export default function loginUser() {
   const res = ref({})
@@ -27,8 +28,10 @@ export default function loginUser() {
 
       if (noError) {
         res.value = data.data
+        const { getUser } = updateUserInformation()
         setCookies(res)
         user.setUserToStore(res.value)
+        getUser()
         router.push('/')
       } else {
         res.value = data
