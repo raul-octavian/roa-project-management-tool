@@ -8,6 +8,7 @@
         <UserNavigation />
       </div>
     </div>
+
     <div class="main-container">
       <ProjectList v-if="user.name" />
       <router-view />

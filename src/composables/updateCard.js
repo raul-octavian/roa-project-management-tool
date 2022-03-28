@@ -8,6 +8,7 @@ const updateCardSections = () => {
   const fetchError = ref('')
 
   const updateCard = async (cardId, payload) => {
+    console.log(payload)
     try {
       const response = await fetch(
         `${uri}projects/cards/${cardId}/update`,

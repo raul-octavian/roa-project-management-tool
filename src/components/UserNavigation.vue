@@ -7,7 +7,7 @@
       Register {{ user.name }}
     </router-link>
     <router-link v-if="user.name" to="/" @click="logout"> Logout </router-link>
-    <router-link v-if="user.name" to="/user">
+    <router-link v-if="user.name" to="/userInfo">
       {{ user.name }}
     </router-link>
   </div>

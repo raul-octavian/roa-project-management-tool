@@ -12,9 +12,21 @@ const getOneFullProject = function () {
   const fetchError = ref('')
   const getFullProject = async (project) => {
     try {
-      const response = await fetch(`${uri}projects/${project}`)
+      const response = await fetch(`${uri}projects/${project}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth-token': user.token
+          }
+        }
+      )
       const data = await response.json()
       const members = await data.members
+      if (data.error) {
+        fetchError.value = data.error
+        return
+      }
       if (!members.find((item) => item._id == user.id)) {
         projectData.value = {
           message:

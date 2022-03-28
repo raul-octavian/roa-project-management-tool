@@ -52,13 +52,13 @@ const routes = [
     name: 'register-user',
     component: () =>
       import(/* webpackChunkName: "userInfo" */ '../views/RegisterUser.vue')
-  },
-  {
-    path: '/user',
-    name: 'user',
-    component: () =>
-      import(/* webpackChunkName: "userInfo" */ '../views/UserInfo.vue')
   }
+  // {
+  //   path: '/user',
+  //   name: 'user',
+  //   component: () =>
+  //     import(/* webpackChunkName: "userInfo" */ '../views/UserInfo.vue')
+  // }
 ]
 
 const router = createRouter({

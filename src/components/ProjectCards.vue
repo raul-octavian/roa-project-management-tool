@@ -14,12 +14,14 @@
       <article :key="project.id" class="card card__content">
         <main class="card__body">
           <div class="card__extra-info">
-            <!-- <p class="" title="progress">{{ project.percentUsed }} done</p>
-            <p class="" title="remaining hours">
-              {{ project.available_hours }} to go
-            </p> -->
+            <p v-if="project.percentUsed" class="" title="progress">
+              {{ project.percentUsed }} done
+            </p>
+            <p v-if="project.availableHours" class="" title="remaining hours">
+              {{ project.availableHours }}hr to go
+            </p>
           </div>
-          <h1 class="title--primary">{{ project.name }}</h1>
+          <h3 class="title--primary">{{ project.name }}</h3>
 
           <p class="description">
             {{ project.description }}
@@ -77,7 +79,7 @@ button {
   flex-wrap: wrap;
 }
 .card {
-  min-width: 250px;
+  width: 250px;
   padding: var(--base-2);
   margin: var(--base-3);
   background: var(--primary-bg);
@@ -94,5 +96,10 @@ button {
   font-size: var(--base-sm);
   margin: 0;
   text-align: right;
+}
+.title--primary {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: clip;
 }
 </style>

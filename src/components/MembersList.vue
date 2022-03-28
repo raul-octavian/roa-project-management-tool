@@ -3,17 +3,14 @@
     <h3>Add or remove members</h3>
     <ul>
       <li>
-        <div
-          v-for="member in cardMembers"
-          :key="member._id"
-          class="member-info"
-        >
+        <div v-for="member in members" :key="member._id" class="member-info">
           <div>
             <p>{{ member?.name }}</p>
             <p>{{ member?.email }}</p>
           </div>
 
           <button
+            v-if="project.owner != member._id"
             class="button--no-text destructive-action"
             @click="removeUser(member.email)"
           >
@@ -40,7 +37,11 @@
           required
           v-model="newMember"
         />
-        <button class="button--no-text constructive-action" @click="addUser">
+        <button
+          :disabled="!newMember"
+          class="button--no-text constructive-action"
+          @click="addUser"
+        >
           <font-awesome-icon icon="add" class="icon"></font-awesome-icon>
         </button>
       </div>
@@ -65,14 +66,21 @@ export default {
   props: ['cardId'],
   setup(props) {
     const activeCard = computed(() => {
-      return projectData.value.cards.find((item) => item._id == props.cardId)
+      return projectData.value.cards.find((item) => item._id == props?.cardId)
     })
-    const cardMembers = computed(() => activeCard.value?.cardMembers)
+    const members = computed(() => {
+      return props.cardId
+        ? activeCard.value?.cardMembers
+        : projectData.value.members
+    })
     const activeCardId = computed(() => activeCard.value?._id)
+    const project = computed(() => projectData.value)
 
     const {
       addUserToCard,
       removeUserFromCard,
+      addUserToProject,
+      removeUserFromProject,
       newMember,
       fetchError,
       message
@@ -80,24 +88,33 @@ export default {
     } = manageUserOnCardAndProject()
 
     const addUser = async () => {
-      await addUserToCard(activeCardId.value)
+      if (activeCard.value) {
+        await addUserToCard(activeCardId.value)
+      } else {
+        await addUserToProject(projectData.value?._id)
+      }
       // await getFullProject(activeProjectId)
     }
 
     const removeUser = async (email) => {
-      await removeUserFromCard(activeCardId.value, email)
+      if (activeCard.value) {
+        await removeUserFromCard(activeCardId.value, email)
+      } else {
+        await removeUserFromProject(projectData.value?._id, email)
+      }
       // await getFullProject(activeProjectId)
     }
 
     return {
-      cardMembers,
+      members,
       newMember,
       fetchError,
       addUser,
       removeUser,
       projectData,
       activeCard,
-      message
+      message,
+      project
     }
   }
 }

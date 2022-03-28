@@ -11,8 +11,20 @@ const getSimpleProjects = () => {
 
   const getProjects = async () => {
     try {
-      const response = await fetch(`${uri}projects/${user.id}/all`)
+      const response = await fetch(`${uri}projects/${user.id}/all`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth-token': user.token
+          }
+        })
       const data = await response.json()
+
+      if (data.error) {
+        fetchError.value = data.error
+        return
+      }
       projects.value = data
       projectStore.setSimpleProject(projects.value)
     } catch (err) {

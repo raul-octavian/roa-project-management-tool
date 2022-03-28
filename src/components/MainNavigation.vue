@@ -1,8 +1,8 @@
 <template>
   <div class="main-nav">
     <router-link to="/"> Home </router-link>
-    <router-link to="/editProject">
-      <div v-if="project._id" class="project-tag">
+    <div v-if="project._id" class="project-tag">
+      <router-link to="/editProject">
         <button
           class="secondary-action secondary-action--no-borders icon-button"
           @click="tasksOpen = !tasksOpen"
@@ -10,8 +10,16 @@
           {{ project.name }}
           <font-awesome-icon icon="edit" class="icon"></font-awesome-icon>
         </button>
+      </router-link>
+      <div class="info">
+        <p>
+          Available hours:
+          {{
+            project.timeSchedule.allocatedHours - project.timeSchedule.usedHours
+          }}
+        </p>
       </div>
-    </router-link>
+    </div>
   </div>
 </template>
 
@@ -48,6 +56,9 @@ export default {
 }
 .project-tag button {
   margin: 0;
+}
+.project-tag .info {
+  flex-grow: 1;
 }
 .icon {
   margin-right: 0;
