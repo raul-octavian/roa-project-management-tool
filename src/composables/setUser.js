@@ -3,7 +3,7 @@ import { setCookie } from './cookie'
 import { uri } from './uri'
 import { userData } from '@/store/index'
 import { useRouter } from 'vue-router'
-import { userInfo, updateUserInformation } from './updateUserInformation'
+import { updateUserInformation } from './updateUserInformation'
 
 export default function loginUser() {
   const res = ref({})

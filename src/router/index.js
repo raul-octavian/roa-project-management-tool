@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { userInfo } from '@/composables/updateUserInformation'
+
+const userExist = userInfo.value.email || ''
 
 const routes = [
   {
@@ -11,6 +14,9 @@ const routes = [
     path: '/projectDetails/:project',
     name: 'project',
     props: true,
+    meta: {
+      requiredStuff: true
+    },
     component: () =>
       import(
         /* webpackChunkName: "projectDetails" */ '../views/ProjectDetails.vue'
@@ -20,6 +26,9 @@ const routes = [
   {
     path: '/createProject',
     name: 'createProject',
+    meta: {
+      requiredStuff: true
+    },
     component: () =>
       import(
         /* webpackChunkName: "createProject" */ '../views/CreateProject.vue'
@@ -29,6 +38,9 @@ const routes = [
   {
     path: '/editProject',
     name: 'editProject',
+    meta: {
+      requiredStuff: true
+    },
     component: () =>
       import(
         /* webpackChunkName: "createProject" */ '../views/EditProject.vue'
@@ -38,6 +50,9 @@ const routes = [
   {
     path: '/userInfo',
     name: 'userInfo',
+    meta: {
+      requiredStuff: true
+    },
     component: () =>
       import(/* webpackChunkName: "userInfo" */ '../views/UserInfo.vue')
   },
@@ -53,17 +68,22 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "userInfo" */ '../views/RegisterUser.vue')
   }
-  // {
-  //   path: '/user',
-  //   name: 'user',
-  //   component: () =>
-  //     import(/* webpackChunkName: "userInfo" */ '../views/UserInfo.vue')
-  // }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+console.log('login-user', userExist)
+
+router.beforeEach(async (to, from, next) => {
+  const reqstuff = await to.matched.some(record => record.meta.requiredStuff)
+  if (reqstuff && !userInfo.value?.email) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router

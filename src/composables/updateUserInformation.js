@@ -29,7 +29,6 @@ const updateUserInformation = () => {
   }
 
   const updateUser = async (payload) => {
-    console.log(payload)
     try {
       const response = await fetch(
         `${uri}user/${user.id}/update`,

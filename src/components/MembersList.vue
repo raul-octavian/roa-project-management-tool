@@ -4,10 +4,10 @@
     <ul>
       <li>
         <div v-for="member in members" :key="member._id" class="member-info">
-          <div>
-            <p>{{ member?.name }}</p>
+          <divc class="member">
+            <div class="avatar">{{ member?.avatar }}</div>
             <p>{{ member?.email }}</p>
-          </div>
+          </divc>
 
           <button
             v-if="project.owner != member._id"
@@ -123,5 +123,22 @@ export default {
 <style lang="css" scoped>
 button {
   margin-bottom: 0;
+}
+.member {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: var(--base-xs);
+  background: var(--primary-transparent);
+  color: var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

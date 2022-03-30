@@ -42,13 +42,45 @@ const getOneFullProject = function () {
               projectData.value.stagesData[item].push(card)
             }
           })
+          projectData.value.stagesData[item].sort((a, b) => a.index - b.index)
         })
-        projectData.value.stagesData.sort((a, b) => a.index - b.index)
-        activeProject.setActiveProject(projectData.value)
+
+        // projectData.value.stagesData.forEach(item => item.sort((a, b) => a.index - b.index))
+        // projectData.value.members.forEach(item => {
+        //   item.avatar: getInitials(item.name))
+
+        projectData.value.members.forEach(item => {
+          item.avatar = getInitials(item.name.toUpperCase())
+        })
+
+        projectData.value.cards.forEach(card => {
+          card.cardMembers.forEach(item => {
+            item.avatar = getInitials(item.name.toUpperCase())
+          })
+        })
       }
+      activeProject.setActiveProject(projectData.value)
     } catch (err) {
       fetchError.value = err.message
     }
+  }
+
+  const getInitials = function (glue) {
+    if (typeof glue == 'undefined') {
+      const glue = true
+    }
+    var initials = glue.replace(/[^a-zA-Z- ]/g, '').match(/\b\w/g)
+
+    if (glue) {
+      return initials.join('')
+    }
+    return initials
+  }
+
+  const capitalize = function () {
+    return this.toLowerCase().replace(/\b\w/g, function (m) {
+      return m.toUpperCase()
+    })
   }
 
   return { getFullProject, projectData, fetchError }

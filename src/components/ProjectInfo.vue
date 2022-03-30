@@ -1,17 +1,30 @@
 <template>
   <div class="project-wrapper">
+    {{ fetchError }}
     <div
       v-for="(stage, key, index) in project.stagesData"
       :key="index"
       class="project-stage"
     >
-      <h3>{{ key }}</h3>
+      <div class="project-stage__header">
+        <h3>{{ key }}</h3>
+        <button
+          class="button--no-text destructive-action far-left"
+          title="delete stage"
+          @click="
+            deleteStage({
+              name: key,
+            })
+          "
+        >
+          <font-awesome-icon icon="trash" class="icon"></font-awesome-icon>
+        </button>
+      </div>
       <div class="cards">
         <draggable
           :list="stage"
           group="cards"
           item-key="id"
-          :move="changeStage"
           @start="drag = true"
           @end="endStage"
           :data-stage="key"
@@ -60,6 +73,7 @@ import { computed, ref, toRef, watch } from 'vue'
 // import { uri } from '@/composables/uri'
 import { getOneFullProject, projectData } from '@/composables/getOneFullProject'
 import { updateOneCard } from '@/composables/updateCardState'
+import { manageStages } from '@/composables/manageStages'
 
 // // stores
 // import { userData } from '@/store'
@@ -87,14 +101,15 @@ export default {
       editModal.value = !editModal.value
     }
     const { getFullProject, fetchError } = getOneFullProject()
+    const { deleteStage } = manageStages()
 
     const editModal = ref(false)
 
-    const changeStage = (env, item) => {
-      // console.log('stage activated')
-      // console.log(env)
-      // console.log('item on move', item)
-    }
+    // const changeStage = (env, item) => {
+    //   // console.log('stage activated')
+    //   // console.log(env)
+    //   // console.log('item on move', item)
+    // }
     const endStage = (env) => {
       const oldStage = env
       const newStage = env.to.dataset.stage
@@ -119,10 +134,8 @@ export default {
       }
     }
 
-    // const activeProject = useActiveProjectStore()
     const project = computed(() => {
       return projectData.value
-      // return projectData.value
     })
 
     const reload = () => {
@@ -134,7 +147,7 @@ export default {
     await getFullProject(projectID.value)
 
     return {
-      changeStage,
+      // changeStage,
       endStage,
       card,
       toggleEditCard,
@@ -144,7 +157,8 @@ export default {
       project,
       reload,
       fetchError,
-      projectData
+      projectData,
+      deleteStage
     }
   }
 }
@@ -189,5 +203,17 @@ export default {
 .card:hover .constructive-action {
   border: none;
   color: var(--secondary-color);
+}
+.far-left {
+  margin-left: auto;
+}
+
+.project-stage__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.project-stage__header button {
+  margin-bottom: 0;
 }
 </style>

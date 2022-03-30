@@ -176,15 +176,25 @@
 
           <div class="form__actions">
             <button
-              type="submit"
+              type="button"
               class="secondary-action"
               @click="$emit('toggleEdit')"
             >
               Close
             </button>
           </div>
+
+          <div class="destructive__actions">
+            <button
+              type="button"
+              class="destructive-action"
+              @click="deleteItem(activeCard._id)"
+            >
+              Delete card
+            </button>
+          </div>
         </div>
-        <div>
+        <div class="aside-menu">
           <ul>
             <li>
               <button
@@ -222,7 +232,7 @@
 
 <script>
 // vue comps
-import { ref, computed } from 'vue'
+import { ref, computed, emit } from 'vue'
 
 // components
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -230,6 +240,7 @@ import { SlideInOut } from 'vue3-transitions'
 import MembersList from './MembersList.vue'
 import TaskList from './TaskList.vue'
 import { projectData } from '@/composables/getOneFullProject'
+import { deleteCard } from '@/composables/deleteCard'
 
 // composables
 import { updateCardSections } from '@/composables/updateCard'
@@ -244,7 +255,7 @@ export default {
     SlideInOut
   },
   props: ['cardId'],
-  setup(props) {
+  setup(props, { emit }) {
     const membersOpen = ref(false)
     const tasksOpen = ref(false)
     // const activeCard = ref(props.card)
@@ -281,6 +292,12 @@ export default {
     const cardUsedHours = ref(activeCard.value?.cardUsedHours)
 
     const { updateCard, fetchError } = updateCardSections()
+    const { deleteOneCard, fetchDeleteError } = deleteCard()
+
+    const deleteItem = async (cardId) => {
+      await deleteOneCard(cardId)
+      emit('toggleEdit')
+    }
 
     return {
       membersOpen,
@@ -298,11 +315,37 @@ export default {
       activeCard,
       fetchError,
       updateCard,
-      projectData
+      projectData,
+      fetchDeleteError,
+      deleteItem
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
+.edit-mode button {
+  margin-bottom: 0;
+}
+.view-basic {
+  display: block;
+}
+.destructive__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--base-3);
+  padding-bottom: var(--base-3);
+  margin: var(--base-3) 0;
+  border-top: 2px solid var(--accent);
+}
+
+.destructive__actions button {
+  background: var(--accent);
+  color: var(--quaternary-color);
+  transition: all 300ms ease-in-out;
+}
+.destructive__actions button:hover {
+  background: var(--primary-bg);
+  color: var(--accent);
+}
 </style>

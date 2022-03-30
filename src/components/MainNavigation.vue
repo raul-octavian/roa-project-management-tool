@@ -19,6 +19,19 @@
           }}
         </p>
       </div>
+      <ul class="member-list">
+        <li
+          v-for="member in project.members"
+          :key="member._id"
+          class="member-info"
+        >
+          <div class="member">
+            <div class="avatar" :title="member?.email">
+              {{ member?.avatar }}
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -63,5 +76,34 @@ export default {
 .icon {
   margin-right: 0;
   margin-left: var(--base-sm);
+}
+.member-list {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0;
+  margin-top: 0;
+  height: 100%;
+  align-items: center;
+}
+.member {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.member-info {
+  height: auto;
+  margin-bottom: 0;
+}
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: var(--base-xs);
+  background: var(--primary-transparent);
+  color: var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

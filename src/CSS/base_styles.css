@@ -326,7 +326,6 @@ button:focus {
 	position: fixed;
 	height: 100vh;
 	width: 100vw;
-	overflow-y: scroll;
 	top: 0;
 	left: 0;
 	background: var(--primary-transparent-focus);
@@ -341,21 +340,19 @@ button:focus {
 	width: clamp(300px, 80%, 1200px);
 	padding: var(--base-4) var(--base-5);
 	box-shadow: 1px 1px 8px var(--primary-transparent);
-
-	/* max-height: 70vh;
-	overflow-y: scroll; */
+	overflow-y: scroll;
+	max-height: 70vh;
 }
 
 .edit-mode .form-wrapper {
 	border: 1px solid var(--primary-transparent);
-	padding: var(--base-3);
+	padding: 0 0 0 var(--base-3);
 	background-color: var(--white);
 	border-radius: var(--base-1);
 	box-shadow: inset 0 0 3px var(--secondary-bg);
 	/* width: clamp(300px, 40vw, 720px); */
 	width: 100%;
 }
-
 .edit-mode .form {
 	gap: var(--base-1);
 }

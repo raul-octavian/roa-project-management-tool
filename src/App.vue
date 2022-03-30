@@ -33,6 +33,7 @@ export default {
     const router = useRouter()
     const user = userData()
     const currentPath = computed(() => router.currentRoute.value.path)
+
     return { user, currentPath }
   }
 }
