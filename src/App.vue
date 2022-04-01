@@ -48,8 +48,11 @@ export default {
   align-items: center;
   height: 50px;
   width: 100%;
-  border-bottom: 2px solid var(--tertiary-color);
-  background: var(--primary-bg);
+  background: var(--primary-bg-glass) rgba(156, 224, 233, 0.25);
+  box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(11.5px);
+  -webkit-backdrop-filter: blur(11.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .navigation {
   height: fit-content;

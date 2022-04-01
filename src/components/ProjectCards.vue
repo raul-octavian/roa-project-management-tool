@@ -82,8 +82,12 @@ button {
   width: 250px;
   padding: var(--base-2);
   margin: var(--base-3);
-  background: var(--primary-bg);
   border-radius: var(--base-sm);
+  background: var(--primary-bg-glass) rgba(156, 224, 233, 0.25);
+  box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(11.5px);
+  -webkit-backdrop-filter: blur(11.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .card__extra-info {
   display: flex;

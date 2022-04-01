@@ -5,8 +5,8 @@
       <div class="form-wrapper">
         <div class="form" action="" @submit.prevent="">
           <h3>Project information:</h3>
-          <p>{{ message }}</p>
-          <p>{{ fetchError }}</p>
+          <p v-if="message">{{ message }}</p>
+          <p v-if="fe">{{ fetchError }}</p>
           <div class="form__required-fields">
             <div>
               <label class="label" for="name">Name:</label>
@@ -232,120 +232,6 @@
           </ul>
         </div>
       </div>
-
-      <!-- <div class="form-wrapper">
-        <form action="" @submit.prevent="">
-          <div class="form__required-fields">
-            <p>{{ message }}</p>
-            <p>{{ fetchError }}</p>
-            <div>
-              <label class="label" for="name">Name:</label>
-              <input
-                type="text"
-                id="name"
-                class="form__input"
-                name="name"
-                placeholder="Project name"
-                required
-                v-model="project.name"
-                @blur="updateProject({ name: project.name })"
-              />
-            </div>
-          </div>
-          <div class="form__fields">
-            <div>
-              <label class="label" for="description">Description:</label>
-              <textarea
-                id="description"
-                type="text"
-                class="form__input"
-                name="description"
-                v-model="project.description"
-                @blur="updateProject({ description: project.description })"
-              ></textarea>
-            </div>
-          </div>
-          <div class="form__timeSchedule">
-            <div>
-              <label class="label" for="start_date">Start date:</label>
-              <input
-                type="date"
-                id="start_date"
-                name="start_date"
-                min=""
-                max=""
-                v-model="startDate"
-                @blur="
-                  updateProject({
-                    timeSchedule: {
-                      ...project.timeSchedule,
-                      startDate: startDate,
-                    },
-                  })
-                "
-              />
-            </div>
-            <div>
-              <label class="label" for="due_date">Due date:</label>
-              <input
-                type="date"
-                id="due_date"
-                name="dueDate"
-                min=""
-                max=""
-                v-model="dueDate"
-                @blur="
-                  updateProject({
-                    timeSchedule: {
-                      ...project.timeSchedule,
-                      dueDate: dueDate,
-                    },
-                  })
-                "
-              />
-            </div>
-            <div>
-              <label class="label" for="allocated-hours"
-                >Allocated hours:</label
-              >
-              <input
-                type="number"
-                id="allocated-hours"
-                name="allocatedHours"
-                v-model="project.timeSchedule.allocatedHours"
-                @blur="
-                  updateProject({
-                    timeSchedule: {
-                      ...project.timeSchedule,
-                      allocatedHours: project.timeSchedule.allocatedHours,
-                    },
-                  })
-                "
-              />
-            </div>
-            <div>
-              <label class="label" for="used-hours">used hours:</label>
-              <input
-                type="number"
-                id="used-hours"
-                name="usedHours"
-                v-model="project.timeSchedule.usedHours"
-                @blur="
-                  updateProject({
-                    timeSchedule: {
-                      ...project.timeSchedule,
-                      usedHours: project.timeSchedule.usedHours,
-                    },
-                  })
-                "
-              />
-            </div>
-          </div>
-          <div class="form__actions">
-            <button type="" class="secondary-action">Cancel</button>
-          </div>
-        </form>
-      </div> -->
     </div>
   </div>
 </template>
@@ -420,5 +306,8 @@ export default {
   justify-content: center;
   align-items: center;
   padding: var(--base-8);
+}
+.edit-mode button {
+  margin-bottom: 0;
 }
 </style>

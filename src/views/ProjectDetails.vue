@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h1>This is Project details page</h1>
+      <h1>{{ projectData.name }}</h1>
     </div>
     <div class="project-container">
       <Suspense>
@@ -20,6 +20,7 @@
 import ProjectInfo from '@/components/ProjectInfo.vue'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
+import { projectData } from '@/composables/getOneFullProject'
 export default {
   name: 'project-details',
   components: {
@@ -30,7 +31,7 @@ export default {
     const projectID = computed(() => {
       return route.params.project
     })
-    return { projectID }
+    return { projectID, projectData }
   }
 }
 </script>

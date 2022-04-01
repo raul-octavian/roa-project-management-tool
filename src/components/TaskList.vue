@@ -28,7 +28,7 @@
                   v-model="task.taskName"
                   @blur="updateTask(task._id, { taskName: task.taskName })"
                 />
-                <div class="input-group">
+                <div class="input-group" v-if="task.taskDescription">
                   <textarea
                     id="task-description"
                     class="form__input textarea--no-borders"
@@ -62,6 +62,7 @@
       <label class="label" for="name">Task name</label>
       <div class="input-group">
         <input
+          @focus="taskName = ''"
           type="text"
           id="name"
           class="form__input"
@@ -79,6 +80,7 @@
       <label class="label" for="task-description">Task description</label>
       <div class="input-group">
         <textarea
+          @focus="taskDescription = ''"
           id="task-description"
           class="form__input"
           name="task description"
@@ -163,5 +165,9 @@ export default {
   resize: both;
   min-height: 40px;
   line-height: 20px;
+}
+
+button {
+  margin-bottom: 0;
 }
 </style>

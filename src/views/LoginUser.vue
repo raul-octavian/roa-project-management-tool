@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login-container">
     <LoginUser />
   </div>
 </template>
@@ -12,11 +12,25 @@ export default {
     LoginUser
   },
 
-  setup () {
+  setup() {
     return {}
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
+.login-container {
+  width: fit-content;
+  margin: var(--base-8) auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--base-6);
+  border-radius: var(--base-1);
+  background: var(--primary-bg-glass) rgba(156, 224, 233, 0.25);
+  box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(11.5px);
+  -webkit-backdrop-filter: blur(11.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
 </style>

@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700;1,900&display=swap");
 
 :root {
-	/* colors */
+	/* colors one*/
 	/* --primary-color: #020811;
 	--primary-color-rgb: rgb(2, 8, 17);
 	--secondary-color: #112341;
@@ -21,8 +21,8 @@
 
 	/* alterntives */
 
-	/* colors */
-	--primary-color: #0b132b;
+	/* colors two */
+	/* --primary-color: #0b132b;
 	--primary-color-rgb: rgb(11, 19, 43);
 	--secondary-color: #0f7173;
 	--tertiary-color: #3993dd;
@@ -32,12 +32,39 @@
 	--white: #f9f6ff;
 
 	/* bg-color */
-	--primary-bg: #e8f1f2;
+	/* --primary-bg: #e8f1f2;
+	--primary-bg-glass: #e8f1f2a3;
+	--secondary-bg: var(--primary-color); */
+
+	/* transparency color overlay */
+	/* --primary-transparent: rgba(11, 19, 43, 0.1);
+	--primary-transparent-focus: rgba(11, 19, 43, 0.5);  */
+	/* --primary-transparent: rgba(var(--primary-color), 0.1); */
+
+	/* alternate  3 */
+
+	/* colors three */
+
+	--primary-color: #f9f6ff;
+	--primary-color-rgb: rgb(249, 246, 255);
+	--secondary-color: rgb(15, 113, 115);
+	--tertiary-color: #3993dd;
+	--quaternary-color: var(--primary-bg);
+	--neutral: #131314;
+	--accent: #c44900;
+	--white: #f9f6ff;
+
+	/* bg-color */
+	--primary-bg: #f9f6ff;
+	--primary-bg-glass: #f9f6ff20;
+	--primary-bg-glass-mate: #0e0e0fef;
+	--primary-bg-glass-mate-soft: #0e0e0fa6;
 	--secondary-bg: var(--primary-color);
 
 	/* transparency color overlay */
-	--primary-transparent: rgba(11, 19, 43, 0.1);
-	--primary-transparent-focus: rgba(11, 19, 43, 0.5);
+	--primary-transparent: rgba(249, 246, 255, 0.3);
+	--primary-transparent-focus: rgba(249, 246, 255, 0.7);
+	--secondary-color-transparent: rgba(15, 113, 115, 0.5);
 	/* --primary-transparent: rgba(var(--primary-color), 0.1); */
 
 	/* base sizes */

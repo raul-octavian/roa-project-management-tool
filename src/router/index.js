@@ -75,8 +75,6 @@ const router = createRouter({
   routes
 })
 
-console.log('login-user', userExist)
-
 router.beforeEach(async (to, from, next) => {
   const reqstuff = await to.matched.some(record => record.meta.requiredStuff)
   if (reqstuff && !userInfo.value?.email) {
