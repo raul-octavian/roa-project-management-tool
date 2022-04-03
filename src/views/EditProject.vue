@@ -19,11 +19,11 @@
                   placeholder="Project name"
                   required
                   v-model="project.name"
-                  @blur="updateP({ name: project.name }, 'name')"
+                  @change="updateProject({ name: project.name })"
                 />
                 <button
                   class="button--no-text button-toggle constructive-action"
-                  @click="updateP({ name: project.name }, 'name')"
+                  @click="updateProject({ name: project.name })"
                 >
                   <font-awesome-icon
                     icon="save"
@@ -42,15 +42,11 @@
                   class="form__input"
                   name="description"
                   v-model="project.description"
-                  @blur="
-                    updateP({ description: project.description }, 'description')
-                  "
+                  @change="updateProject({ description: project.description })"
                 ></textarea>
                 <button
                   class="button--no-text button-toggle constructive-action"
-                  @click="
-                    updateP({ description: project.description }, 'description')
-                  "
+                  @click="updateProject({ description: project.description })"
                 >
                   <font-awesome-icon
                     icon="save"
@@ -72,32 +68,24 @@
                     min=""
                     max=""
                     v-model="startDate"
-                    @blur="
-                      updateP(
-                        {
-                          timeSchedule: {
-                            ...project.timeSchedule,
-                            startDate: startDate,
-                          },
+                    @change="
+                      updateProject({
+                        timeSchedule: {
+                          ...project.timeSchedule,
+                          startDate: startDate,
                         },
-                        'startDate',
-                        startDate
-                      )
+                      })
                     "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
                     @click="
-                      updateP(
-                        {
-                          timeSchedule: {
-                            ...project.timeSchedule,
-                            startDate: startDate,
-                          },
+                      updateProject({
+                        timeSchedule: {
+                          ...project.timeSchedule,
+                          startDate: startDate,
                         },
-                        'startDate',
-                        startDate
-                      )
+                      })
                     "
                   >
                     <font-awesome-icon
@@ -118,32 +106,24 @@
                     min=""
                     max=""
                     v-model="dueDate"
-                    @blur="
-                      updateP(
-                        {
-                          timeSchedule: {
-                            ...project.timeSchedule,
-                            dueDate: dueDate,
-                          },
+                    @change="
+                      updateProject({
+                        timeSchedule: {
+                          ...project.timeSchedule,
+                          dueDate: dueDate,
                         },
-                        'dueDate',
-                        dueDate
-                      )
+                      })
                     "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
                     @click="
-                      updateP(
-                        {
-                          timeSchedule: {
-                            ...project.timeSchedule,
-                            dueDate: dueDate,
-                          },
+                      updateProject({
+                        timeSchedule: {
+                          ...project.timeSchedule,
+                          dueDate: dueDate,
                         },
-                        'dueDate',
-                        dueDate
-                      )
+                      })
                     "
                   >
                     <font-awesome-icon
@@ -165,32 +145,24 @@
                     id="allocated-hours"
                     name="allocatedHours"
                     v-model="project.timeSchedule.allocatedHours"
-                    @blur="
-                      updateP(
-                        {
-                          timeSchedule: {
-                            ...project.timeSchedule,
-                            allocatedHours: project.timeSchedule.allocatedHours,
-                          },
+                    @change="
+                      updateProject({
+                        timeSchedule: {
+                          ...project.timeSchedule,
+                          allocatedHours: project.timeSchedule.allocatedHours,
                         },
-                        'allocatedHours',
-                        project.timeSchedule.allocatedHours
-                      )
+                      })
                     "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
                     @click="
-                      updateP(
-                        {
-                          timeSchedule: {
-                            ...project.timeSchedule,
-                            allocatedHours: project.timeSchedule.allocatedHours,
-                          },
+                      updateProject({
+                        timeSchedule: {
+                          ...project.timeSchedule,
+                          allocatedHours: project.timeSchedule.allocatedHours,
                         },
-                        'allocatedHours',
-                        project.timeSchedule.allocatedHours
-                      )
+                      })
                     "
                   >
                     <font-awesome-icon
@@ -209,30 +181,24 @@
                     id="used-hours"
                     name="usedHours"
                     v-model="project.timeSchedule.usedHours"
-                    @blur="
-                      updateP(
-                        {
-                          timeSchedule: {
-                            ...project.timeSchedule,
-                            usedHours: project.timeSchedule.usedHours,
-                          },
+                    @change="
+                      updateProject({
+                        timeSchedule: {
+                          ...project.timeSchedule,
+                          usedHours: project.timeSchedule.usedHours,
                         },
-                        'usedHours'
-                      )
+                      })
                     "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
                     @click="
-                      updateP(
-                        {
-                          timeSchedule: {
-                            ...project.timeSchedule,
-                            usedHours: project.timeSchedule.usedHours,
-                          },
+                      updateProject({
+                        timeSchedule: {
+                          ...project.timeSchedule,
+                          usedHours: project.timeSchedule.usedHours,
                         },
-                        'usedHours'
-                      )
+                      })
                     "
                   >
                     <font-awesome-icon
@@ -287,7 +253,7 @@ import { useRouter } from 'vue-router'
 // import { userData } from '@/store'
 // import { uri } from '../composables/uri'
 // import { createProjectComp } from '@/composables/createProject'
-import { projectData, projectStatic } from '@/composables/getOneFullProject'
+import { projectData } from '@/composables/getOneFullProject'
 import { updateOneProject } from '@/composables/updateProject'
 import { deleteProject } from '@/composables/deleteProject'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -336,41 +302,41 @@ export default {
     const startDate = formattedStartDate.value
     const dueDate = formattedDueDate.value
 
-    const updateP = (payload, key, value) => {
-      // if (
-      //   project.value[key] == projectStatic.value[key] ||
-      //   project.value.timeSchedule[key] ==
-      //     projectStatic.value.timeSchedule[key] ||
-      //   (value && !projectStatic.value.timeSchedule?.[key]) ||
-      //   (value &&
-      //     value ==
-      //       new Date(projectStatic.value.timeSchedule?.[key])
-      //         .toISOString()
-      //         .substr(0, 10))
-      // ) {
-      //   return
-      // }
+    // const updateP = (payload, key, value) => {
+    //   // if (
+    //   //   project.value[key] == projectStatic.value[key] ||
+    //   //   project.value.timeSchedule[key] ==
+    //   //     projectStatic.value.timeSchedule[key] ||
+    //   //   (value && !projectStatic.value.timeSchedule?.[key]) ||
+    //   //   (value &&
+    //   //     value ==
+    //   //       new Date(projectStatic.value.timeSchedule?.[key])
+    //   //         .toISOString()
+    //   //         .substr(0, 10))
+    //   // ) {
+    //   //   return
+    //   // }
 
-      // updateProject(payload)
+    //   // updateProject(payload)
 
-      if (project.value[key] != projectStatic.value[key]) {
-        updateProject(payload)
-      } else if (
-        project.value.timeSchedule[key] != projectStatic.value.timeSchedule[key]
-      ) {
-        updateProject(payload)
-      } else if (value && !projectStatic.value.timeSchedule?.[key]) {
-        updateProject(payload)
-      } else if (
-        value &&
-        value !=
-          new Date(projectStatic.value.timeSchedule?.[key])
-            .toISOString()
-            .substr(0, 10)
-      ) {
-        updateProject(payload)
-      }
-    }
+    //   if (project.value[key] != projectStatic.value[key]) {
+    //     updateProject(payload)
+    //   } else if (
+    //     project.value.timeSchedule[key] != projectStatic.value.timeSchedule[key]
+    //   ) {
+    //     updateProject(payload)
+    //   } else if (value && !projectStatic.value.timeSchedule?.[key]) {
+    //     updateProject(payload)
+    //   } else if (
+    //     value &&
+    //     value !=
+    //       new Date(projectStatic.value.timeSchedule?.[key])
+    //         .toISOString()
+    //         .substr(0, 10)
+    //   ) {
+    //     updateProject(payload)
+    //   }
+    // }
 
     return {
       project,
@@ -381,9 +347,8 @@ export default {
       membersOpen,
       back,
       deleteP,
-      projectStatic,
-      updateProject,
-      updateP
+      updateProject
+      // updateP
       //   ...toRefs(project),
       //   createProject,
       //   fetchError,

@@ -26,7 +26,7 @@
                   name="card_name"
                   required
                   v-model="task.taskName"
-                  @blur="updateTask(task._id, { taskName: task.taskName })"
+                  @change="updateTask(task._id, { taskName: task.taskName })"
                 />
                 <div class="input-group">
                   <textarea
@@ -34,7 +34,7 @@
                     class="form__input textarea--no-borders"
                     name="task description"
                     v-model="task.taskDescription"
-                    @blur="
+                    @change="
                       updateTask(task._id, {
                         taskDescription: task.taskDescription,
                       })

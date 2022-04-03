@@ -46,7 +46,7 @@
 	/* colors three */
 
 	--scrollbarBG: var(--primary-bg-glass);
-	--thumbBG: var(--primary-color);
+	--thumbBG: var(--primary-transparent-focus);
 
 	--primary-color: #f9f6ff;
 	--primary-color-rgb: rgb(249, 246, 255);

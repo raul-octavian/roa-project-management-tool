@@ -5,7 +5,7 @@
       <div v-if="user?.name">
         <project-cards />
       </div>
-      <div v-else div="home-content--glass">
+      <div v-else class="home-content--glass">
         <h2>Log in or register to create or access your projects</h2>
         <div class="home__button-container">
           <div>
@@ -38,25 +38,7 @@ export default {
     ProjectCards
   },
   setup() {
-    // const { projects, fetchError, projectStore, getProjects } =
-    //   getSimpleProjects()
     const user = userData()
-    // const projects = ref([])
-    // const fetchError = ref('')
-
-    // const getProjects = async () => {
-    //   try {
-    //     const response = await fetch(`${uri}projects/${user.id}/all`)
-    //     const data = await response.json()
-    //     projects.value = data
-    //   } catch (err) {
-    //     fetchError.value = err.message
-    //   }
-    // }
-
-    // onMounted(() => {
-    //   getProjects()
-    // })
 
     return {
       user
@@ -64,3 +46,14 @@ export default {
   }
 }
 </script>
+<style scoped>
+.home-content--glass {
+  padding: var(--base-6) var(--base-8);
+  border-radius: var(--base-sm);
+  background: var(--primary-bg-glass);
+  box-shadow: 0 2px 5px 0 var(--primary-transparent);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(11.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+</style>

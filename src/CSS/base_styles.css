@@ -78,15 +78,6 @@ li {
 .home-content {
 	margin: 100px auto;
 	width: fit-content;
-	padding: var(--base-6) var(--base-8);
-}
-.home-content--glass {
-	border-radius: var(--base-sm);
-	background: var(--primary-bg-glass);
-	box-shadow: 0 2px 5px 0 rgba(31, 38, 135, 0.37);
-	backdrop-filter: blur(5.5px);
-	-webkit-backdrop-filter: blur(11.5px);
-	border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .home__button-container {
@@ -235,7 +226,7 @@ button:focus {
 .primary-action {
 	border: 1px solid transparent;
 	background: var(--primary-bg-glass-mate);
-	box-shadow: 0 2px 5px 0 rgba(31, 38, 135, 0.37);
+	box-shadow: 0 2px 5px 0 var(--primary-transparent);
 	backdrop-filter: blur(11.5px);
 	-webkit-backdrop-filter: blur(11.5px);
 	border: 1px solid rgba(255, 255, 255, 0.18);
@@ -328,7 +319,7 @@ button:focus {
 
 /* small modal */
 .small-modal-group {
-	padding: 0;
+	padding: 0 var(--base-1) 0 0;
 	position: relative;
 }
 
@@ -339,7 +330,7 @@ button:focus {
 	z-index: 100;
 	border-radius: var(--base-sm);
 	background: var(--primary-bg-glass-mate);
-	box-shadow: 0 2px 5px 0 rgba(31, 38, 135, 0.37);
+	box-shadow: 0 2px 5px 0 var(--primary-transparent);
 	backdrop-filter: blur(5.5px);
 	-webkit-backdrop-filter: blur(11.5px);
 	border: 1px solid rgba(255, 255, 255, 0.18);
@@ -376,7 +367,7 @@ button:focus {
 
 	border-radius: var(--base-sm);
 	background: var(--primary-bg-glass-mate-soft);
-	box-shadow: 0 2px 5px 0 rgba(31, 38, 135, 0.37);
+	box-shadow: 0 2px 5px 0 var(--primary-transparent);
 	backdrop-filter: blur(1.5px);
 	-webkit-backdrop-filter: blur(11.5px);
 	border: 1px solid rgba(255, 255, 255, 0.18);
@@ -390,7 +381,7 @@ button:focus {
 
 	border-radius: var(--base-sm);
 	background: var(--primary-bg-glass);
-	box-shadow: 0 2px 5px 0 rgba(31, 38, 135, 0.37);
+	box-shadow: 0 2px 5px 0 var(--primary-transparent);
 	backdrop-filter: blur(13.5px);
 	-webkit-backdrop-filter: blur(11.5px);
 	border: 1px solid rgba(255, 255, 255, 0.18);
@@ -400,7 +391,7 @@ button:focus {
 	padding: 0 0 var(--base-3) var(--base-3);
 	border-radius: var(--base-sm);
 	background: var(--primary-bg-glass);
-	box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
+	box-shadow: 0 4px 16px 0 var(--primary-transparent);
 	backdrop-filter: blur(13.5px);
 	/* width: clamp(300px, 40vw, 720px); */
 	width: 100%;

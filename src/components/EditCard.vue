@@ -5,6 +5,9 @@
       <div v-if="fetchError">
         <p>{{ fetchError }}</p>
       </div>
+      <div v-if="message">
+        <p>{{ message }}</p>
+      </div>
       <div class="form-wrapper">
         <div class="form" action="" @submit.prevent="">
           <h3>Card information:</h3>
@@ -19,7 +22,7 @@
                   name="card_name"
                   required
                   v-model="cardName"
-                  @blur="updateC(activeCard._id, { cardName: cardName })"
+                  @change="updateC(activeCard._id, { cardName: cardName })"
                 />
                 <button
                   class="button--no-text button-toggle constructive-action"
@@ -41,7 +44,7 @@
                   class="form__input"
                   name="card_description"
                   v-model="cardDescription"
-                  @blur="
+                  @change="
                     updateC(activeCard._id, {
                       cardDescription: cardDescription,
                     })
@@ -70,7 +73,7 @@
                     min=""
                     max=""
                     v-model="cardStartDate"
-                    @blur="
+                    @change="
                       updateC(activeCard._id, {
                         cardStartDate: cardStartDate,
                       })
@@ -97,7 +100,7 @@
                     min=""
                     max=""
                     v-model="cardDueDate"
-                    @blur="
+                    @change="
                       updateC(activeCard._id, { cardDueDate: cardDueDate })
                     "
                   />
@@ -123,7 +126,7 @@
                     id="allocated-hours"
                     name="card_allocated_hours"
                     v-model="cardAllocatedHours"
-                    @blur="
+                    @change="
                       updateC(activeCard._id, {
                         cardAllocatedHours: cardAllocatedHours,
                       })
@@ -148,7 +151,7 @@
                     id="used-hours"
                     name="card_used_Hours"
                     v-model="cardUsedHours"
-                    @blur="
+                    @change="
                       updateC(activeCard._id, {
                         cardUsedHours: cardUsedHours,
                       })
