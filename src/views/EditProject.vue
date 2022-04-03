@@ -1,12 +1,12 @@
 <template>
   <div class="view-basic">
     <div class="edit-mode">
-      <h1>Edit project {{ project.name }}</h1>
+      <h1>{{ project.name }}</h1>
       <div class="form-wrapper">
         <div class="form" action="" @submit.prevent="">
           <h3>Project information:</h3>
           <p v-if="message">{{ message }}</p>
-          <p v-if="fe">{{ fetchError }}</p>
+          <p v-if="fetchError">{{ fetchError }}</p>
           <div class="form__required-fields">
             <div>
               <label class="label" for="name">Name:</label>
@@ -19,11 +19,11 @@
                   placeholder="Project name"
                   required
                   v-model="project.name"
-                  @blur="updateProject({ name: project.name })"
+                  @blur="updateP({ name: project.name }, 'name')"
                 />
                 <button
                   class="button--no-text button-toggle constructive-action"
-                  @click="updateProject({ name: project.name })"
+                  @click="updateP({ name: project.name }, 'name')"
                 >
                   <font-awesome-icon
                     icon="save"
@@ -42,11 +42,15 @@
                   class="form__input"
                   name="description"
                   v-model="project.description"
-                  @blur="updateProject({ description: project.description })"
+                  @blur="
+                    updateP({ description: project.description }, 'description')
+                  "
                 ></textarea>
                 <button
                   class="button--no-text button-toggle constructive-action"
-                  @click="updateProject({ description: project.description })"
+                  @click="
+                    updateP({ description: project.description }, 'description')
+                  "
                 >
                   <font-awesome-icon
                     icon="save"
@@ -69,23 +73,31 @@
                     max=""
                     v-model="startDate"
                     @blur="
-                      updateProject({
-                        timeSchedule: {
-                          ...project.timeSchedule,
-                          startDate: startDate,
+                      updateP(
+                        {
+                          timeSchedule: {
+                            ...project.timeSchedule,
+                            startDate: startDate,
+                          },
                         },
-                      })
+                        'startDate',
+                        startDate
+                      )
                     "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
                     @click="
-                      updateProject({
-                        timeSchedule: {
-                          ...project.timeSchedule,
-                          startDate: startDate,
+                      updateP(
+                        {
+                          timeSchedule: {
+                            ...project.timeSchedule,
+                            startDate: startDate,
+                          },
                         },
-                      })
+                        'startDate',
+                        startDate
+                      )
                     "
                   >
                     <font-awesome-icon
@@ -107,23 +119,31 @@
                     max=""
                     v-model="dueDate"
                     @blur="
-                      updateProject({
-                        timeSchedule: {
-                          ...project.timeSchedule,
-                          dueDate: dueDate,
+                      updateP(
+                        {
+                          timeSchedule: {
+                            ...project.timeSchedule,
+                            dueDate: dueDate,
+                          },
                         },
-                      })
+                        'dueDate',
+                        dueDate
+                      )
                     "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
                     @click="
-                      updateProject({
-                        timeSchedule: {
-                          ...project.timeSchedule,
-                          dueDate: dueDate,
+                      updateP(
+                        {
+                          timeSchedule: {
+                            ...project.timeSchedule,
+                            dueDate: dueDate,
+                          },
                         },
-                      })
+                        'dueDate',
+                        dueDate
+                      )
                     "
                   >
                     <font-awesome-icon
@@ -146,23 +166,31 @@
                     name="allocatedHours"
                     v-model="project.timeSchedule.allocatedHours"
                     @blur="
-                      updateProject({
-                        timeSchedule: {
-                          ...project.timeSchedule,
-                          allocatedHours: project.timeSchedule.allocatedHours,
+                      updateP(
+                        {
+                          timeSchedule: {
+                            ...project.timeSchedule,
+                            allocatedHours: project.timeSchedule.allocatedHours,
+                          },
                         },
-                      })
+                        'allocatedHours',
+                        project.timeSchedule.allocatedHours
+                      )
                     "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
                     @click="
-                      updateProject({
-                        timeSchedule: {
-                          ...project.timeSchedule,
-                          allocatedHours: project.timeSchedule.allocatedHours,
+                      updateP(
+                        {
+                          timeSchedule: {
+                            ...project.timeSchedule,
+                            allocatedHours: project.timeSchedule.allocatedHours,
+                          },
                         },
-                      })
+                        'allocatedHours',
+                        project.timeSchedule.allocatedHours
+                      )
                     "
                   >
                     <font-awesome-icon
@@ -182,23 +210,29 @@
                     name="usedHours"
                     v-model="project.timeSchedule.usedHours"
                     @blur="
-                      updateProject({
-                        timeSchedule: {
-                          ...project.timeSchedule,
-                          usedHours: project.timeSchedule.usedHours,
+                      updateP(
+                        {
+                          timeSchedule: {
+                            ...project.timeSchedule,
+                            usedHours: project.timeSchedule.usedHours,
+                          },
                         },
-                      })
+                        'usedHours'
+                      )
                     "
                   />
                   <button
                     class="button--no-text button-toggle constructive-action"
                     @click="
-                      updateProject({
-                        timeSchedule: {
-                          ...project.timeSchedule,
-                          usedHours: project.timeSchedule.usedHours,
+                      updateP(
+                        {
+                          timeSchedule: {
+                            ...project.timeSchedule,
+                            usedHours: project.timeSchedule.usedHours,
+                          },
                         },
-                      })
+                        'usedHours'
+                      )
                     "
                   >
                     <font-awesome-icon
@@ -214,6 +248,17 @@
           <SlideInOut entry="top" exit="top" :duration="300">
             <members-list v-if="membersOpen" :projectId="project._id" />
           </SlideInOut>
+          <div class="form__actions">
+            <button type="button" class="secondary-action" @click="back">
+              Back
+            </button>
+          </div>
+
+          <div class="destructive__actions">
+            <button type="button" class="destructive-action" @click="deleteP">
+              Delete project
+            </button>
+          </div>
         </div>
         <div>
           <ul>
@@ -238,11 +283,13 @@
 
 <script>
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 // import { userData } from '@/store'
 // import { uri } from '../composables/uri'
 // import { createProjectComp } from '@/composables/createProject'
-import { projectData } from '@/composables/getOneFullProject'
+import { projectData, projectStatic } from '@/composables/getOneFullProject'
 import { updateOneProject } from '@/composables/updateProject'
+import { deleteProject } from '@/composables/deleteProject'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { SlideInOut } from 'vue3-transitions'
 import MembersList from '@/components/MembersList'
@@ -254,11 +301,21 @@ export default {
     SlideInOut
   },
   setup() {
+    const router = useRouter()
+
+    const back = () => {
+      router.go(-1)
+    }
     const membersOpen = ref(false)
     // const { createProject, projectRequest, project, fetchError } =
     //   createProjectComp()
     const project = computed(() => projectData.value)
     const { updateProject, message, fetchError } = updateOneProject()
+    const { deleteProj } = deleteProject()
+    const deleteP = () => {
+      deleteProj()
+      router.push('/')
+    }
 
     const formattedStartDate = computed(() => {
       return project.value.timeSchedule.startDate
@@ -279,14 +336,54 @@ export default {
     const startDate = formattedStartDate.value
     const dueDate = formattedDueDate.value
 
+    const updateP = (payload, key, value) => {
+      // if (
+      //   project.value[key] == projectStatic.value[key] ||
+      //   project.value.timeSchedule[key] ==
+      //     projectStatic.value.timeSchedule[key] ||
+      //   (value && !projectStatic.value.timeSchedule?.[key]) ||
+      //   (value &&
+      //     value ==
+      //       new Date(projectStatic.value.timeSchedule?.[key])
+      //         .toISOString()
+      //         .substr(0, 10))
+      // ) {
+      //   return
+      // }
+
+      // updateProject(payload)
+
+      if (project.value[key] != projectStatic.value[key]) {
+        updateProject(payload)
+      } else if (
+        project.value.timeSchedule[key] != projectStatic.value.timeSchedule[key]
+      ) {
+        updateProject(payload)
+      } else if (value && !projectStatic.value.timeSchedule?.[key]) {
+        updateProject(payload)
+      } else if (
+        value &&
+        value !=
+          new Date(projectStatic.value.timeSchedule?.[key])
+            .toISOString()
+            .substr(0, 10)
+      ) {
+        updateProject(payload)
+      }
+    }
+
     return {
       project,
-      updateProject,
       message,
       fetchError,
       startDate,
       dueDate,
-      membersOpen
+      membersOpen,
+      back,
+      deleteP,
+      projectStatic,
+      updateProject,
+      updateP
       //   ...toRefs(project),
       //   createProject,
       //   fetchError,
@@ -309,5 +406,24 @@ export default {
 }
 .edit-mode button {
   margin-bottom: 0;
+}
+
+.destructive__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--base-3);
+  padding-bottom: var(--base-3);
+  margin: var(--base-3) 0;
+  border-top: 2px solid var(--accent);
+}
+
+.destructive__actions button {
+  background: var(--accent);
+  color: var(--quaternary-color);
+  transition: all 300ms ease-in-out;
+}
+.destructive__actions button:hover {
+  background: var(--primary-bg);
+  color: var(--accent);
 }
 </style>

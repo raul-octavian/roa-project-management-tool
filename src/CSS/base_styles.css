@@ -1,6 +1,25 @@
 * {
 	box-sizing: border-box;
 }
+
+*::-webkit-scrollbar {
+	width: 11px;
+}
+body {
+	scrollbar-width: thin;
+	scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+*::-webkit-scrollbar-track {
+	background: var(--scrollbarBG);
+	border-radius: var(--base-xs);
+	/* border: solid 1px var(--primary-bg-glass-mate-soft); */
+}
+*::-webkit-scrollbar-thumb {
+	background-color: var(--thumbBG);
+	border-radius: var(--base-xs);
+	border: 3px solid var(--scrollbarBG);
+}
+
 body {
 	padding: 0;
 	margin: 0;
@@ -59,6 +78,15 @@ li {
 .home-content {
 	margin: 100px auto;
 	width: fit-content;
+	padding: var(--base-6) var(--base-8);
+}
+.home-content--glass {
+	border-radius: var(--base-sm);
+	background: var(--primary-bg-glass);
+	box-shadow: 0 2px 5px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(5.5px);
+	-webkit-backdrop-filter: blur(11.5px);
+	border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .home__button-container {
@@ -201,25 +229,32 @@ button {
 button:hover,
 button:focus {
 	outline: none;
-	box-shadow: 0px 0px 0px var(--secondary-color);
+	box-shadow: 0px 0px 0px transparent;
 }
 
 .primary-action {
 	border: 1px solid transparent;
-	background: var(--secondary-color);
-	box-shadow: 1px 2px 5px var(--secondary-color);
-	color: var(--primary-bg);
+	background: var(--primary-bg-glass-mate);
+	box-shadow: 0 2px 5px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(11.5px);
+	-webkit-backdrop-filter: blur(11.5px);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	color: var(--primary-color);
+}
+.primary-action p {
+	text-align: center;
+	mix-blend-mode: screen;
 }
 
 .secondary-action {
-	border: 1px solid var(--primary-color);
-	color: var(--primary-color);
+	border: 1px solid var(--primary-transparent-focus);
+	color: var(--primary-transparent-focus);
 	background: transparent;
 }
 .secondary-action:hover,
 .secondary-action:focus {
-	border: 1px solid var(--secondary-color);
-	color: var(--secondary-color);
+	border: 1px solid var(--primary-color);
+	color: var(--primary-color);
 }
 .secondary-action--no-borders {
 	border: none;
@@ -227,7 +262,7 @@ button:focus {
 .secondary-action--no-borders:hover,
 .secondary-action--no-borders:focus {
 	border: none;
-	color: var(--primary-transparent-focus);
+	color: var(--primary-color);
 }
 
 .constructive-action {
@@ -255,6 +290,7 @@ button:focus {
 }
 .icon-button:hover,
 .icon-button:focus {
+	color: var(--primary-color);
 	background: var(--primary-transparent);
 }
 .icon {
@@ -333,8 +369,6 @@ button:focus {
 	width: 100vw;
 	top: 0;
 	left: 0;
-	/* background: var(--secondary-color-transparent);
-	backdrop-filter: blur(1px); */
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
@@ -353,9 +387,9 @@ button:focus {
 	padding: var(--base-4) var(--base-5);
 	overflow-y: scroll;
 	max-height: 70vh;
-	border-radius: var(--base-1);
+
 	border-radius: var(--base-sm);
-	/* background: var(--secondary-color-transparent) rgba(156, 224, 233, 0.25); */
+	background: var(--primary-bg-glass);
 	box-shadow: 0 2px 5px 0 rgba(31, 38, 135, 0.37);
 	backdrop-filter: blur(13.5px);
 	-webkit-backdrop-filter: blur(11.5px);
@@ -363,9 +397,9 @@ button:focus {
 }
 
 .edit-mode .form-wrapper {
-	padding: 0 0 0 var(--base-3);
+	padding: 0 0 var(--base-3) var(--base-3);
 	border-radius: var(--base-sm);
-	background: var(--secondary-color-transparent) rgba(156, 224, 233, 0.25);
+	background: var(--primary-bg-glass);
 	box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
 	backdrop-filter: blur(13.5px);
 	/* width: clamp(300px, 40vw, 720px); */
@@ -432,11 +466,10 @@ button:focus {
 .edit-mode .form .member-list input,
 .edit-mode .form .task-list input,
 .edit-mode .form .task-list textarea {
-	background: white;
 	border-radius: var(--base-xs);
 	padding: var(--base-sm);
-	border: 1px solid var(--primary-transparent);
-	color: var(--secondary-color);
+	border: 1px solid var(--primary-transparent-focus);
+	color: var(--primary-color);
 	transition: 300ms all ease-in-out;
 	width: 100%;
 }

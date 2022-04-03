@@ -28,7 +28,7 @@
                   v-model="task.taskName"
                   @blur="updateTask(task._id, { taskName: task.taskName })"
                 />
-                <div class="input-group" v-if="task.taskDescription">
+                <div class="input-group">
                   <textarea
                     id="task-description"
                     class="form__input textarea--no-borders"
@@ -68,6 +68,7 @@
           class="form__input"
           name="task_name"
           v-model="taskName"
+          @keyup.enter="addTask"
         />
         <button class="button--no-text constructive-action">
           <font-awesome-icon
@@ -83,7 +84,7 @@
           @focus="taskDescription = ''"
           id="task-description"
           class="form__input"
-          name="task description"
+          name="task-description"
           v-model="taskDescription"
         />
       </div>
@@ -95,7 +96,7 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 // vue native
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { projectData } from '@/composables/getOneFullProject'
 import { manageTasks } from '@/composables/manageTaks'
 export default {
@@ -148,17 +149,16 @@ export default {
   border-radius: 0;
   padding: var(--base-sm);
   border: none;
-  color: var(--secondary-color);
+  color: var(--primary-color);
   transition: 300ms all ease-in-out;
   width: 100%;
 }
 .edit-mode .form .task-list input.input--no-borders:focus,
 .edit-mode .form .task-list textarea.textarea--no-borders:focus {
-  background: white;
   border-radius: var(--base-xs);
   padding: var(--base-sm);
   border: 1px solid var(--primary-transparent);
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .edit-mode .form .task-list textarea.textarea--no-borders {

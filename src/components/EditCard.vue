@@ -19,7 +19,7 @@
                   name="card_name"
                   required
                   v-model="cardName"
-                  @blur="updateCard(activeCard._id, { cardName: cardName })"
+                  @blur="updateC(activeCard._id, { cardName: cardName })"
                 />
                 <button
                   class="button--no-text button-toggle constructive-action"
@@ -42,7 +42,7 @@
                   name="card_description"
                   v-model="cardDescription"
                   @blur="
-                    updateCard(activeCard._id, {
+                    updateC(activeCard._id, {
                       cardDescription: cardDescription,
                     })
                   "
@@ -71,7 +71,7 @@
                     max=""
                     v-model="cardStartDate"
                     @blur="
-                      updateCard(activeCard._id, {
+                      updateC(activeCard._id, {
                         cardStartDate: cardStartDate,
                       })
                     "
@@ -98,7 +98,7 @@
                     max=""
                     v-model="cardDueDate"
                     @blur="
-                      updateCard(activeCard._id, { cardDueDate: cardDueDate })
+                      updateC(activeCard._id, { cardDueDate: cardDueDate })
                     "
                   />
                   <button
@@ -124,7 +124,7 @@
                     name="card_allocated_hours"
                     v-model="cardAllocatedHours"
                     @blur="
-                      updateCard(activeCard._id, {
+                      updateC(activeCard._id, {
                         cardAllocatedHours: cardAllocatedHours,
                       })
                     "
@@ -149,7 +149,7 @@
                     name="card_used_Hours"
                     v-model="cardUsedHours"
                     @blur="
-                      updateCard(activeCard._id, {
+                      updateC(activeCard._id, {
                         cardUsedHours: cardUsedHours,
                       })
                     "
@@ -232,7 +232,7 @@
 
 <script>
 // vue comps
-import { ref, computed, emit } from 'vue'
+import { ref, computed } from 'vue'
 
 // components
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -267,6 +267,8 @@ export default {
       return projectData.value.cards.find((item) => item._id == props.cardId)
     })
 
+    const cardStatic = { ...activeCard.value }
+
     const formatStartDate = computed(() => {
       return activeCard.value?.cardStartDate
         ? new Date(activeCard.value?.cardStartDate).toISOString().substr(0, 10)
@@ -299,6 +301,10 @@ export default {
       emit('toggleEdit')
     }
 
+    const updateC = (cardId, payload) => {
+      updateCard(cardId, payload)
+    }
+
     return {
       membersOpen,
       tasksOpen,
@@ -317,7 +323,8 @@ export default {
       updateCard,
       projectData,
       fetchDeleteError,
-      deleteItem
+      deleteItem,
+      updateC
     }
   }
 }

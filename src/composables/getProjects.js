@@ -2,10 +2,10 @@ import { ref } from 'vue'
 import { userData } from '@/store'
 import { uri } from '@/composables/uri'
 import { useProjectStore } from '@/store/projects'
+const projects = ref([])
 
 const getSimpleProjects = () => {
   const user = userData()
-  const projects = ref([])
   const fetchError = ref('')
   const projectStore = useProjectStore()
 
@@ -31,6 +31,6 @@ const getSimpleProjects = () => {
       fetchError.value = err.message
     }
   }
-  return { getProjects, projects, fetchError, projectStore, user }
+  return { getProjects, fetchError, projectStore, user }
 }
-export { getSimpleProjects }
+export { getSimpleProjects, projects }

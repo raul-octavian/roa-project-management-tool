@@ -4,10 +4,10 @@
     <ul>
       <li>
         <div v-for="member in members" :key="member._id" class="member-info">
-          <divc class="member">
+          <div class="member">
             <div class="avatar">{{ member?.avatar }}</div>
             <p>{{ member?.email }}</p>
-          </divc>
+          </div>
 
           <button
             v-if="project.owner != member._id"
@@ -30,12 +30,14 @@
       <label class="label" for="name">Member email:</label>
       <div class="input-group">
         <input
+          @focus="newMember = ''"
           type="email"
           id="name"
           class="form__input"
           name="card_name"
           required
           v-model="newMember"
+          @keyup.enter="addUser"
         />
         <button
           :disabled="!newMember"

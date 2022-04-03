@@ -45,6 +45,9 @@
 
 	/* colors three */
 
+	--scrollbarBG: var(--primary-bg-glass);
+	--thumbBG: var(--primary-color);
+
 	--primary-color: #f9f6ff;
 	--primary-color-rgb: rgb(249, 246, 255);
 	--secondary-color: rgb(15, 113, 115);
@@ -58,7 +61,7 @@
 	--primary-bg: #f9f6ff;
 	--primary-bg-glass: #f9f6ff20;
 	--primary-bg-glass-mate: #0e0e0fef;
-	--primary-bg-glass-mate-soft: #0e0e0fa6;
+	--primary-bg-glass-mate-soft: #0e0e0f90;
 	--secondary-bg: var(--primary-color);
 
 	/* transparency color overlay */

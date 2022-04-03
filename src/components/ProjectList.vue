@@ -17,7 +17,7 @@
     </div>
     <div>
       <router-link class="create-project" to="/createProject/">
-        <button class="primary-action">Create project</button>
+        <button class="primary-action">New project</button>
       </router-link>
     </div>
   </div>
@@ -28,7 +28,7 @@ import { onMounted } from 'vue'
 import { userData } from '@/store'
 // import { uri } from '@/composables/uri'
 // import { useProjectStore } from '@/store/projects'
-import { getSimpleProjects } from '@/composables/getProjects'
+import { getSimpleProjects, projects } from '@/composables/getProjects'
 
 export default {
   name: 'project-list',
@@ -36,8 +36,7 @@ export default {
     // RegisterUser
   },
   setup() {
-    const { projects, fetchError, projectStore, getProjects } =
-      getSimpleProjects()
+    const { fetchError, projectStore, getProjects } = getSimpleProjects()
     const user = userData()
 
     onMounted(() => {
@@ -57,11 +56,15 @@ export default {
 
 <style lang="css" scoped>
 .aside-navigation {
-  border-right: 2px solid var(--tertiary-color);
   min-height: calc(100vh - 50px);
   /* width: clamp(100px 13vw 250px); */
   min-width: fit-content;
   font-weight: bold;
+  background: var(--primary-bg-glass) rgba(156, 224, 233, 0.25);
+  box-shadow: 0 2px 5px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(11.5px);
+  -webkit-backdrop-filter: blur(11.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .aside-navigation__project-list {
   display: flex;
@@ -70,7 +73,6 @@ export default {
 }
 .aside-navigation__project-list--selected {
   border-radius: var(--base-xs);
-  background: var(--primary-transparent);
 }
 .aside-navigation__link {
   display: block;
@@ -79,10 +81,10 @@ export default {
   transition: all 200ms ease-in-out;
 }
 
-.aside-navigation__link:hover {
-  background: var(--primary-transparent);
+.router-link-exact-active button {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
 }
-
 .create-project {
   display: block;
   padding-top: 10px;

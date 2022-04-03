@@ -1,9 +1,10 @@
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { userData } from '@/store'
 import { uri } from '../composables/uri'
 import { useActiveProjectStore } from '@/store/activeProject'
 
 const projectData = ref({})
+const projectStatic = ref({})
 
 const getOneFullProject = function () {
   const user = userData()
@@ -58,6 +59,7 @@ const getOneFullProject = function () {
             item.avatar = getInitials(item.name.toUpperCase())
           })
         })
+        projectStatic.value = { ...projectData.value }
       }
       activeProject.setActiveProject(projectData.value)
     } catch (err) {
@@ -77,13 +79,13 @@ const getOneFullProject = function () {
     return initials
   }
 
-  const capitalize = function () {
-    return this.toLowerCase().replace(/\b\w/g, function (m) {
-      return m.toUpperCase()
-    })
-  }
+  // const capitalize = function () {
+  //   return this.toLowerCase().replace(/\b\w/g, function (m) {
+  //     return m.toUpperCase()
+  //   })
+  // }
 
   return { getFullProject, projectData, fetchError }
 }
 
-export { getOneFullProject, projectData }
+export { getOneFullProject, projectData, projectStatic }

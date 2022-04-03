@@ -5,7 +5,7 @@
       <div v-if="user?.name">
         <project-cards />
       </div>
-      <div v-else>
+      <div v-else div="home-content--glass">
         <h2>Log in or register to create or access your projects</h2>
         <div class="home__button-container">
           <div>

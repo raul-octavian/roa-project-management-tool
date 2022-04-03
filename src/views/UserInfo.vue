@@ -60,6 +60,9 @@
             <label class="label" for="name">Email:</label>
             <p>{{ user.value.email }}</p>
           </div>
+          <div class="form__actions">
+            <button class="secondary-action" @click="back">back</button>
+          </div>
         </div>
       </div>
     </div>
@@ -67,8 +70,8 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
-import { userData } from '@/store'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 // import { uri } from '../composables/uri'
 // import { createProjectComp } from '@/composables/createProject'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -82,11 +85,15 @@ export default {
     FontAwesomeIcon
   },
   setup() {
+    const router = useRouter()
     const { updateUser, message, fetchError, getUser } = updateUserInformation()
 
     getUser()
     const userData = computed(() => userInfo)
     const user = userData
+    const back = () => {
+      router.go(-1)
+    }
     // const { createProject, projectRequest, project, fetchError } =
     //   createProjectComp()
 
@@ -94,7 +101,8 @@ export default {
       updateUser,
       message,
       fetchError,
-      user
+      user,
+      back
     }
   }
 }
@@ -113,9 +121,10 @@ export default {
 .form__required-fields {
   border-bottom: 1px solid var(--primary-transparent-focus);
   margin-bottom: var(--base-4);
+  padding-bottom: var(--base-4);
 }
 p {
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 button {
   margin-bottom: 0;

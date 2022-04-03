@@ -30,7 +30,7 @@
           :data-stage="key"
         >
           <template #item="{ element }">
-            <div class="card">
+            <div class="card" @click="toggleEditCard(element)">
               <h4>{{ element.cardName }}</h4>
               <button
                 class="button--no-text constructive-action"
@@ -176,7 +176,7 @@ export default {
 }
 .project-stage {
   min-width: 300px;
-  padding: var(--base-1);
+  padding: var(--base-1) 0 var(--base-1) var(--base-1);
   border-radius: var(--base-sm);
   background: var(--primary-bg-glass) rgba(156, 224, 233, 0.25);
   box-shadow: 0 4px 32px 0 rgba(31, 38, 135, 0.37);
@@ -193,6 +193,7 @@ export default {
 .card {
   padding: var(--base-sm) 0 var(--base-sm) var(--base-sm);
   margin-bottom: var(--base-sm);
+  margin-right: var(--base-1);
   display: flex;
   justify-content: space-between;
   align-items: center;

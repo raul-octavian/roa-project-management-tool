@@ -2,27 +2,24 @@ import { userData } from '@/store'
 import { uri } from './uri'
 import { ref } from 'vue'
 import { getOneFullProject, projectData } from './getOneFullProject'
-import { getSimpleProjects } from './getProjects'
 
-const updateOneProject = () => {
+const deleteProject = () => {
   const user = userData()
   const userId = user.id
   const fetchError = ref('')
   const message = ref('')
   const projectID = ref(projectData.value._id)
 
-  const updateProject = async (payload) => {
-    console.log(payload)
+  const deleteProj = async () => {
     try {
       const response = await fetch(
-        `${uri}projects/${userId}/${projectID.value}`,
+        `${uri}projects/${projectID.value}/delete`,
         {
-          method: 'PUT',
+          method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
             'auth-token': user.token
-          },
-          body: JSON.stringify(payload)
+          }
         }
       )
       const data = await response.json()
@@ -31,8 +28,6 @@ const updateOneProject = () => {
         message.value = data.message
         const { getFullProject } = getOneFullProject()
         await getFullProject(projectID.value)
-        const { getProjects } = getSimpleProjects()
-        await getProjects()
       } else {
         fetchError.value = data.error
       }
@@ -41,7 +36,7 @@ const updateOneProject = () => {
     }
   }
 
-  return { updateProject, fetchError, message }
+  return { deleteProj, fetchError, message }
 }
 
-export { updateOneProject }
+export { deleteProject }

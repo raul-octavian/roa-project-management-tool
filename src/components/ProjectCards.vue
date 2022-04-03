@@ -40,7 +40,7 @@ import { onMounted } from 'vue'
 import { userData } from '@/store'
 // import { uri } from '@/composables/uri'
 // import { useProjectStore } from '@/store/projects'
-import { getSimpleProjects } from '@/composables/getProjects'
+import { getSimpleProjects, projects } from '@/composables/getProjects'
 
 export default {
   name: 'home-view',
@@ -48,8 +48,7 @@ export default {
     // RegisterUser
   },
   setup() {
-    const { projects, fetchError, projectStore, getProjects } =
-      getSimpleProjects()
+    const { fetchError, projectStore, getProjects } = getSimpleProjects()
     const user = userData()
 
     onMounted(() => {
