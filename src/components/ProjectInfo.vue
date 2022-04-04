@@ -34,7 +34,7 @@
               <h4>{{ element.cardName }}</h4>
               <button
                 class="button--no-text constructive-action"
-                @click="toggleEditCard(element)"
+                @click.stop="toggleEditCard(element)"
               >
                 <font-awesome-icon icon="edit" class="icon"></font-awesome-icon>
               </button>
