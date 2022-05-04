@@ -30,14 +30,12 @@
           :data-stage="key"
         >
           <template #item="{ element }">
-            <div class="card" @click="toggleEditCard(element)">
-              <h4>{{ element.cardName }}</h4>
-              <button
-                class="button--no-text constructive-action"
-                @click.stop="toggleEditCard(element)"
-              >
-                <font-awesome-icon icon="edit" class="icon"></font-awesome-icon>
-              </button>
+            <div>
+              <DraggableCard
+                :key="element._id"
+                @toggleEditCard="toggleEditCard(element)"
+                :element="element"
+              />
             </div>
           </template>
         </draggable>
@@ -84,26 +82,28 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import draggable from 'vuedraggable'
 import EditCard from '../components/EditCard.vue'
 import SmallModal from './SmallModal.vue'
+import DraggableCard from './DraggableCard.vue'
 export default {
   components: {
     draggable,
     SmallModal,
     EditCard,
-    FontAwesomeIcon
+    FontAwesomeIcon,
+    DraggableCard
   },
   props: ['projectID'],
   async setup(props) {
     const projectID = toRef(props, 'projectID')
     const card = ref('')
+    const { getFullProject, fetchError } = getOneFullProject()
+    const { deleteStage } = manageStages()
+
+    const editModal = ref(false)
 
     const toggleEditCard = (element) => {
       card.value = element
       editModal.value = !editModal.value
     }
-    const { getFullProject, fetchError } = getOneFullProject()
-    const { deleteStage } = manageStages()
-
-    const editModal = ref(false)
 
     // const changeStage = (env, item) => {
     //   // console.log('stage activated')
@@ -206,6 +206,7 @@ export default {
 }
 .card h4 {
   margin: 0;
+  overflow: hidden;
 }
 .card button {
   margin-bottom: 0;
@@ -225,5 +226,18 @@ export default {
 }
 .project-stage__header button {
   margin-bottom: 0;
+}
+.icon-button--fit {
+  width: fit-content;
+}
+.icon-button--no-borders {
+  border: none;
+}
+.button-group {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: var(--base-sm);
 }
 </style>

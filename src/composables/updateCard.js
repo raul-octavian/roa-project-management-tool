@@ -27,8 +27,10 @@ const updateCardSections = () => {
       const data = await response.json()
 
       if (!data._id) {
+        console.log('if passes')
         fetchError.value = data.error
       } else {
+        console.log('else passes', projectData.value._id)
         const { getFullProject } = getOneFullProject()
         await getFullProject(projectData.value._id)
       }
