@@ -5,7 +5,7 @@
       <p v-for="(error, index) in populateErrors" :key="index">
         error: {{ error }}
       </p>
-      <p>{{ fetchError }}</p>
+      <p class="error">{{ fetchError }}</p>
 
       <div class="form-wrapper">
         <form @submit.prevent="createAccount" action="" class="register-form">

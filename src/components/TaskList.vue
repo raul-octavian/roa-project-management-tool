@@ -2,13 +2,13 @@
   <div class="task-list">
     <h3>Add or remove tasks</h3>
     <ul v-if="cardTasks">
-      <li>
+      <li v-for="task in cardTasks" :key="task._id">
         <div v-if="message">
-          {{ message }}
+          <p class="message">{{ message }}</p>
         </div>
-        <div v-for="task in cardTasks" :key="task._id" class="task-info">
+        <div class="task-info">
           <label for="task">
-            <div class="input-group">
+            <div class="input-group input-group--wide">
               <input
                 type="checkbox"
                 id="task"
@@ -18,7 +18,7 @@
                 @click="taskStatus = !taskStatus"
                 @blur="updateTask(task._id, { status: task.status })"
               />
-              <div>
+              <div class="task-info__container">
                 <input
                   type="text"
                   id="name"
@@ -28,7 +28,7 @@
                   v-model="task.taskName"
                   @change="updateTask(task._id, { taskName: task.taskName })"
                 />
-                <div class="input-group">
+                <div class="input-group input-group--wide">
                   <textarea
                     id="task-description"
                     class="form__input textarea--no-borders"
@@ -165,6 +165,10 @@ export default {
   resize: both;
   min-height: 40px;
   line-height: 20px;
+}
+
+.task-info__container {
+  width: 100%;
 }
 
 button {

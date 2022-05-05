@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { userData } from '@/store'
 import { uri } from '../composables/uri'
 import { useActiveProjectStore } from '@/store/activeProject'
+import { token } from './setUser'
 
 const projectData = ref({})
 
@@ -17,7 +18,7 @@ const getOneFullProject = function () {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token
+            'auth-token': token
           }
         }
       )

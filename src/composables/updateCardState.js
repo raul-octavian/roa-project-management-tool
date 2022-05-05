@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { uri } from '@/composables/uri'
 import { userData } from '@/store'
+import { token } from './setUser'
 
 const updateOneCard = function () {
   const fetchError = ref('')
@@ -14,7 +15,7 @@ const updateOneCard = function () {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token
+            'auth-token': token
           },
           body: JSON.stringify({
             stage: newStage,
@@ -24,7 +25,7 @@ const updateOneCard = function () {
       )
       const data = await response.json()
 
-      if (!data[0]._id) {
+      if (data[0].error) {
         fetchError.value = data.error
       } else {
         // toggleCard()

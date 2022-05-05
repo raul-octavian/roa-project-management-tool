@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { userData } from '@/store'
 import { uri } from '@/composables/uri'
 import { useProjectStore } from '@/store/projects'
+import { token } from './setUser'
 const projects = ref([])
 
 const getSimpleProjects = () => {
@@ -10,13 +11,14 @@ const getSimpleProjects = () => {
   const projectStore = useProjectStore()
 
   const getProjects = async () => {
+    // console.log('user info', token)
     try {
       const response = await fetch(`${uri}projects/${user.id}/all`,
         {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token
+            'auth-token': token
           }
         })
       const data = await response.json()

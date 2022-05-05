@@ -21,7 +21,7 @@
         <button class="primary-action" @click="add">Add {{ use }}</button>
         <button class="secondary-action" @click="toggleCard">Cancel</button>
         <div v-if="fetchError">
-          <p>{{ fetchError }}</p>
+          <p class="error">{{ fetchError }}</p>
         </div>
       </div>
     </form>
@@ -32,6 +32,7 @@
 import { computed, ref } from 'vue-demi'
 import { uri } from '@/composables/uri'
 import { userData } from '@/store'
+import { token } from '@/composables/setUser'
 export default {
   props: ['use', 'projectID', 'stageName'],
   setup(props, { emit }) {
@@ -61,7 +62,7 @@ export default {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'auth-token': user.token
+              'auth-token': token
             },
             body: JSON.stringify({
               cardName: name.value,
@@ -90,7 +91,7 @@ export default {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
-              'auth-token': user.token
+              'auth-token': token
             },
             body: JSON.stringify({
               name: name.value

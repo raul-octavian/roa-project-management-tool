@@ -2,6 +2,7 @@ import { uri } from '@/composables/uri'
 import { getOneFullProject, projectData } from './getOneFullProject'
 import { userData } from '@/store'
 import { ref } from 'vue'
+import { token } from './setUser'
 
 const deleteCard = () => {
   const fetchDeleteError = ref('')
@@ -15,7 +16,7 @@ const deleteCard = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           }
         }

@@ -2,6 +2,7 @@ import { computed, reactive, ref } from 'vue'
 import { userData } from '@/store'
 import { uri } from '../composables/uri'
 import { useRouter } from 'vue-router'
+import { token } from './setUser'
 
 const createProjectComp = function () {
   const user = userData()
@@ -10,12 +11,10 @@ const createProjectComp = function () {
   const project = reactive({
     name: 'project One',
     description: 'a small description of the project',
-
     startDate: new Date().toISOString().substr(0, 10),
     dueDate: '',
     allocatedHours: 0,
     usedHours: 0,
-
     members: [user.id]
   })
   const projectRequest = computed(() => {
@@ -38,7 +37,7 @@ const createProjectComp = function () {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'auth-token': user.token
+          'auth-token': token
         },
         body: JSON.stringify(projectRequest.value)
       })

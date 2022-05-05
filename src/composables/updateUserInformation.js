@@ -17,7 +17,7 @@ const updateUserInformation = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           }
         }
@@ -36,7 +36,7 @@ const updateUserInformation = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(payload

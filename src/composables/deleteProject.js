@@ -2,6 +2,7 @@ import { userData } from '@/store'
 import { uri } from './uri'
 import { ref } from 'vue'
 import { getOneFullProject, projectData } from './getOneFullProject'
+import { token } from './setUser'
 
 const deleteProject = () => {
   const user = userData()
@@ -18,7 +19,7 @@ const deleteProject = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token
+            'auth-token': token
           }
         }
       )

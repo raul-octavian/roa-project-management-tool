@@ -1,6 +1,8 @@
 <template>
   <div class="project-wrapper">
-    {{ fetchError }}
+    <div v-if="fetchError">
+      <p class="error">{{ fetchError }}</p>
+    </div>
     <div
       v-for="(stage, key, index) in project.stagesData"
       :key="index"
@@ -190,31 +192,7 @@ export default {
   overflow-y: scroll;
   margin-bottom: var(--base-4);
 }
-.card {
-  padding: var(--base-sm) 0 var(--base-sm) var(--base-sm);
-  margin-bottom: var(--base-sm);
-  margin-right: var(--base-1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: var(--base-sm);
-  background: var(--primary-bg-glass) rgba(156, 224, 233, 0.25);
-  box-shadow: 0 1px 3px 0 var(--primary-transparent);
-  backdrop-filter: blur(11.5px);
-  -webkit-backdrop-filter: blur(11.5px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-.card h4 {
-  margin: 0;
-  overflow: hidden;
-}
-.card button {
-  margin-bottom: 0;
-}
-.card:hover .constructive-action {
-  border: none;
-  color: var(--secondary-color);
-}
+
 .far-left {
   margin-left: auto;
 }

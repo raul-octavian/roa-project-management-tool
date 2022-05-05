@@ -2,6 +2,7 @@ import { uri } from '@/composables/uri'
 import { getOneFullProject, projectData } from './getOneFullProject'
 import { userData } from '@/store'
 import { ref } from 'vue'
+import { token } from './setUser'
 
 const updateCardSections = () => {
   const user = userData()
@@ -16,7 +17,7 @@ const updateCardSections = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(
@@ -26,11 +27,9 @@ const updateCardSections = () => {
       )
       const data = await response.json()
 
-      if (!data._id) {
-        console.log('if passes')
+      if (data.error) {
         fetchError.value = data.error
       } else {
-        console.log('else passes', projectData.value._id)
         const { getFullProject } = getOneFullProject()
         await getFullProject(projectData.value._id)
       }

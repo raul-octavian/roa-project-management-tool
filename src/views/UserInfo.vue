@@ -5,8 +5,8 @@
       <div class="form-wrapper">
         <div class="form" action="" @submit.prevent="">
           <h3>User information:</h3>
-          <p v-if="message">{{ message }}</p>
-          <p v-if="fetchError">{{ fetchError }}</p>
+          <p v-if="message" class="message">{{ message }}</p>
+          <p v-if="fetchError" class="error">{{ fetchError }}</p>
           <div class="form__required-fields">
             <div>
               <label class="label" for="name">Name:</label>

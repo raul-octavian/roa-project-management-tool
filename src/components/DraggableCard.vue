@@ -1,26 +1,47 @@
 <template>
-  <div>
-    <div class="card" @click="toggleEditCard">
+  <div class="card" @click="toggleEditCard">
+    <div class="flags">
+      <ul class="member-list">
+        <li
+          v-for="member in card.cardMembers"
+          :key="member._id"
+          class="member-info"
+        >
+          <div class="member">
+            <div class="avatar" :title="member?.email">
+              {{ member?.avatar }}
+            </div>
+          </div>
+        </li>
+      </ul>
+      <h5>URGENT</h5>
+    </div>
+    <div class="main">
       <h4>{{ card.cardName }}</h4>
       <div class="button-group">
         <button
-          class="button--no-text constructive-action"
+          class="button--no-text button--no-text--invisible"
           @click.stop="toggleEditCard"
         >
           <font-awesome-icon icon="edit" class="icon"></font-awesome-icon>
         </button>
-        <button
-          class="icon-button icon-button--fit icon-button--no-borders"
-          :class="running ? 'running' : ''"
-          @click.stop="running ? stop() : start()"
-        >
-          <font-awesome-icon
-            :icon="!running ? 'play' : 'pause'"
-            class="icon"
-          ></font-awesome-icon>
-          {{ !running ? time : runningTime }}
-        </button>
       </div>
+    </div>
+    <div class="extras">
+      <div>
+        <p><span>3</span>/<span>5</span></p>
+      </div>
+      <button
+        class="icon-button icon-button--fit icon-button--no-borders"
+        :class="running ? 'running' : ''"
+        @click.stop="running ? stop() : start()"
+      >
+        <font-awesome-icon
+          :icon="!running ? 'play' : 'pause'"
+          class="icon"
+        ></font-awesome-icon>
+        {{ !running ? time : runningTime }}
+      </button>
     </div>
   </div>
 </template>
@@ -119,7 +140,6 @@ export default {
       const min = minutesAsMinutes.value + timeElapsed.getUTCMinutes()
       runningHours = hour
       runningMinutes = min
-      console.log({ hour, min })
       runningTime.value = hour + ':' + zeroPrefix(min, 2)
     }
 
@@ -146,12 +166,13 @@ export default {
 
 <style lang="css" scoped>
 .card {
-  padding: var(--base-sm) 0 var(--base-sm) var(--base-sm);
+  padding: var(--base-xs) 0 var(--base-sm) var(--base-sm);
   margin-bottom: var(--base-sm);
   margin-right: var(--base-1);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  /* justify-content: flex-start; */
+  flex-direction: column;
+  /* align-items: flex-start; */
   border-radius: var(--base-sm);
   background: var(--primary-bg-glass) rgba(156, 224, 233, 0.25);
   box-shadow: 0 1px 3px 0 var(--primary-transparent);
@@ -163,13 +184,22 @@ export default {
   margin: 0;
   overflow: hidden;
 }
+.card h5 {
+  margin: 0;
+  text-align: right;
+}
 .card button {
   margin-bottom: 0;
+  margin-right: var(--base-1);
 }
-h4:hover ~ .button-group .constructive-action,
-.constructive-action:hover {
+.button--no-text--invisible {
+  color: var(--primary-transparent);
+}
+
+h4:hover ~ .button-group .button--no-text--invisible,
+.button--no-text--invisible:hover {
   border: none;
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .far-left {
@@ -197,7 +227,30 @@ h4:hover ~ .button-group .constructive-action,
   flex-wrap: nowrap;
   gap: var(--base-sm);
 }
+
 .running {
   border: 1px solid var(--secondary-color);
+}
+
+.main,
+.extras,
+.flags {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--base-xs) 0;
+}
+.flags {
+  color: var(--accent);
+  padding: var(--base-xs);
+}
+.flags ul {
+  margin-left: 0;
+  padding-left: 0;
+}
+.avatar {
+  width: 20px;
+  height: 20px;
+  font-size: var(--base-sm);
 }
 </style>

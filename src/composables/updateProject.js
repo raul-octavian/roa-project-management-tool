@@ -3,6 +3,7 @@ import { uri } from './uri'
 import { ref } from 'vue'
 import { getOneFullProject, projectData } from './getOneFullProject'
 import { getSimpleProjects } from './getProjects'
+import { token } from './setUser'
 
 const updateOneProject = () => {
   const user = userData()
@@ -12,7 +13,7 @@ const updateOneProject = () => {
   const projectID = ref(projectData.value._id)
 
   const updateProject = async (payload) => {
-    console.log(payload)
+    // console.log(payload)
     try {
       const response = await fetch(
         `${uri}projects/${userId}/${projectID.value}`,
@@ -20,7 +21,7 @@ const updateOneProject = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token
+            'auth-token': token
           },
           body: JSON.stringify(payload)
         }

@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { userData } from '@/store'
 // import { useActiveProjectStore } from '@/store/activeProject'
 import { getOneFullProject, projectData } from '@/composables/getOneFullProject'
+import { token } from './setUser'
 
 const manageUserOnCardAndProject = () => {
   const user = userData()
@@ -20,7 +21,7 @@ const manageUserOnCardAndProject = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(
@@ -50,7 +51,7 @@ const manageUserOnCardAndProject = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(
@@ -81,7 +82,7 @@ const manageUserOnCardAndProject = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(
@@ -115,7 +116,7 @@ const manageUserOnCardAndProject = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(

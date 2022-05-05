@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import { userData } from '@/store'
 // import { useActiveProjectStore } from '@/store/activeProject'
 import { getOneFullProject, projectData } from '@/composables/getOneFullProject'
+import { token } from './setUser'
 
 const manageTasks = () => {
   const user = userData()
@@ -27,7 +28,7 @@ const manageTasks = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(reqBody.value)
@@ -35,12 +36,13 @@ const manageTasks = () => {
       )
       const data = await response.json()
 
-      if (!data._id) {
-        message.value = data.message
+      if (!data.error) {
         // console.log(projectData.value.cards[1].cardMembers.length)
         const { getFullProject } = getOneFullProject()
         await getFullProject(projectData.value._id)
         // console.log(projectData.value.cards[1].cardMembers.length)
+      } else {
+        fetchError.value = data.error
       }
     } catch (err) {
       fetchError.value = err.message
@@ -55,7 +57,7 @@ const manageTasks = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(payload)
@@ -63,17 +65,20 @@ const manageTasks = () => {
       )
       const data = await response.json()
 
-      if (!data._id) {
+      if (!data.error) {
         message.value = data.message
         // console.log(projectData.value.cards[1].cardMembers.length)
         const { getFullProject } = getOneFullProject()
         await getFullProject(projectData.value._id)
         // console.log(projectData.value.cards[1].cardMembers.length)
+      } else {
+        fetchError.value = data.error
       }
     } catch (err) {
       fetchError.value = err.message
     }
   }
+
   const removeTaskFromCard = async (cardId, taskId) => {
     try {
       const response = await fetch(
@@ -82,19 +87,21 @@ const manageTasks = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': user.token,
+            'auth-token': token,
             Connection: 'keep-alive'
           }
         }
       )
       const data = await response.json()
 
-      if (!data._id) {
+      if (!data.error) {
         message.value = data.message
         // console.log(projectData.value.cards[1].cardMembers.length)
         const { getFullProject } = getOneFullProject()
         await getFullProject(projectData.value._id)
         // console.log(projectData.value.cards[1].cardMembers.length)
+      } else {
+        fetchError.value = data.error
       }
     } catch (err) {
       fetchError.value = err.message

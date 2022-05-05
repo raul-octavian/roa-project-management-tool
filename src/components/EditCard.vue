@@ -3,11 +3,11 @@
     <div class="view-basic edit-mode">
       <h1>Edit Card</h1>
       <div v-if="fetchError">
-        <p>{{ fetchError }}</p>
+        <p class="error">{{ fetchError }}</p>
       </div>
-      <div v-if="message">
-        <p>{{ message }}</p>
-      </div>
+      <!-- <div v-if="message">
+        <p class="message">{{ message }}</p>
+      </div> -->
       <div class="form-wrapper">
         <div class="form" action="" @submit.prevent="">
           <h3>Card information:</h3>

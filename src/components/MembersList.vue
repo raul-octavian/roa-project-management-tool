@@ -22,10 +22,10 @@
     <div>
       <h4>Add a new member</h4>
       <div v-if="fetchError">
-        <p>{{ fetchError }}</p>
+        <p class="error">{{ fetchError }}</p>
       </div>
       <div v-if="message">
-        <p>{{ message }}</p>
+        <p class="message">{{ message }}</p>
       </div>
       <label class="label" for="name">Member email:</label>
       <div class="input-group">

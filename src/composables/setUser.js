@@ -1,14 +1,16 @@
-import { ref } from 'vue'
-import { setCookie } from './cookie'
+import { ref, computed } from 'vue'
+import { setCookie, deleteCookie } from './cookie'
 import { uri } from './uri'
 import { userData } from '@/store/index'
 import { useRouter } from 'vue-router'
 import { updateUserInformation } from './updateUserInformation'
 
+let token = null
+
 export default function loginUser() {
   const res = ref({})
-  const user = userData()
   const router = useRouter()
+  const user = userData()
 
   const login = async (loginInfo) => {
     try {
@@ -31,6 +33,7 @@ export default function loginUser() {
         const { getUser } = updateUserInformation()
         setCookies(res)
         user.setUserToStore(res.value)
+        token = res.value.token
         getUser()
         router.push('/')
       } else {
@@ -53,3 +56,17 @@ export default function loginUser() {
 
   return { res, login, noError, setCookie }
 }
+
+const logout = () => {
+  console.log('logout')
+  const user = userData()
+  deleteCookie('id')
+  deleteCookie('name')
+  deleteCookie('username')
+  deleteCookie('email')
+  deleteCookie('token')
+  user.$reset()
+  token = null
+}
+
+export { token, logout }
