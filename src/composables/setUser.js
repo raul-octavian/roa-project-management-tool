@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { setCookie, deleteCookie } from './cookie'
 import { uri } from './uri'
 import { userData } from '@/store/index'

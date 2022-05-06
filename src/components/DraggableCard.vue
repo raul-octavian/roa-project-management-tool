@@ -8,7 +8,7 @@
           class="member-info"
         >
           <div class="member">
-            <div class="avatar" :title="member?.email">
+            <div class="avatar avatar--small" :title="member?.email">
               {{ member?.avatar }}
             </div>
           </div>
@@ -28,8 +28,11 @@
       </div>
     </div>
     <div class="extras">
-      <div>
-        <p><span>3</span>/<span>5</span></p>
+      <div :class="allTasksCompleted ? 'completed' : ''">
+        <p>
+          <span>{{ totalCompletedTasks }}</span
+          >/<span>{{ totalTasks }}</span>
+        </p>
       </div>
       <button
         class="icon-button icon-button--fit icon-button--no-borders"
@@ -71,9 +74,29 @@ export default {
       )
     })
 
+    // task status
+
+    const totalTasks = computed(() => {
+      return card.value?.tasks.length || 0
+    })
+
+    const completedTasks = computed(() => {
+      return card.value?.tasks.filter((task) => task.status === true)
+    })
+
+    const totalCompletedTasks = computed(() => {
+      return completedTasks.value.length || 0
+    })
+
+    const allTasksCompleted = computed(() => {
+      return totalTasks.value - totalCompletedTasks.value == 0
+    })
+
+    // end task status
+
+    // stopwatch
+
     let timeBegan = null
-    let timeStopped = null
-    let stoppedDuration = 0
     let started = null
     const running = ref(false)
 
@@ -116,10 +139,6 @@ export default {
         timeBegan = new Date()
       }
 
-      if (timeStopped !== null) {
-        stoppedDuration += new Date() - timeStopped
-      }
-
       started = setInterval(clockRunning, 1000)
       running.value = true
     }
@@ -129,13 +148,12 @@ export default {
       updateCard(card.value._id, {
         cardUsedHours: runningHoursAsNumbers.value.toFixed(2)
       })
-      timeStopped = new Date()
       clearInterval(started)
     }
 
     const clockRunning = () => {
       const currentTime = new Date()
-      const timeElapsed = new Date(currentTime - timeBegan - stoppedDuration)
+      const timeElapsed = new Date(currentTime - timeBegan)
       const hour = hoursAsHours.value + timeElapsed.getUTCHours()
       const min = minutesAsMinutes.value + timeElapsed.getUTCMinutes()
       runningHours = hour
@@ -151,6 +169,8 @@ export default {
       return (zero + num).slice(-digit)
     }
 
+    // end stopwatch
+
     return {
       toggleEditCard,
       time,
@@ -158,7 +178,11 @@ export default {
       start,
       stop,
       card,
-      runningTime
+      runningTime,
+      totalTasks,
+      completedTasks,
+      totalCompletedTasks,
+      allTasksCompleted
     }
   }
 }
@@ -248,9 +272,13 @@ h4:hover ~ .button-group .button--no-text--invisible,
   margin-left: 0;
   padding-left: 0;
 }
-.avatar {
+.avatar--small {
   width: 20px;
   height: 20px;
   font-size: var(--base-sm);
+}
+.completed {
+  color: var(--secondary-color);
+  font-weight: bold;
 }
 </style>

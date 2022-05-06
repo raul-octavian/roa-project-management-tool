@@ -1,7 +1,7 @@
 <template>
   <div class="member-list">
     <h3>Add or remove members</h3>
-    <ul>
+    <ul v-if="members.length">
       <li>
         <div v-for="member in members" :key="member._id" class="member-info">
           <div class="member">
@@ -19,7 +19,7 @@
         </div>
       </li>
     </ul>
-    <div>
+    <div class="add-member__container">
       <h4>Add a new member</h4>
       <div v-if="fetchError">
         <p class="error">{{ fetchError }}</p>
@@ -130,6 +130,20 @@ button {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.member-list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  margin-top: 0;
+  height: 100%;
+  align-items: flex-start;
+}
+.input-group {
+  width: 100%;
+}
+.add-member__container {
+  width: 100%;
 }
 .avatar {
   width: 40px;
