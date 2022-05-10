@@ -15,7 +15,8 @@ const createProjectComp = function () {
     dueDate: '',
     allocatedHours: 0,
     usedHours: 0,
-    members: [user.id]
+    members: [user.id],
+    allowsManualHoursInput: false
   })
   const projectRequest = computed(() => {
     return {
@@ -23,6 +24,7 @@ const createProjectComp = function () {
       description: project.description,
       owner: user.id,
       members: project.members,
+      allowsManualHoursInput: project.allowsManualHoursInput,
       timeSchedule: {
         startDate: project.start_Date,
         dueDate: project.due_Date,

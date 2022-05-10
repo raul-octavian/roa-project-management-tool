@@ -1,6 +1,7 @@
 import { uri } from './uri'
 import { userData } from '@/store'
 import { ref } from 'vue'
+import { token } from './setUser'
 
 const userInfo = ref('')
 

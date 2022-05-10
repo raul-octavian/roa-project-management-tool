@@ -1,6 +1,9 @@
 <template>
   <div class="view-basic">
-    <div class="edit-mode">
+    <div v-if="project.owner !== userInfo._id">
+      <h1>Only the project owner can change the project settings</h1>
+    </div>
+    <div v-else class="edit-mode">
       <h1>{{ project.name }}</h1>
       <div class="form-wrapper">
         <div class="form" action="" @submit.prevent="">
@@ -54,6 +57,39 @@
                   ></font-awesome-icon>
                 </button>
               </div>
+            </div>
+            <div>
+              <div class="input-group input-group--wide input-group--inline">
+                <input
+                  type="checkbox"
+                  id="allowManual"
+                  name="allowManual"
+                  :checked="project.allowsManualHoursInput"
+                  v-model="project.allowsManualHoursInput"
+                  @click="
+                    project.allowsManualHoursInput =
+                      !project.allowsManualHoursInput
+                  "
+                  @blur="
+                    updateProject({
+                      allowsManualHoursInput: project.allowsManualHoursInput,
+                    })
+                  "
+                />
+                <label class="label" for="allowManual"
+                  >Allows manual hours input</label
+                >
+              </div>
+              <button
+                class="button--no-text button-toggle constructive-action"
+                @click="
+                  updateProject({
+                    allowsManualHoursInput: project.allowsManualHoursInput,
+                  })
+                "
+              >
+                <font-awesome-icon icon="save" class="icon"></font-awesome-icon>
+              </button>
             </div>
           </div>
           <div class="form__timeSchedule">
@@ -173,7 +209,7 @@
                 </div>
               </div>
 
-              <div>
+              <div v-if="project.allowsManualHoursInput">
                 <label class="label" for="used-hours">Used hours:</label>
                 <div class="input-group">
                   <input
@@ -259,6 +295,7 @@ import { deleteProject } from '@/composables/deleteProject'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { SlideInOut } from 'vue3-transitions'
 import MembersList from '@/components/MembersList'
+import { userInfo } from '@/composables/updateUserInformation'
 
 export default {
   components: {
@@ -347,7 +384,8 @@ export default {
       membersOpen,
       back,
       deleteP,
-      updateProject
+      updateProject,
+      userInfo
       // updateP
       //   ...toRefs(project),
       //   createProject,
@@ -390,5 +428,8 @@ export default {
 .destructive__actions button:hover {
   background: var(--primary-bg);
   color: var(--accent);
+}
+.form label {
+  margin: 0;
 }
 </style>

@@ -11,17 +11,31 @@
         },
       }"
     >
-      <article :key="project.id" class="card card__content">
+      <article
+        :key="project.id"
+        class="card card__content"
+        :class="showDeadline(project.dueDate) < 0 ? 'overdue' : ''"
+      >
         <main class="card__body">
           <div class="card__extra-info">
-            <p v-if="project.percentUsed" class="" title="progress">
-              {{ project.percentUsed }} done
+            <p v-if="project.usedHours" class="" title="progress">
+              {{ project.usedHours }}hr used
             </p>
             <p v-if="project.availableHours" class="" title="remaining hours">
               {{ project.availableHours }}hr to go
             </p>
           </div>
           <h3 class="title--primary">{{ project.name }}</h3>
+          <h5
+            v-if="showDeadline(project.dueDate) > 0"
+            :class="showDeadline(project.dueDate) < 3 ? 'alert' : ''"
+          >
+            {{ showDeadline(project.dueDate) }} days to deadline
+          </h5>
+          <h5 v-if="showDeadline(project.dueDate) < 0" class="alert">
+            {{ -1 * showDeadline(project.dueDate) }} days over deadline
+          </h5>
+          <h5 v-if="showDeadline(project.dueDate) == 0">Set deadline</h5>
 
           <p class="description">
             {{ project.description }}
@@ -36,7 +50,7 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { userData } from '@/store'
 // import { uri } from '@/composables/uri'
 // import { useProjectStore } from '@/store/projects'
@@ -51,6 +65,52 @@ export default {
     const { fetchError, projectStore, getProjects } = getSimpleProjects()
     const user = userData()
 
+    const showDeadline = (date) => {
+      const daysUntilDeadline = computed(() => {
+        const formatDueDate = computed(() => {
+          return date ? new Date(date).toISOString().substr(0, 10) : ''
+        })
+        if (formatDueDate.value) {
+          const day1 = new Date()
+          const day2 = new Date(formatDueDate.value)
+          const difference = day2.getTime() - day1.getTime()
+          const day = 1000 * 60 * 60 * 24
+          const days = difference / day
+
+          if (days < 0 && days > -1) return -1
+          if (days < -1) return Math.ceil(days)
+          if (days > 0 && days < 1) return 1
+          if (days > 1) return Math.ceil(days)
+
+          return Math.floor(days)
+        }
+        return 0
+      })
+      return daysUntilDeadline.value
+    }
+    // const daysUntilDeadline = computed(() => {
+    //   const formatDueDate = computed((project) => {
+    //     return project.value?.dueDate
+    //       ? new Date(project.value?.dDueDate).toISOString().substr(0, 10)
+    //       : ''
+    //   })
+    //   if (formatDueDate.value) {
+    //     const day1 = new Date()
+    //     const day2 = new Date(formatDueDate.value)
+    //     const difference = day2.getTime() - day1.getTime()
+    //     const day = 1000 * 60 * 60 * 24
+    //     const days = difference / day
+
+    //     if (days < 0 && days > -1) return -1
+    //     if (days < -1) return Math.ceil(days)
+    //     if (days > 0 && days < 1) return 1
+    //     if (days > 1) return Math.ceil(days)
+
+    //     return Math.floor(days)
+    //   }
+    //   return 0
+    // })
+
     onMounted(() => {
       getProjects()
     })
@@ -60,7 +120,8 @@ export default {
       getProjects,
       user,
       fetchError,
-      projectStore
+      projectStore,
+      showDeadline
     }
   }
 }
@@ -90,7 +151,7 @@ button {
 }
 .card__extra-info {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: var(--base-1);
   font-size: var(--base-sm);
 }
@@ -104,5 +165,16 @@ button {
   width: 100%;
   overflow: hidden;
   text-overflow: clip;
+  margin-bottom: 2px;
+}
+.description {
+  max-height: 100px;
+  overflow: hidden;
+}
+h5 {
+  margin: 0;
+}
+.overdue {
+  border: 1px solid var(--accent);
 }
 </style>

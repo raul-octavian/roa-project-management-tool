@@ -13,6 +13,38 @@
           <h3>Card information:</h3>
           <div class="form__required-fields">
             <div>
+              <div>
+                <div class="input-group input-group--wide input-group--inline">
+                  <input
+                    type="checkbox"
+                    id="complete"
+                    name="complete"
+                    :checked="cardIsComplete"
+                    v-model="cardIsComplete"
+                    @change="
+                      updateC(activeCard._id, {
+                        isComplete: cardIsComplete,
+                      })
+                    "
+                  />
+                  <label class="label" for="complete"
+                    ><h5>Card Completed</h5></label
+                  >
+                </div>
+                <button
+                  class="button--no-text button-toggle constructive-action"
+                  @click="
+                    updateC(activeCard._id, {
+                      isComplete: cardIsComplete,
+                    })
+                  "
+                >
+                  <font-awesome-icon
+                    icon="save"
+                    class="icon"
+                  ></font-awesome-icon>
+                </button>
+              </div>
               <label class="label" for="name">Name:</label>
               <div class="input-group">
                 <input
@@ -59,6 +91,38 @@
                   ></font-awesome-icon>
                 </button>
               </div>
+              <div v-if="projectData?.allowsManualHoursInput">
+                <div class="input-group input-group--wide input-group--inline">
+                  <input
+                    type="checkbox"
+                    id="allowManual"
+                    name="allowManual"
+                    :checked="cardAllowsManualHoursInput"
+                    v-model="cardAllowsManualHoursInput"
+                    @change="
+                      updateC(activeCard._id, {
+                        allowsManualHoursInput: cardAllowsManualHoursInput,
+                      })
+                    "
+                  />
+                  <label class="label" for="allowManual"
+                    >Allows manual hours input</label
+                  >
+                </div>
+                <button
+                  class="button--no-text button-toggle constructive-action"
+                  @click="
+                    updateC(activeCard._id, {
+                      allowsManualHoursInput: cardAllowsManualHoursInput,
+                    })
+                  "
+                >
+                  <font-awesome-icon
+                    icon="save"
+                    class="icon"
+                  ></font-awesome-icon>
+                </button>
+              </div>
             </div>
           </div>
           <div class="form__timeSchedule">
@@ -91,7 +155,7 @@
               </div>
 
               <div>
-                <label class="label" for="due_date">Due date:</label>
+                <label class="label" for="due_date">Deadline:</label>
                 <div class="input-group">
                   <input
                     type="date"
@@ -143,7 +207,7 @@
                 </div>
               </div>
 
-              <div>
+              <div v-if="cardAllowsManualHoursInput">
                 <label class="label" for="used-hours">Used hours:</label>
                 <div class="input-group">
                   <input
@@ -278,10 +342,25 @@ export default {
         : ''
     })
 
-    const formaDueDate = computed(() => {
+    const formatDueDate = computed(() => {
       return activeCard.value?.cardDueDate
         ? new Date(activeCard.value?.cardDueDate).toISOString().substr(0, 10)
         : ''
+    })
+
+    const daysUntilDeadline = computed(() => {
+      const day1 = new Date()
+      const day2 = new Date(formatDueDate.value)
+      const difference = day2.getTime() - day1.getTime()
+      const day = 1000 * 60 * 60 * 24
+      const days = difference / day
+
+      if (days < 0 && days > -1) return -1
+      if (days < -1) return Math.ceil(days)
+      if (days > 0 && days < 1) return 1
+      if (days > 1) return Math.ceil(days)
+
+      return Math.floor(days)
     })
 
     const cardName =
@@ -292,9 +371,13 @@ export default {
     const tasks = ref(activeCard.value?.tasks)
     const cardMembers = ref(activeCard.value?.cardMembers)
     const cardStartDate = formatStartDate.value
-    const cardDueDate = formaDueDate.value
+    const cardDueDate = formatDueDate.value
     const cardAllocatedHours = ref(activeCard.value?.cardAllocatedHours)
     const cardUsedHours = ref(activeCard.value?.cardUsedHours)
+    const cardIsComplete = ref(activeCard.value?.isComplete)
+    const cardAllowsManualHoursInput = ref(
+      activeCard.value?.allowsManualHoursInput
+    )
 
     const { updateCard, fetchError } = updateCardSections()
     const { deleteOneCard, fetchDeleteError } = deleteCard()
@@ -327,7 +410,10 @@ export default {
       projectData,
       fetchDeleteError,
       deleteItem,
-      updateC
+      updateC,
+      daysUntilDeadline,
+      cardAllowsManualHoursInput,
+      cardIsComplete
     }
   }
 }
@@ -357,5 +443,11 @@ export default {
 .destructive__actions button:hover {
   background: var(--primary-bg);
   color: var(--accent);
+}
+.form label {
+  margin: 0;
+}
+.form label h5 {
+  font-size: var(--base-1);
 }
 </style>

@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { uri } from '@/composables/uri'
 import { userData } from '@/store'
 import { token } from './setUser'
+import { projectData } from './getOneFullProject'
 
 const updateOneCard = function () {
   const fetchError = ref('')
@@ -10,7 +11,7 @@ const updateOneCard = function () {
   const updateCard = async (id, newStage, index) => {
     try {
       const response = await fetch(
-        `${uri}projects/cards/${id}/update`,
+        `${uri}projects/${projectData.value._id}/cards/${id}/update`,
         {
           method: 'PUT',
           headers: {

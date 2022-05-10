@@ -1,5 +1,9 @@
 <template>
-  <div class="card" @click="toggleEditCard">
+  <div
+    class="card"
+    :class="daysUntilDeadline < 0 ? 'overdue' : ''"
+    @click="toggleEditCard"
+  >
     <div class="flags">
       <ul class="member-list">
         <li
@@ -14,7 +18,19 @@
           </div>
         </li>
       </ul>
-      <h5>URGENT</h5>
+      <h5
+        v-if="daysUntilDeadline > 0"
+        :class="daysUntilDeadline < 3 ? 'alert' : ''"
+      >
+        {{ daysUntilDeadline }} days to deadline
+      </h5>
+      <h5 v-if="daysUntilDeadline < 0" class="alert">
+        {{ -1 * daysUntilDeadline }} over deadline
+      </h5>
+      <h5 v-if="daysUntilDeadline == 0 && !card.isComplete">Set deadline</h5>
+      <h5 :class="card.isComplete ? 'completed' : ''" v-if="card.isComplete">
+        Completed
+      </h5>
     </div>
     <div class="main">
       <h4>{{ card.cardName }}</h4>
@@ -51,10 +67,11 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { Stopwatch } from '@/composables/stopwatch'
+// import { Stopwatch } from '@/composables/stopwatch'
 import { computed, ref } from 'vue-demi'
 import { updateCardSections } from '@/composables/updateCard'
 import { projectData } from '@/composables/getOneFullProject'
+import { calculateDeadlines } from '@/composables/calculateDeadlines'
 export default {
   components: {
     FontAwesomeIcon
@@ -89,10 +106,19 @@ export default {
     })
 
     const allTasksCompleted = computed(() => {
-      return totalTasks.value - totalCompletedTasks.value == 0
+      return (
+        totalTasks.value - totalCompletedTasks.value == 0 &&
+        totalTasks.value != 0
+      )
     })
 
     // end task status
+
+    // days until due date
+
+    const { daysUntilDeadline } = calculateDeadlines(card)
+
+    // end days until due date
 
     // stopwatch
 
@@ -182,7 +208,8 @@ export default {
       totalTasks,
       completedTasks,
       totalCompletedTasks,
-      allTasksCompleted
+      allTasksCompleted,
+      daysUntilDeadline
     }
   }
 }
@@ -265,7 +292,6 @@ h4:hover ~ .button-group .button--no-text--invisible,
   padding: var(--base-xs) 0;
 }
 .flags {
-  color: var(--accent);
   padding: var(--base-xs);
 }
 .flags ul {
@@ -276,9 +302,5 @@ h4:hover ~ .button-group .button--no-text--invisible,
   width: 20px;
   height: 20px;
   font-size: var(--base-sm);
-}
-.completed {
-  color: var(--secondary-color);
-  font-weight: bold;
 }
 </style>

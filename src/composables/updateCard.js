@@ -9,10 +9,10 @@ const updateCardSections = () => {
   const fetchError = ref('')
 
   const updateCard = async (cardId, payload) => {
-    console.log(payload)
+    console.log(payload, projectData.value._id, `${uri}projects/${projectData.value._id}/cards/${cardId}/update`)
     try {
       const response = await fetch(
-        `${uri}projects/cards/${cardId}/update`,
+        `${uri}projects/${projectData.value._id}/cards/${cardId}/update`,
         {
           method: 'PUT',
           headers: {

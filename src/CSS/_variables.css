@@ -50,11 +50,11 @@
 
 	--primary-color: #f9f6ff;
 	--primary-color-rgb: rgb(249, 246, 255);
-	--secondary-color: rgb(15, 113, 115);
+	--secondary-color: rgb(19, 224, 87);
 	--tertiary-color: #3993dd;
 	--quaternary-color: var(--primary-bg);
 	--neutral: #131314;
-	--accent: #c44900;
+	--accent: #e40000;
 	--white: #f9f6ff;
 
 	/* bg-color */

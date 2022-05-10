@@ -78,6 +78,18 @@ li {
 .error {
   color:var(--accent)
 }
+.completed {
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+.alert {
+  color: var(--accent);
+}
+
+.overdue {
+  border: 1px solid var(--accent);
+}
 
 /* home page */
 .home {
@@ -156,7 +168,7 @@ input::placeholder {
 }
 
 textarea {
-	min-height: 100px;
+	min-height: 50px;
 }
 
 /* form structure */
@@ -167,6 +179,7 @@ textarea {
 	border: 1px solid var(--primary-transparent);
 	padding: var(--base-6);
 	width: clamp(300px, 50vw, 1072px);
+  position: relative;
 }
 
 .form__fields,
@@ -213,6 +226,10 @@ textarea {
 }
 .input-group--wide {
   width: 100%;
+}
+.input-group--inline {
+  flex-direction: row;
+
 }
 
 /* buttons */
@@ -420,6 +437,9 @@ button:focus {
 	color: var(--secondary-primary);
 	transition: 300ms all ease-in-out;
 	width: 100%;
+}
+.edit-mode .form input[type="checkbox"] {
+  width: auto;
 }
 
 .edit-mode .form input[type="date"]::-webkit-inner-spin-button,

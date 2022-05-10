@@ -31,6 +31,17 @@
                   v-model="description"
                 ></textarea>
               </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="task"
+                  name="allowManual"
+                  v-model="allowsManualHoursInput"
+                />
+                <label class="label" for="allowManual"
+                  >Allows manual hours input</label
+                >
+              </div>
             </div>
             <div class="form__timeSchedule">
               <div>

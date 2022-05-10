@@ -13,10 +13,8 @@
       </router-link>
       <div class="info">
         <p>
-          Available hours:
-          {{
-            project.timeSchedule.allocatedHours - project.timeSchedule.usedHours
-          }}
+          Used hours:
+          {{ project.timeSchedule.usedHours }}
         </p>
       </div>
       <ul class="member-list">
