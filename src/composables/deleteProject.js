@@ -2,6 +2,7 @@ import { userData } from '@/store'
 import { uri } from './uri'
 import { ref } from 'vue'
 import { getOneFullProject, projectData } from './getOneFullProject'
+import { getSimpleProjects, project } from './getProjects'
 import { token } from './setUser'
 
 const deleteProject = () => {
@@ -29,6 +30,8 @@ const deleteProject = () => {
         message.value = data.message
         const { getFullProject } = getOneFullProject()
         await getFullProject(projectID.value)
+        const { getProjects } = getSimpleProjects()
+        await getProjects()
       } else {
         fetchError.value = data.error
       }

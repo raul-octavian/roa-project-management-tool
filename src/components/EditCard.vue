@@ -306,11 +306,11 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { SlideInOut } from 'vue3-transitions'
 import MembersList from './MembersList.vue'
 import TaskList from './TaskList.vue'
-import { projectData } from '@/composables/getOneFullProject'
-import { deleteCard } from '@/composables/deleteCard'
 
 // composables
-import { updateCardSections } from '@/composables/updateCard'
+
+import { projectData } from '@/composables/getOneFullProject'
+import { manageCards } from '@/composables/manageCards'
 
 // stores
 // import { useActiveProjectStore } from '@/store/activeProject'
@@ -325,16 +325,9 @@ export default {
   setup(props, { emit }) {
     const membersOpen = ref(false)
     const tasksOpen = ref(false)
-    // const activeCard = ref(props.card)
-    // const { getFullProject } = getOneFullProject()
-    // getFullProject()
-
-    // activeCard.value = cards.value.find((item) => item._id == props.card._id)
     const activeCard = computed(() => {
       return projectData.value.cards.find((item) => item._id == props.cardId)
     })
-
-    const cardStatic = { ...activeCard.value }
 
     const formatStartDate = computed(() => {
       return activeCard.value?.cardStartDate
@@ -379,11 +372,11 @@ export default {
       activeCard.value?.allowsManualHoursInput
     )
 
-    const { updateCard, fetchError } = updateCardSections()
-    const { deleteOneCard, fetchDeleteError } = deleteCard()
+    const { deleteCard, errorDeletingCard, updateCard, fetchError } =
+      manageCards()
 
     const deleteItem = async (cardId) => {
-      await deleteOneCard(cardId)
+      await deleteCard(cardId)
       emit('toggleEdit')
     }
 
@@ -408,7 +401,7 @@ export default {
       fetchError,
       updateCard,
       projectData,
-      fetchDeleteError,
+      errorDeletingCard,
       deleteItem,
       updateC,
       daysUntilDeadline,

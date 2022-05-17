@@ -1,11 +1,9 @@
 import { uri } from '@/composables/uri'
 import { getOneFullProject, projectData } from './getOneFullProject'
-import { userData } from '@/store'
 import { ref } from 'vue'
 import { token } from './setUser'
 
 const updateCardSections = () => {
-  const user = userData()
   const fetchError = ref('')
 
   const updateCard = async (cardId, payload) => {

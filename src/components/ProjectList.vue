@@ -56,7 +56,7 @@ export default {
 
 <style lang="css" scoped>
 .aside-navigation {
-  min-height: calc(100vh - 50px);
+  height: 100%;
   /* width: clamp(100px 13vw 250px); */
   min-width: fit-content;
   font-weight: bold;
@@ -65,6 +65,7 @@ export default {
   backdrop-filter: blur(11.5px);
   -webkit-backdrop-filter: blur(11.5px);
   border: 1px solid rgba(255, 255, 255, 0.18);
+  overflow-y: scroll;
 }
 .aside-navigation__project-list {
   display: flex;

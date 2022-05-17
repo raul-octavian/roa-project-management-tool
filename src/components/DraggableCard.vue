@@ -69,7 +69,7 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // import { Stopwatch } from '@/composables/stopwatch'
 import { computed, ref } from 'vue-demi'
-import { updateCardSections } from '@/composables/updateCard'
+import { manageCards } from '@/composables/manageCards'
 import { projectData } from '@/composables/getOneFullProject'
 import { calculateDeadlines } from '@/composables/calculateDeadlines'
 export default {
@@ -79,7 +79,7 @@ export default {
   props: ['element'],
   setup(props, { emit }) {
     // const { time, running, start, stop } = stopwatch()
-    const { updateCard } = updateCardSections()
+    const { updateCard } = manageCards()
 
     const toggleEditCard = () => {
       emit('toggleEditCard')

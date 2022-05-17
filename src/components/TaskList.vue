@@ -120,8 +120,9 @@ export default {
       message
     } = manageTasks()
     const addTask = async () => {
-      console.log('addtask')
       await addTaskToCard(activeCardId.value)
+      taskName.value = ''
+      taskDescription.value = ''
       // await getFullProject(activeProjectId)
     }
 

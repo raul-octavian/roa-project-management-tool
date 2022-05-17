@@ -72,7 +72,7 @@ import { computed, ref, toRef, watch } from 'vue'
 // modules
 // import { uri } from '@/composables/uri'
 import { getOneFullProject, projectData } from '@/composables/getOneFullProject'
-import { updateOneCard } from '@/composables/updateCardState'
+import { manageCards } from '@/composables/manageCards'
 import { manageStages } from '@/composables/manageStages'
 
 // // stores
@@ -115,11 +115,11 @@ export default {
     const endStage = (env) => {
       const oldStage = env
       const newStage = env.to.dataset.stage
-      const id = env.item._underlying_vm_._id
+      // const id = env.item._underlying_vm_._id
       const cards = project.value.stagesData[newStage]
 
       // console.log(env.item._underlying_vm_._id)
-      const { updateCard } = updateOneCard(id, newStage)
+      const { updateCardStateAndIndex } = manageCards()
       let filterData = []
 
       if (oldStage !== newStage) {
@@ -131,7 +131,7 @@ export default {
         })
 
         filterData.forEach((item, index) => {
-          updateCard(item._id, item.stage, index)
+          updateCardStateAndIndex(item._id, item.stage, index)
         })
       }
     }

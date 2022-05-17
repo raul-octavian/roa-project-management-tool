@@ -29,7 +29,8 @@ const manageTasks = () => {
           headers: {
             'Content-Type': 'application/json',
             'auth-token': token,
-            Connection: 'keep-alive'
+            Connection: 'keep-alive',
+            'Access-Control-Allow-Private-Network': 'true'
           },
           body: JSON.stringify(reqBody.value)
         }

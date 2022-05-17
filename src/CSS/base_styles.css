@@ -94,6 +94,7 @@ li {
 /* home page */
 .home {
 	flex-grow: 1;
+  overflow-y: scroll;
 }
 .home-content {
 	margin: 100px auto;

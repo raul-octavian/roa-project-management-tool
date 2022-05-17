@@ -66,5 +66,6 @@ export default {
   margin-top: 50px;
   display: flex;
   gap: 20px;
+  height: calc(100vh - 65px);
 }
 </style>

@@ -31,16 +31,14 @@
 <script>
 import { computed, ref } from 'vue-demi'
 import { uri } from '@/composables/uri'
-import { userData } from '@/store'
 import { token } from '@/composables/setUser'
+import { manageCards } from '@/composables/manageCards'
 export default {
   props: ['use', 'projectID', 'stageName'],
   setup(props, { emit }) {
     const use = ref(props.use)
     const projectID = ref(props.projectID)
     const stageName = ref(props.stageName)
-
-    const user = userData()
     const name = ref('')
     const fetchError = ref('')
     const toggleCard = () => {
@@ -53,6 +51,9 @@ export default {
     const placeholder = computed(() => {
       return use.value + ' name'
     })
+
+    const { createCard } = manageCards()
+    console.log(typeof createCard)
 
     const addCard = async () => {
       try {
@@ -116,7 +117,15 @@ export default {
       if (use.value == 'stage') {
         addStage()
       } else {
-        addCard()
+        console.log(createCard)
+        createCard(
+          projectID,
+          stageName,
+          name,
+          reloadPage,
+          toggleCard,
+          fetchError
+        )
       }
     }
 
