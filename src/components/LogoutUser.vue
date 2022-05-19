@@ -3,9 +3,10 @@
 </template>
 
 <script>
-import { logout } from '../composables/setUser'
+import { manageUsers } from '../composables/manageUsers'
 export default {
   setup() {
+    const { logout } = manageUsers()
     return { logout }
   }
 }

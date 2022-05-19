@@ -1,12 +1,10 @@
-import { uri } from '@/composables/uri'
+import { uri } from '@/composables/utils/uri'
 import { ref, computed } from 'vue'
-import { userData } from '@/store'
 // import { useActiveProjectStore } from '@/store/activeProject'
-import { getOneFullProject, projectData } from '@/composables/getOneFullProject'
-import { token } from './setUser'
+import { manageProjects } from '@/composables/manageProjects'
+import { projectData, token, userInfo } from '@/store/store'
 
 const manageTasks = () => {
-  const user = userData()
   // const activeProject = useActiveProjectStore()
   const activeProjectId = projectData.value._id
   const fetchError = ref('')
@@ -23,12 +21,12 @@ const manageTasks = () => {
   const addTaskToCard = async (cardId) => {
     try {
       const response = await fetch(
-        `${uri}projects/${user.id}/${activeProjectId}/${cardId}/create-task`,
+        `${uri}projects/${userInfo.value.id}/${activeProjectId}/${cardId}/create-task`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': token,
+            'auth-token': token.value,
             Connection: 'keep-alive',
             'Access-Control-Allow-Private-Network': 'true'
           },
@@ -38,10 +36,8 @@ const manageTasks = () => {
       const data = await response.json()
 
       if (!data.error) {
-        // console.log(projectData.value.cards[1].cardMembers.length)
-        const { getFullProject } = getOneFullProject()
+        const { getFullProject } = manageProjects()
         await getFullProject(projectData.value._id)
-        // console.log(projectData.value.cards[1].cardMembers.length)
       } else {
         fetchError.value = data.error
       }
@@ -58,7 +54,7 @@ const manageTasks = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': token,
+            'auth-token': token.value,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(payload)
@@ -68,10 +64,9 @@ const manageTasks = () => {
 
       if (!data.error) {
         message.value = data.message
-        // console.log(projectData.value.cards[1].cardMembers.length)
-        const { getFullProject } = getOneFullProject()
+
+        const { getFullProject } = manageProjects()
         await getFullProject(projectData.value._id)
-        // console.log(projectData.value.cards[1].cardMembers.length)
       } else {
         fetchError.value = data.error
       }
@@ -88,7 +83,7 @@ const manageTasks = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': token,
+            'auth-token': token.value,
             Connection: 'keep-alive'
           }
         }
@@ -97,10 +92,8 @@ const manageTasks = () => {
 
       if (!data.error) {
         message.value = data.message
-        // console.log(projectData.value.cards[1].cardMembers.length)
-        const { getFullProject } = getOneFullProject()
+        const { getFullProject } = manageProjects()
         await getFullProject(projectData.value._id)
-        // console.log(projectData.value.cards[1].cardMembers.length)
       } else {
         fetchError.value = data.error
       }

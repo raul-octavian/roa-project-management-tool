@@ -71,13 +71,12 @@ import { computed, ref, toRef, watch } from 'vue'
 
 // modules
 // import { uri } from '@/composables/uri'
-import { getOneFullProject, projectData } from '@/composables/getOneFullProject'
+import { manageProjects } from '@/composables/manageProjects'
 import { manageCards } from '@/composables/manageCards'
 import { manageStages } from '@/composables/manageStages'
 
 // // stores
-// import { userData } from '@/store'
-// import { useActiveProjectStore } from '@/store/activeProject'
+import { projectData } from '@/store/store'
 
 // components
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -97,7 +96,7 @@ export default {
   async setup(props) {
     const projectID = toRef(props, 'projectID')
     const card = ref('')
-    const { getFullProject, fetchError } = getOneFullProject()
+    const { getFullProject, fetchError } = manageProjects()
     const { deleteStage } = manageStages()
 
     const editModal = ref(false)
@@ -107,18 +106,12 @@ export default {
       editModal.value = !editModal.value
     }
 
-    // const changeStage = (env, item) => {
-    //   // console.log('stage activated')
-    //   // console.log(env)
-    //   // console.log('item on move', item)
-    // }
     const endStage = (env) => {
       const oldStage = env
       const newStage = env.to.dataset.stage
       // const id = env.item._underlying_vm_._id
       const cards = project.value.stagesData[newStage]
 
-      // console.log(env.item._underlying_vm_._id)
       const { updateCardStateAndIndex } = manageCards()
       let filterData = []
 
@@ -149,13 +142,11 @@ export default {
     await getFullProject(projectID.value)
 
     return {
-      // changeStage,
       endStage,
       card,
       toggleEditCard,
       editModal,
       getFullProject,
-      // ...toRefs(projectData),
       project,
       reload,
       fetchError,

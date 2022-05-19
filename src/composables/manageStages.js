@@ -1,15 +1,41 @@
-import { uri } from '@/composables/uri'
-import { projectData, getOneFullProject } from './getOneFullProject'
+import { uri } from '@/composables/utils/uri'
+import { manageProjects } from './manageProjects'
 import { ref } from 'vue'
-import { userData } from '@/store'
-import { token } from './setUser'
+
+import { projectData, token } from '@/store/store'
 
 const manageStages = () => {
   const fetchError = ref('')
-  const user = userData()
+
+  const createStage = async (projectID, name, reloadPage, toggleCard) => {
+    try {
+      const response = await fetch(
+        `${uri}projects/${projectID.value}/add-stage`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth-token': token.value
+          },
+          body: JSON.stringify({
+            name: name.value
+          })
+        }
+      )
+      const data = await response.json()
+
+      if (!data._id) {
+        fetchError.value = data.error
+      } else {
+        reloadPage()
+        toggleCard()
+      }
+    } catch (err) {
+      fetchError.value = err.message
+    }
+  }
 
   const deleteStage = async (payload) => {
-    // console.log('delete stage', payload)
     try {
       const response = await fetch(
         `${uri}projects/${projectData.value._id}/remove-stage`,
@@ -17,7 +43,7 @@ const manageStages = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': token,
+            'auth-token': token.value,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(payload)
@@ -25,7 +51,7 @@ const manageStages = () => {
       )
       const data = await response.json()
       if (!data.message) {
-        const { getFullProject } = getOneFullProject()
+        const { getFullProject } = manageProjects()
         await getFullProject(projectData.value._id)
       } else {
         fetchError.value = data.error
@@ -34,7 +60,7 @@ const manageStages = () => {
       fetchError.value = err.message
     }
   }
-  return { deleteStage, fetchError }
+  return { deleteStage, fetchError, createStage }
 }
 
 export { manageStages }

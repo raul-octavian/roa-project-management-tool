@@ -46,15 +46,14 @@
 <script>
 import { ref, reactive, toRefs } from 'vue'
 
-import loginUser from '../composables/setUser'
+import { manageUsers } from '../composables/manageUsers'
 export default {
   setup() {
-    // const user = userData()
     const userReq = reactive({
       password: ref('1234567890'),
       email: ref('johnyOne@test.com')
     })
-    const { res, login } = loginUser()
+    const { res, login } = manageUsers()
 
     return { ...toRefs(userReq), userReq, login, res }
   }

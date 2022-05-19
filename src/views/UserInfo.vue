@@ -17,12 +17,12 @@
                   class="form__input"
                   name="name"
                   required
-                  v-model="user.value.name"
-                  @blur="updateUser({ name: user.value.name })"
+                  v-model="userInfo.name"
+                  @blur="updateUser({ name: userInfo.name })"
                 />
                 <button
                   class="button--no-text button-toggle constructive-action"
-                  @click="updateUser({ name: user.value.name })"
+                  @click="updateUser({ name: userInfo.name })"
                 >
                   <font-awesome-icon
                     icon="save"
@@ -40,13 +40,13 @@
                   class="form__input"
                   name="username"
                   required
-                  v-model="user.value.username"
-                  @blur="updateUser({ username: user.value.username })"
+                  v-model="userInfo.username"
+                  @blur="updateUser({ username: userInfo.username })"
                 />
 
                 <button
                   class="button--no-text button-toggle constructive-action"
-                  @click="updateUser({ username: user.value.username })"
+                  @click="updateUser({ username: userInfo.username })"
                 >
                   <font-awesome-icon
                     icon="save"
@@ -58,7 +58,7 @@
           </div>
           <div>
             <label class="label" for="name">Email:</label>
-            <p>{{ user.value.email }}</p>
+            <p>{{ userInfo.email }}</p>
           </div>
           <div class="form__actions">
             <button class="secondary-action" @click="back">back</button>
@@ -73,12 +73,10 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 // import { uri } from '../composables/uri'
-// import { createProjectComp } from '@/composables/createProject'
+// import { manageProjects } from '@/composables/createProject'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import {
-  userInfo,
-  updateUserInformation
-} from '../composables/updateUserInformation'
+import { userInfo } from '@/store/store'
+import { manageUsers } from '../composables/manageUsers'
 
 export default {
   components: {
@@ -86,22 +84,20 @@ export default {
   },
   setup() {
     const router = useRouter()
-    const { updateUser, message, fetchError, getUser } = updateUserInformation()
+    const { updateUser, message, fetchError, getUser } = manageUsers()
 
     getUser()
-    const userData = computed(() => userInfo)
-    const user = userData
     const back = () => {
       router.go(-1)
     }
     // const { createProject, projectRequest, project, fetchError } =
-    //   createProjectComp()
+    //   manageProjects()
 
     return {
       updateUser,
       message,
       fetchError,
-      user,
+      userInfo,
       back
     }
   }

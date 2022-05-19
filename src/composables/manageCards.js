@@ -1,7 +1,7 @@
-import { uri } from '@/composables/uri'
-import { token } from '@/composables/setUser'
-import { getOneFullProject, projectData } from './getOneFullProject'
+import { uri } from '@/composables/utils/uri'
+import { manageProjects } from './manageProjects'
 import { ref } from 'vue'
+import { projectData, token } from '../store/store'
 
 const manageCards = () => {
   const errorDeletingCard = ref('')
@@ -16,7 +16,7 @@ const manageCards = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': token
+            'auth-token': token.value
           },
           body: JSON.stringify({
             cardName: name.value,
@@ -25,7 +25,6 @@ const manageCards = () => {
         }
       )
       const data = await response.json()
-      console.log(data)
 
       if (!data[0]._id) {
         fetchError.value = data.error
@@ -48,7 +47,7 @@ const manageCards = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': token,
+            'auth-token': token.value,
             Connection: 'keep-alive'
           }
         }
@@ -58,7 +57,7 @@ const manageCards = () => {
       if (!data.message) {
         errorDeletingCard.value = data.error
       } else {
-        const { getFullProject } = getOneFullProject()
+        const { getFullProject } = manageProjects()
         await getFullProject(projectData.value._id)
       }
     } catch (err) {
@@ -76,7 +75,7 @@ const manageCards = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': token,
+            'auth-token': token.value,
             Connection: 'keep-alive'
           },
           body: JSON.stringify(
@@ -89,7 +88,7 @@ const manageCards = () => {
       if (data.error) {
         fetchError.value = data.error
       } else {
-        const { getFullProject } = getOneFullProject()
+        const { getFullProject } = manageProjects()
         await getFullProject(projectData.value._id)
       }
     } catch (err) {
@@ -107,7 +106,7 @@ const manageCards = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': token
+            'auth-token': token.value
           },
           body: JSON.stringify({
             stage: newStage,

@@ -10,7 +10,7 @@
     </div>
 
     <div class="main-container">
-      <ProjectList v-if="user.name && currentPath != '/userInfo'" />
+      <ProjectList v-if="userInfo?.name && currentPath != '/userInfo'" />
       <router-view />
     </div>
   </div>
@@ -20,7 +20,7 @@
 import MainNavigation from './components/MainNavigation.vue'
 import UserNavigation from './components/UserNavigation.vue'
 import ProjectList from './components/ProjectList.vue'
-import { userData } from './store'
+import { userInfo } from '@/store/store'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 export default {
@@ -31,10 +31,9 @@ export default {
   },
   setup() {
     const router = useRouter()
-    const user = userData()
     const currentPath = computed(() => router.currentRoute.value.path)
 
-    return { user, currentPath }
+    return { userInfo, currentPath }
   }
 }
 </script>

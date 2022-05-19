@@ -309,7 +309,7 @@ import TaskList from './TaskList.vue'
 
 // composables
 
-import { projectData } from '@/composables/getOneFullProject'
+import { projectData } from '@/store/store'
 import { manageCards } from '@/composables/manageCards'
 
 // stores

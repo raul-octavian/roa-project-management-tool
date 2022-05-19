@@ -1,7 +1,7 @@
 <template>
   <div
     class="card"
-    :class="daysUntilDeadline < 0 ? 'overdue' : ''"
+    :class="daysUntilDeadline < 0 && !card.isComplete ? 'overdue' : ''"
     @click="toggleEditCard"
   >
     <div class="flags">
@@ -19,13 +19,13 @@
         </li>
       </ul>
       <h5
-        v-if="daysUntilDeadline > 0"
+        v-if="daysUntilDeadline > 0 && !card.isComplete"
         :class="daysUntilDeadline < 3 ? 'alert' : ''"
       >
         {{ daysUntilDeadline }} days to deadline
       </h5>
-      <h5 v-if="daysUntilDeadline < 0" class="alert">
-        {{ -1 * daysUntilDeadline }} over deadline
+      <h5 v-if="daysUntilDeadline < 0 && !card.isComplete" class="alert">
+        {{ -1 * daysUntilDeadline }} days over deadline
       </h5>
       <h5 v-if="daysUntilDeadline == 0 && !card.isComplete">Set deadline</h5>
       <h5 :class="card.isComplete ? 'completed' : ''" v-if="card.isComplete">
@@ -67,11 +67,10 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-// import { Stopwatch } from '@/composables/stopwatch'
 import { computed, ref } from 'vue-demi'
 import { manageCards } from '@/composables/manageCards'
-import { projectData } from '@/composables/getOneFullProject'
-import { calculateDeadlines } from '@/composables/calculateDeadlines'
+import { projectData } from '@/store/store'
+import { calculateDeadlines } from '@/composables/utils/calculateDeadlines'
 export default {
   components: {
     FontAwesomeIcon
@@ -160,7 +159,6 @@ export default {
 
     function start() {
       if (running.value) return
-      console.log('start')
       if (timeBegan === null) {
         timeBegan = new Date()
       }

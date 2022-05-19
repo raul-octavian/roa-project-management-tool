@@ -51,19 +51,17 @@
 
 <script>
 import { onMounted, computed } from 'vue'
-import { userData } from '@/store'
 // import { uri } from '@/composables/uri'
 // import { useProjectStore } from '@/store/projects'
-import { getSimpleProjects, projects } from '@/composables/getProjects'
+import { manageProjects } from '@/composables/manageProjects'
+import { projects, userInfo } from '@/store/store'
 
 export default {
   name: 'home-view',
-  components: {
-    // RegisterUser
-  },
+  components: {},
   setup() {
-    const { fetchError, projectStore, getProjects } = getSimpleProjects()
-    const user = userData()
+    const { fetchError, projectStore, getProjectsForHomeCards } =
+      manageProjects()
 
     const showDeadline = (date) => {
       const daysUntilDeadline = computed(() => {
@@ -88,37 +86,15 @@ export default {
       })
       return daysUntilDeadline.value
     }
-    // const daysUntilDeadline = computed(() => {
-    //   const formatDueDate = computed((project) => {
-    //     return project.value?.dueDate
-    //       ? new Date(project.value?.dDueDate).toISOString().substr(0, 10)
-    //       : ''
-    //   })
-    //   if (formatDueDate.value) {
-    //     const day1 = new Date()
-    //     const day2 = new Date(formatDueDate.value)
-    //     const difference = day2.getTime() - day1.getTime()
-    //     const day = 1000 * 60 * 60 * 24
-    //     const days = difference / day
-
-    //     if (days < 0 && days > -1) return -1
-    //     if (days < -1) return Math.ceil(days)
-    //     if (days > 0 && days < 1) return 1
-    //     if (days > 1) return Math.ceil(days)
-
-    //     return Math.floor(days)
-    //   }
-    //   return 0
-    // })
 
     onMounted(() => {
-      getProjects()
+      getProjectsForHomeCards()
     })
 
     return {
       projects,
-      getProjects,
-      user,
+      getProjectsForHomeCards,
+      userInfo,
       fetchError,
       projectStore,
       showDeadline

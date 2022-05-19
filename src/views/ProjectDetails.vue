@@ -20,7 +20,7 @@
 import ProjectInfo from '@/components/ProjectInfo.vue'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
-import { projectData } from '@/composables/getOneFullProject'
+import { projectData } from '@/store/store'
 export default {
   name: 'project-details',
   components: {

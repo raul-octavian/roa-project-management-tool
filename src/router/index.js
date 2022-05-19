@@ -1,10 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import { userInfo } from '@/composables/updateUserInformation'
-import { token } from '@/composables/setUser'
-import { computed } from 'vue'
-
-const userExist = userInfo.value.email || ''
+import { userLoggedIn } from '@/composables/manageUsers'
 
 const routes = [
   {
@@ -79,7 +75,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const reqstuff = await to.matched.some(record => record.meta.requiredStuff)
-  if (reqstuff && !token) {
+  if (reqstuff && !userLoggedIn) {
     next('/login')
   } else {
     next()

@@ -286,16 +286,11 @@
 <script>
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
-// import { userData } from '@/store'
-// import { uri } from '../composables/uri'
-// import { createProjectComp } from '@/composables/createProject'
-import { projectData } from '@/composables/getOneFullProject'
-import { updateOneProject } from '@/composables/updateProject'
-import { deleteProject } from '@/composables/deleteProject'
+import { projectData, userInfo } from '@/store/store'
+import { manageProjects } from '@/composables/manageProjects'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { SlideInOut } from 'vue3-transitions'
 import MembersList from '@/components/MembersList'
-import { userInfo } from '@/composables/updateUserInformation'
 
 export default {
   components: {
@@ -310,13 +305,11 @@ export default {
       router.go(-1)
     }
     const membersOpen = ref(false)
-    // const { createProject, projectRequest, project, fetchError } =
-    //   createProjectComp()
     const project = computed(() => projectData.value)
-    const { updateProject, message, fetchError } = updateOneProject()
-    const { deleteProj } = deleteProject()
+    const { deleteProject, updateProject, message, fetchError } =
+      manageProjects()
     const deleteP = () => {
-      deleteProj()
+      deleteProject()
       router.push('/')
     }
 
@@ -339,42 +332,6 @@ export default {
     const startDate = formattedStartDate.value
     const dueDate = formattedDueDate.value
 
-    // const updateP = (payload, key, value) => {
-    //   // if (
-    //   //   project.value[key] == projectStatic.value[key] ||
-    //   //   project.value.timeSchedule[key] ==
-    //   //     projectStatic.value.timeSchedule[key] ||
-    //   //   (value && !projectStatic.value.timeSchedule?.[key]) ||
-    //   //   (value &&
-    //   //     value ==
-    //   //       new Date(projectStatic.value.timeSchedule?.[key])
-    //   //         .toISOString()
-    //   //         .substr(0, 10))
-    //   // ) {
-    //   //   return
-    //   // }
-
-    //   // updateProject(payload)
-
-    //   if (project.value[key] != projectStatic.value[key]) {
-    //     updateProject(payload)
-    //   } else if (
-    //     project.value.timeSchedule[key] != projectStatic.value.timeSchedule[key]
-    //   ) {
-    //     updateProject(payload)
-    //   } else if (value && !projectStatic.value.timeSchedule?.[key]) {
-    //     updateProject(payload)
-    //   } else if (
-    //     value &&
-    //     value !=
-    //       new Date(projectStatic.value.timeSchedule?.[key])
-    //         .toISOString()
-    //         .substr(0, 10)
-    //   ) {
-    //     updateProject(payload)
-    //   }
-    // }
-
     return {
       project,
       message,
@@ -386,12 +343,6 @@ export default {
       deleteP,
       updateProject,
       userInfo
-      // updateP
-      //   ...toRefs(project),
-      //   createProject,
-      //   fetchError,
-      //   projectRequest
-      // }
     }
   }
 }

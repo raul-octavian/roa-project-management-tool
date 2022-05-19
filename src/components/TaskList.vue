@@ -2,10 +2,10 @@
   <div class="task-list">
     <h3>Add or remove tasks</h3>
     <ul v-if="cardTasks">
+      <div v-if="message">
+        <p class="message">{{ message }}</p>
+      </div>
       <li v-for="task in cardTasks" :key="task._id">
-        <div v-if="message">
-          <p class="message">{{ message }}</p>
-        </div>
         <div class="task-info">
           <label for="task">
             <div class="input-group input-group--wide">
@@ -59,6 +59,7 @@
     </ul>
     <div>
       <h4>Add a new task</h4>
+      <p v-if="error" class="error">{{ error }}</p>
       <label class="label" for="name">Task name</label>
       <div class="input-group">
         <input
@@ -68,7 +69,6 @@
           class="form__input"
           name="task_name"
           v-model="taskName"
-          @keyup.enter="addTask"
         />
         <button class="button--no-text constructive-action">
           <font-awesome-icon
@@ -86,7 +86,7 @@
           class="form__input"
           name="task-description"
           v-model="taskDescription"
-        />
+        ></textarea>
       </div>
     </div>
   </div>
@@ -96,9 +96,9 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 // vue native
-import { computed } from 'vue'
-import { projectData } from '@/composables/getOneFullProject'
-import { manageTasks } from '@/composables/manageTaks'
+import { computed, ref } from 'vue'
+import { projectData } from '@/store/store'
+import { manageTasks } from '@/composables/manageTasks'
 export default {
   components: {
     FontAwesomeIcon
@@ -110,7 +110,7 @@ export default {
     })
     const cardTasks = computed(() => activeCard.value?.tasks)
     const activeCardId = computed(() => activeCard.value?._id)
-
+    const error = ref('')
     const {
       addTaskToCard,
       removeTaskFromCard,
@@ -119,8 +119,14 @@ export default {
       updateTask,
       message
     } = manageTasks()
+
     const addTask = async () => {
-      await addTaskToCard(activeCardId.value)
+      if (taskName.value) {
+        await addTaskToCard(activeCardId.value)
+        error.value = ''
+      } else {
+        error.value = 'Task name cant be an empty field'
+      }
       taskName.value = ''
       taskDescription.value = ''
       // await getFullProject(activeProjectId)
@@ -137,7 +143,8 @@ export default {
       taskDescription,
       taskName,
       updateTask,
-      message
+      message,
+      error
     }
   }
 }

@@ -30,9 +30,8 @@
 
 <script>
 import { computed, ref } from 'vue-demi'
-import { uri } from '@/composables/uri'
-import { token } from '@/composables/setUser'
 import { manageCards } from '@/composables/manageCards'
+import { manageStages } from '@/composables/manageStages'
 export default {
   props: ['use', 'projectID', 'stageName'],
   setup(props, { emit }) {
@@ -53,71 +52,12 @@ export default {
     })
 
     const { createCard } = manageCards()
-    console.log(typeof createCard)
-
-    const addCard = async () => {
-      try {
-        const response = await fetch(
-          `${uri}projects/${projectID.value}/create-card`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'auth-token': token
-            },
-            body: JSON.stringify({
-              cardName: name.value,
-              stage: stageName.value
-            })
-          }
-        )
-        const data = await response.json()
-
-        if (!data[0]._id) {
-          fetchError.value = data.error
-        } else {
-          reloadPage()
-          toggleCard()
-        }
-      } catch (err) {
-        fetchError.value = err.message
-      }
-    }
-
-    const addStage = async () => {
-      try {
-        const response = await fetch(
-          `${uri}projects/${projectID.value}/add-stage`,
-          {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              'auth-token': token
-            },
-            body: JSON.stringify({
-              name: name.value
-            })
-          }
-        )
-        const data = await response.json()
-
-        if (!data._id) {
-          console.log('no data')
-          fetchError.value = data.error
-        } else {
-          reloadPage()
-          toggleCard()
-        }
-      } catch (err) {
-        fetchError.value = err.message
-      }
-    }
+    const { createStage } = manageStages()
 
     const add = () => {
       if (use.value == 'stage') {
-        addStage()
+        createStage(projectID, name, reloadPage, toggleCard)
       } else {
-        console.log(createCard)
         createCard(
           projectID,
           stageName,

@@ -86,7 +86,7 @@
 
 <script>
 import { toRefs } from 'vue'
-import registerUser from '../composables/registerUser'
+import { manageUsers } from '@/composables/manageUsers'
 export default {
   setup() {
     const {
@@ -97,7 +97,7 @@ export default {
       passwordLength,
       userReq,
       fetchError
-    } = registerUser()
+    } = manageUsers()
 
     return {
       ...toRefs(userReq),

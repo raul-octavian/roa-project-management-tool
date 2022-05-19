@@ -25,28 +25,22 @@
 
 <script>
 import { onMounted } from 'vue'
-import { userData } from '@/store'
-// import { uri } from '@/composables/uri'
-// import { useProjectStore } from '@/store/projects'
-import { getSimpleProjects, projects } from '@/composables/getProjects'
+import { manageProjects } from '@/composables/manageProjects'
+import { projects } from '@/store/store'
 
 export default {
   name: 'project-list',
-  components: {
-    // RegisterUser
-  },
   setup() {
-    const { fetchError, projectStore, getProjects } = getSimpleProjects()
-    const user = userData()
+    const { fetchError, projectStore, getProjectsForHomeCards } =
+      manageProjects()
 
     onMounted(() => {
-      getProjects()
+      getProjectsForHomeCards()
     })
 
     return {
       projects,
-      getProjects,
-      user,
+      getProjectsForHomeCards,
       fetchError,
       projectStore
     }

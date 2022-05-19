@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { projectData } from '@/composables/getOneFullProject'
+import { projectData } from '@/store/store'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed } from '@vue/reactivity'
 export default {

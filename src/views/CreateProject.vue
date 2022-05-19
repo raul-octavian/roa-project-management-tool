@@ -104,13 +104,11 @@
 
 <script>
 import { toRefs } from 'vue'
-// import { userData } from '@/store'
-// import { uri } from '../composables/uri'
-import { createProjectComp } from '@/composables/createProject'
+import { manageProjects } from '@/composables/manageProjects'
 export default {
   setup() {
     const { createProject, projectRequest, project, fetchError } =
-      createProjectComp()
+      manageProjects()
 
     return {
       project,

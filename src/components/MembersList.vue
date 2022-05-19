@@ -60,7 +60,7 @@ import { computed } from 'vue'
 
 // composables
 import { manageUserOnCardAndProject } from '@/composables/manageUserOnCardAndProject'
-import { projectData } from '@/composables/getOneFullProject'
+import { projectData } from '@/store/store'
 export default {
   components: {
     FontAwesomeIcon

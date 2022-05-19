@@ -2,7 +2,7 @@
   <div class="home">
     <h1 class="text text--center">Welcome to the Project Management app</h1>
     <div class="home-content">
-      <div v-if="user?.name">
+      <div v-if="userInfo?.name">
         <project-cards />
       </div>
       <div v-else class="home-content--glass">
@@ -28,9 +28,8 @@
 // @ is an alias to /src
 // import RegisterUser from '@/components/RegisterUser.vue'
 
-import { userData } from '@/store'
-
 import ProjectCards from '@/components/ProjectCards.vue'
+import { userInfo } from '@/store/store'
 
 export default {
   name: 'home-view',
@@ -38,10 +37,8 @@ export default {
     ProjectCards
   },
   setup() {
-    const user = userData()
-
     return {
-      user
+      userInfo
     }
   }
 }
