@@ -6,7 +6,7 @@
     <div class="project-container">
       <Suspense>
         <template #default>
-          <ProjectInfo :projectID="projectID" :key="projectID" />
+          <project-info :projectID="projectID" :key="projectID" />
         </template>
         <template #fallback>
           <div>..loading</div>

@@ -1,15 +1,15 @@
 <template>
   <div class="login-container">
-    <LoginUser />
+    <login-user />
   </div>
 </template>
 
 <script>
 import LoginUser from '@/components/LoginUser.vue'
 export default {
-  name: 'login-user',
+  // name: 'login-user',
   components: {
-    LoginUser
+    'login-user': LoginUser
   },
 
   setup() {

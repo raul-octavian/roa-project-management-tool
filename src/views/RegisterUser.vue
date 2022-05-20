@@ -1,15 +1,15 @@
 <template>
   <div class="register-container">
-    <RegisterUser />
+    <register-user />
   </div>
 </template>
 
 <script>
 import RegisterUser from '@/components/RegisterUser.vue'
 export default {
-  name: 'register-user',
+  // name: 'register-user',
   components: {
-    RegisterUser
+    'register-user': RegisterUser
   },
   setup() {
     return {}
