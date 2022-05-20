@@ -2,9 +2,12 @@
   <div>
     <div class="view-basic">
       <h1>Create account</h1>
-      <p v-for="(error, index) in populateErrors" :key="index">
-        error: {{ error }}
-      </p>
+      <div v-if="password">
+        <p v-for="(error, index) in populateErrors" :key="index">
+          error: {{ error }}
+        </p>
+      </div>
+
       <p class="error">{{ fetchError }}</p>
 
       <div class="form-wrapper">

@@ -11,8 +11,8 @@ const manageProjects = () => {
   const message = ref('')
   const projectID = ref(projectData.value._id)
   const project = reactive({
-    name: 'project One',
-    description: 'a small description of the project',
+    name: '',
+    description: '',
     startDate: new Date().toISOString().substr(0, 10),
     dueDate: '',
     allocatedHours: 0,

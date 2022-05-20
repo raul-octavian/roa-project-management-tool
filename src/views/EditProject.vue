@@ -1,15 +1,17 @@
 <template>
   <div class="view-basic">
-    <edit-project />
+    <edit-project-information />
   </div>
 </template>
 
 <script>
-import { EditProject } from '@/components/EditProject.vue'
-
+import EditProjectInformation from '@/components/EditProjectInformation.vue'
 export default {
   components: {
-    EditProject
+    EditProjectInformation
+  },
+  setup() {
+    return {}
   }
 }
 </script>

@@ -13,12 +13,12 @@ const manageUsers = () => {
   // use login to log the user in the app once the new user is created
 
   // catch user input
-  const repeatPassword = ref('1234567890')
+  const repeatPassword = ref('')
   const userReq = reactive({
-    name: ref('Johny One'),
-    password: ref('1234567890'),
-    username: ref('johnyOne'),
-    email: ref('johnyOne@test.com')
+    name: ref(''),
+    password: ref(''),
+    username: ref(''),
+    email: ref('')
   })
 
   // check for errors

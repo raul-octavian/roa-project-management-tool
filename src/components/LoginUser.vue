@@ -50,8 +50,8 @@ import { manageUsers } from '../composables/manageUsers'
 export default {
   setup() {
     const userReq = reactive({
-      password: ref('1234567890'),
-      email: ref('johnyOne@test.com')
+      password: ref(''),
+      email: ref('')
     })
     const { res, login } = manageUsers()
 
