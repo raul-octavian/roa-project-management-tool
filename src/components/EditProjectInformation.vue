@@ -275,7 +275,7 @@
 <script>
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { projectData, userInfo } from '@/store/store'
+import { projectData, userInfo, activeProjectID } from '@/store/store'
 import { manageProjects } from '@/composables/manageProjects'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { SlideInOut } from 'vue3-transitions'
@@ -295,24 +295,30 @@ export default {
     }
     const membersOpen = ref(false)
     const project = computed(() => projectData.value)
-    const { deleteProject, updateProject, message, fetchError } =
-      manageProjects()
+    const {
+      deleteProject,
+      updateProject,
+      // getFullProject,
+      message,
+      fetchError
+    } = manageProjects()
+
     const deleteP = () => {
       deleteProject()
       router.push('/')
     }
 
     const formattedStartDate = computed(() => {
-      return project.value.timeSchedule.startDate
-        ? new Date(project.value.timeSchedule.startDate)
+      return project.value.timeSchedule?.startDate
+        ? new Date(project.value.timeSchedule?.startDate)
           .toISOString()
           .substr(0, 10)
         : ''
     })
 
     const formattedDueDate = computed(() => {
-      return project.value.timeSchedule.dueDate
-        ? new Date(project.value.timeSchedule.dueDate)
+      return project.value.timeSchedule?.dueDate
+        ? new Date(project.value.timeSchedule?.dueDate)
           .toISOString()
           .substr(0, 10)
         : ''
@@ -331,7 +337,8 @@ export default {
       back,
       deleteP,
       updateProject,
-      userInfo
+      userInfo,
+      activeProjectID
     }
   }
 }

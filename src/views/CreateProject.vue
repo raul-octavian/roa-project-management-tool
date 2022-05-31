@@ -8,9 +8,16 @@
 
 <script>
 import CreateProject from '@/components/CreateProject.vue'
+import { onMounted } from 'vue'
+import { projectData } from '@/store/store'
 export default {
   components: {
     CreateProject
+  },
+  setup() {
+    onMounted(() => {
+      projectData.value = {}
+    })
   }
 }
 </script>

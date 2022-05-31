@@ -29,7 +29,8 @@
 // import RegisterUser from '@/components/RegisterUser.vue'
 
 import ProjectCards from '@/components/ProjectCards.vue'
-import { userInfo } from '@/store/store'
+import { userInfo, projectData } from '@/store/store'
+import { onMounted } from 'vue-demi'
 
 export default {
   name: 'home-view',
@@ -37,6 +38,10 @@ export default {
     ProjectCards
   },
   setup() {
+    onMounted(() => {
+      projectData.value = {}
+    })
+
     return {
       userInfo
     }

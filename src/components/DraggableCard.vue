@@ -51,6 +51,7 @@
         </p>
       </div>
       <button
+        v-if="!card.isComplete"
         class="icon-button icon-button--fit icon-button--no-borders"
         :class="running ? 'running' : ''"
         @click.stop="running ? stop() : start()"
@@ -59,6 +60,12 @@
           :icon="!running ? 'play' : 'pause'"
           class="icon"
         ></font-awesome-icon>
+        {{ !running ? time : runningTime }}
+      </button>
+      <button
+        v-else
+        class="icon-button icon-button--fit icon-button--no-borders"
+      >
         {{ !running ? time : runningTime }}
       </button>
     </div>

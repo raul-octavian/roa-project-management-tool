@@ -57,7 +57,8 @@ const manageCards = () => {
       if (!data.message) {
         errorDeletingCard.value = data.error
       } else {
-        const { getFullProject } = manageProjects()
+        const { getFullProject, getProjectsForHomeCards } = manageProjects()
+        await getProjectsForHomeCards()
         await getFullProject(projectData.value._id)
       }
     } catch (err) {

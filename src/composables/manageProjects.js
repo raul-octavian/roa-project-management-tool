@@ -35,6 +35,7 @@ const manageProjects = () => {
       }
     }
   })
+  // projectData.value = {}
 
   const createProject = async () => {
     try {
@@ -114,10 +115,6 @@ const manageProjects = () => {
           projectData.value.stagesData[item].sort((a, b) => a.index - b.index)
         })
 
-        // projectData.value.stagesData.forEach(item => item.sort((a, b) => a.index - b.index))
-        // projectData.value.members.forEach(item => {
-        //   item.avatar: getInitials(item.name))
-
         projectData.value.members.forEach(item => {
           item.avatar = getInitials(item.name.toUpperCase())
         })
@@ -178,9 +175,7 @@ const manageProjects = () => {
 
       if (!data.error) {
         message.value = data.message
-        // const { getFullProject } = manageProjects()
-        await getFullProject(projectID.value)
-        // const { getProjectsForHomeCards } = manageProjects()
+        projectData.value = {}
         await getProjectsForHomeCards()
       } else {
         fetchError.value = data.error

@@ -1,7 +1,7 @@
 <template>
   <div class="main-nav">
     <router-link to="/"> Home </router-link>
-    <div v-if="project._id" class="project-tag">
+    <div v-if="project?._id" class="project-tag">
       <router-link to="/editProject">
         <button
           class="secondary-action secondary-action--no-borders icon-button"
@@ -14,7 +14,7 @@
       <div class="info">
         <p>
           Used hours:
-          {{ project.timeSchedule.usedHours }}
+          {{ project.timeSchedule.usedHours.toFixed(2) }}
         </p>
       </div>
       <ul class="member-list">

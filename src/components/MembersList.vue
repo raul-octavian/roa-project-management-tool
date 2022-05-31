@@ -1,7 +1,7 @@
 <template>
   <div class="member-list">
     <h3>Add or remove members</h3>
-    <ul v-if="members.length">
+    <ul v-if="members">
       <li>
         <div v-for="member in members" :key="member._id" class="member-info">
           <div class="member">

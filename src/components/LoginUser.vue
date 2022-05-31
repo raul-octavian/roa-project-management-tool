@@ -3,7 +3,12 @@
     <div class="view-basic">
       <h1>Login</h1>
       <div class="form-wrapper">
-        <form action="" class="login-form" @submit.prevent="login(userReq)">
+        <form
+          v-if="!isLoggingIn"
+          action=""
+          class="login-form"
+          @submit.prevent="login(userReq)"
+        >
           <div class="form__required-fields">
             <div>
               <label class="label" for="email">Email:</label>
@@ -37,6 +42,9 @@
             </router-link>
           </div>
         </form>
+        <div v-else-if="isLoggingIn && !res?.error">
+          <h2>...logging in</h2>
+        </div>
       </div>
       {{ res.error }}
     </div>
@@ -53,9 +61,9 @@ export default {
       password: ref(''),
       email: ref('')
     })
-    const { res, login } = manageUsers()
+    const { res, login, isLoggingIn } = manageUsers()
 
-    return { ...toRefs(userReq), userReq, login, res }
+    return { ...toRefs(userReq), userReq, login, res, isLoggingIn }
   }
 }
 </script>

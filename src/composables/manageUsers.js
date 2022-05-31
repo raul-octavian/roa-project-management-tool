@@ -2,7 +2,7 @@ import { useRouter } from 'vue-router'
 import { uri } from './utils/uri'
 import { ref, reactive, computed } from 'vue'
 import { setCookie, deleteCookie } from './utils/cookie'
-import { token, userInfo } from '@/store/store'
+import { token, userInfo, projectData } from '@/store/store'
 
 let userLoggedIn = false
 let userInfoLocal = {}
@@ -45,6 +45,7 @@ const manageUsers = () => {
   const fetchError = ref('')
   const res = ref({})
   const message = ref('')
+  const isLoggingIn = ref(false)
 
   // create account and login user if account is created successfully
 
@@ -79,6 +80,7 @@ const manageUsers = () => {
   }
 
   const login = async (loginInfo) => {
+    isLoggingIn.value = true
     try {
       const response = await fetch(
         `${uri}user/login`,
@@ -100,6 +102,7 @@ const manageUsers = () => {
         userInfoLocal = res.value
         token.value = await res.value.token
         getUser()
+        isLoggingIn.value = false
         router.push('/')
       } else {
         res.value = data
@@ -155,7 +158,6 @@ const manageUsers = () => {
   }
 
   const logout = () => {
-    console.log('logout')
     deleteCookie('id')
     deleteCookie('name')
     deleteCookie('username')
@@ -163,6 +165,7 @@ const manageUsers = () => {
     deleteCookie('token')
     token.value = ''
     userInfo.value = {}
+    projectData.value = {}
     // userLoggedIn = false
   }
 
@@ -177,7 +180,7 @@ const manageUsers = () => {
     setCookie('token', res.value.token, '1')
   }
 
-  return { createAccount, populateErrors, passwordsMarch, passwordLength, userReq, repeatPassword, fetchError, res, login, noError, setCookie, logout, updateUser, getUser }
+  return { createAccount, populateErrors, passwordsMarch, passwordLength, userReq, repeatPassword, fetchError, res, login, noError, setCookie, logout, updateUser, getUser, isLoggingIn }
 }
 
 export { manageUsers, userLoggedIn }

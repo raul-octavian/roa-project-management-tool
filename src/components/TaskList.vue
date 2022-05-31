@@ -39,7 +39,7 @@
                         taskDescription: task.taskDescription,
                       })
                     "
-                  />
+                  ></textarea>
                 </div>
               </div>
               <button class="button--no-text button-toggle constructive-action">

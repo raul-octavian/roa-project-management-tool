@@ -207,7 +207,12 @@
                 </div>
               </div>
 
-              <div v-if="cardAllowsManualHoursInput">
+              <div
+                v-if="
+                  cardAllowsManualHoursInput &&
+                  projectData?.allowsManualHoursInput
+                "
+              >
                 <label class="label" for="used-hours">Used hours:</label>
                 <div class="input-group">
                   <input
@@ -365,8 +370,8 @@ export default {
     const cardMembers = ref(activeCard.value?.cardMembers)
     const cardStartDate = formatStartDate.value
     const cardDueDate = formatDueDate.value
-    const cardAllocatedHours = ref(activeCard.value?.cardAllocatedHours)
-    const cardUsedHours = ref(activeCard.value?.cardUsedHours)
+    const cardAllocatedHours = ref(activeCard.value?.cardAllocatedHours ?? 0)
+    const cardUsedHours = ref(activeCard.value?.cardUsedHours ?? 0)
     const cardIsComplete = ref(activeCard.value?.isComplete)
     const cardAllowsManualHoursInput = ref(
       activeCard.value?.allowsManualHoursInput

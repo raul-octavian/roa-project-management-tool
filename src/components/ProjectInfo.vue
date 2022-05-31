@@ -67,7 +67,7 @@
 
 <script>
 // vue specific
-import { computed, ref, toRef, watch } from 'vue'
+import { computed, ref, toRef } from 'vue'
 
 // modules
 // import { uri } from '@/composables/uri'
@@ -136,10 +136,11 @@ export default {
     const reload = () => {
       getFullProject(projectID.value)
     }
-    watch(projectID, (currentValue, oldValue) => {
-      getFullProject(currentValue)
-    })
-    await getFullProject(projectID.value)
+
+    if (!projectData.value._id || projectData.value._id !== projectID.value) {
+      console.log('no project', projectData.value)
+      await getFullProject(projectID.value)
+    }
 
     return {
       endStage,
